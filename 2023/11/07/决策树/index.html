@@ -4,15 +4,25 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>决策树 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="决策树 decision tree1. 简要介绍决策树，英文为 decision tree。决策树是一种分类学习方法，基于树结构进行决策。  决策树的基本原理 一般的，一棵决策树包含一个根结点、若干个内部结点和若干个叶结点；其中叶结点对应决策结果，其他每个结点对应一个属性测试；根结点包含样本全集，其他每个节点包含的样本集合根据属性测试的结果被划分到子结点中。  决策树学习基本算法如下，   决策树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树">
+<meta property="og:url" content="http://example.com/2023/11/07/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="决策树 decision tree1. 简要介绍决策树，英文为 decision tree。决策树是一种分类学习方法，基于树结构进行决策。  决策树的基本原理 一般的，一棵决策树包含一个根结点、若干个内部结点和若干个叶结点；其中叶结点对应决策结果，其他每个结点对应一个属性测试；根结点包含样本全集，其他每个节点包含的样本集合根据属性测试的结果被划分到子结点中。  决策树学习基本算法如下，   决策树">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231101123308690.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231101123308690.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231104201725076.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231104201328730.png">
+<meta property="article:published_time" content="2023-11-07T10:37:02.000Z">
+<meta property="article:modified_time" content="2023-11-08T09:09:38.210Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231101123308690.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -71,60 +81,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/11/08/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2023-11-08T11:28:08.337Z" itemprop="datePublished">2023-11-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/08/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/08/hello-world/" data-id="clopou1qj0001vk1v39k92lm2" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-决策树" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-决策树" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/11/07/%E5%86%B3%E7%AD%96%E6%A0%91/" class="article-date">
   <time class="dt-published" datetime="2023-11-07T10:37:02.000Z" itemprop="datePublished">2023-11-07</time>
@@ -137,8 +94,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/07/%E5%86%B3%E7%AD%96%E6%A0%91/">决策树</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      决策树
     </h1>
   
 
@@ -334,236 +291,28 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-对数几率回归-逻辑回归" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/11/07/%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" class="article-date">
-  <time class="dt-published" datetime="2023-11-07T10:26:22.000Z" itemprop="datePublished">2023-11-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2023/11/08/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/07/%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">对数几率回归(逻辑回归)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="对数几率回归-logit-regression"><a href="#对数几率回归-logit-regression" class="headerlink" title="对数几率回归 logit regression"></a>对数几率回归 logit regression</h1><h2 id="1-简要介绍"><a href="#1-简要介绍" class="headerlink" title="1. 简要介绍"></a>1. 简要介绍</h2><p>逻辑回归，又称对数几率回归，英文为 logistic regression，或 logit regression。对数几率回归是一种<strong>分类</strong>学习方法，该方法直接对分类的可能性进行建模，无需事先假设数据分布，因此可以避免假设分布不准确带来的问题。</p>
-<blockquote>
-<ol>
-<li><p>对于<strong>二分类</strong>任务，即输出标记为 $y\in${$0,1$}，因为<strong>线性回归模型</strong> $z &#x3D; w^Tx+b\in R$， 所以需要引进一个<strong>替代函数</strong> $g^-(·)$ ，得到一个<strong>广义的线性回归模型</strong> $y&#x3D;g^-(z)&#x3D;g^-(w^Tx+b)\in(0,1)$，即 $g(y)$ 与 $z &#x3D; w^Tx+b$ 之间是线性关系。</p>
-</li>
-<li><p>该模型满足，当 $z\rightarrow \infty$ 时，$y\rightarrow 1$，当 $z\rightarrow -\infty$ 时，$y\rightarrow 0$，即引入了一种<strong>概率关系</strong>，当 p 越大，则正例的可能性更大，反例的可能性更小。</p>
-</li>
-<li><p>通常来说，<strong>对数几率函数</strong> (logistic function) 作为<strong>任意阶可导的凸函数</strong>，也是一个常用的替代函数，</p>
-</li>
-</ol>
-<p>$$<br>y&#x3D;\frac{1}{1+e^{-z}} \tag{1}<br>$$</p>
-<img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231027210529577.png" alt="image-20231027210529577" style="zoom: 50%;" />
-
-
-</blockquote>
-<blockquote>
-<ol>
-<li>基于对数几率函数可以导出<strong>广义线性回归模型</strong>，该模型又称为<strong>对数几率回归模型</strong>。</li>
-</ol>
-<p>$$<br>ln\frac{y}{1-y}&#x3D;w^Tx+b \tag{2}<br>$$</p>
-<ol start="2">
-<li>若将 y 视为样本 x 是正例的可能性，1-y 视为样本 x 是反例的可能性，则二者比值反映了 x 是正例的相对可能性，称之为<strong>几率</strong> (odds)，因此上述导出的广义线性回归模型又可以称为<strong>对数几率</strong> (log odds 或 logit)。</li>
-</ol>
-<p>$$<br>odds &#x3D; \frac{y}{1-y} \tag{3}<br>$$</p>
-<ol start="3">
-<li><p>基于以上观点，为了求解对数几率回归模型，即**需要采用一定的方法估计参数 $w, b$**，无妨记 $\beta&#x3D;(w;b)$, $\hat{x}&#x3D;(x;1)$，则有 $z &#x3D; w^Tx+b&#x3D;\beta^Tx$。</p>
-</li>
-<li><p>如将 $y$ 视为类后验概率估计 $p(y&#x3D;1|x)$, $1-y$ 视为 $p(y&#x3D;0|x)$，则式 (2) 可以表示为，<br>$$<br>ln\frac{p(y&#x3D;1|x)}{p(y&#x3D;0|x)}&#x3D;w^Tx+b \tag{4}<br>$$<br>进一步计算得到正例和反例的<strong>类后验概率估计</strong>为，<br>$$<br>\begin{align}<br>p(y&#x3D;1|x)&#x3D;\frac{e^{w^Tx+b}}{1+e^{w^Tx+b}}&#x3D;p_1(\hat{x};\beta)&#x3D;p(y&#x3D;1|\hat{x};\beta) \tag{5-1} \<br>p(y&#x3D;0|x)&#x3D;\frac{1}{1+e^{w^Tx+b}}&#x3D;p_0(\hat{x};\beta)&#x3D;p(y&#x3D;0|\hat{x};\beta) \tag{5-2}\<br>\end{align}<br>$$</p>
-</li>
-</ol>
-<p>$$<br>p_1(\hat{x};\beta)+p_0(\hat{x};\beta)&#x3D;1<br>$$</p>
-</blockquote>
-<blockquote>
-<ol>
-<li><p>对数几率回归模型的求解在于参数 $w,b$ 或 $\beta&#x3D;(w;b)$ 的求解，因此基于已有样本数据，可以采用<strong>极大似然法</strong> (maximum likelihood method) 来进行参数估计，即<strong>令每个样本属于其真实标记的概率越大越好</strong>。</p>
-</li>
-<li><p>给定数据集 $\left { \left ( x_i,y_i \right ) \right }^m_{i&#x3D;1}$，可以得到对数几率回归模型的<strong>对数似然</strong> (log likelihood)，优化方向是使其最大化，<br>$$<br>max:log\ likelihood&#x3D;l(w,b)&#x3D;\sum_{i&#x3D;1}^{m}ln\ p(y_i|x_i;w,b)&#x3D;\sum_{i&#x3D;1}^{m}ln\ p(y_i;\hat{x_i},\beta) \tag{6}<br>$$</p>
-</li>
-<li><p>对数似然中的<strong>似然项</strong> (likelihood) 可以改写如下，<br>$$<br>p(y_i|x_i;w,b)&#x3D;p(y_i;\hat{x_i},\beta)&#x3D;y_ip_1(\hat{x_i},\beta)+(1-y_i)p_0(\hat{x_i},\beta) \tag{7}<br>$$<br>故而<strong>对数似然</strong> 基于式 (5), (6), (7)可以改写如下，<br>$$<br>max:l(\beta)&amp;&#x3D;&amp;\sum_{i&#x3D;1}^nln[y_ip_1(\hat{x_i},\beta)+(1-y_i)p_0(\hat{x_i},\beta)] \tag{8} \<br>&amp;&#x3D;&amp;\sum_{i&#x3D;1}^n[y_i\beta^T\hat{x}-ln(1+e^{\beta^T\hat{x}})]<br>$$<br>式 (8) 的<strong>最大化</strong>式转换为<strong>最小化</strong>式如下，该式是关于 $\beta$ 的高阶可导的连续凸函数，<br>$$<br>min:l(\beta)&#x3D;\sum_{i&#x3D;1}^n[-y_i\beta^T\hat{x}+ln(1+e^{\beta^T\hat{x}})]\tag{9}<br>$$<br>根据式 (9) 及<strong>数值优化算法</strong> (梯度下降法 GDM，牛顿法 NM等) 可以求对数几率回归模型的最优解 $\beta^*$，<br>$$<br>\beta^*&#x3D;\underset{\beta}{arg\ min\ l(\beta)}\tag{10}<br>$$</p>
-</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol>
-<li><p><strong>牛顿法</strong>求解对数几率回归模型步骤如下</p>
-<img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231028101813918.png" alt="image-20231028101813918" style="zoom: 50%;" />
-
-<p>其中<strong>迭代解的更新公式</strong>为<br>$$<br>\beta^{t+1}&#x3D;\beta^t-t(\frac{\partial ^2l(\beta)}{\partial \beta \partial \beta^T})^{-1}\frac{\partial l(\beta)}{\partial \beta}\tag{11}<br>$$<br>关于 $\beta$ 的<strong>一阶、二阶导数</strong>为<br>$$<br>\begin{align}<br>\frac{\partial l(\beta)}{\partial \beta}&#x3D;-\sum_{i&#x3D;1}^n\hat{x_i}(y_i-p_1)\tag{12-1}\<br>\frac{\partial^2 l(\beta)}{\partial \beta\partial \beta^T}&#x3D;\sum_{i&#x3D;1}^n\hat{x_i}\hat{x_i}^Tp_1p_0\tag{12-2}<br>\end{align}<br>$$</p>
-</li>
-<li><p>牛顿法中的学习率 t 可以使用 <strong>backtracking line search</strong> 方法求解</p>
-<img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231028103654235.png" alt="image-20231028103654235" style="zoom:50%;" /></li>
-</ol>
-</blockquote>
-<blockquote>
-<p>当海森矩阵非正定时，牛顿法失效，因此也可以采用<strong>梯度下降法</strong>求解参数  $\beta$，其步骤如下，</p>
-<img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/20231107183519.png" style="zoom: 33%;" />
-</blockquote>
-<h2 id="2-模型训练步骤"><a href="#2-模型训练步骤" class="headerlink" title="2. 模型训练步骤"></a>2. 模型训练步骤</h2><p>dataset: $X&#x3D;\left {x_1,x_2,x_3,…,,x_n  \right }, x_i&#x3D;\left [ x_{i1},x_{i2},x_{i3},…,x_{im} \right ]^T$ (n samples × m features)</p>
-<p>denote dataset as: $X&#x3D;\left {\hat{x_1},\hat{x_2},\hat{x_3},…,,\hat{x_n}  \right }, \hat{x_i}&#x3D;\left [ x_{i1},x_{i2},x_{i3},…,x_{im},1 \right ]^T$; $\beta&#x3D;[w;b]$</p>
-<blockquote>
-<h3 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h3><p>given a starting point $\beta$, tolorance $\varepsilon&#x3D;10^{-6}$</p>
-<p>repeat 1、2、3、4</p>
-<ol>
-<li><p>计算牛顿步长 $\Delta \beta_{nt}$ 和牛顿减量 $\lambda^2$<br>$$<br>newton\ stepsize:\Delta \beta_{nt}:&#x3D;-(\frac{\partial ^2l(\beta)}{\partial \beta \partial \beta^T})^{-1}\frac{\partial l(\beta)}{\partial \beta}\<br>newton\ decrement:\lambda^2:&#x3D;(\frac{\partial l(\beta)}{\partial \beta})^{T}(\frac{\partial ^2l(\beta)}{\partial \beta \partial \beta^T})^{-1}\frac{\partial l(\beta)}{\partial \beta}\<br>\frac{\partial l(\beta)}{\partial \beta}&#x3D;-\sum_{i&#x3D;1}^n\hat{x_i}(y_i-p_1)\<br>\frac{\partial^2 l(\beta)}{\partial \beta\partial \beta^T}&#x3D;\sum_{i&#x3D;1}^n\hat{x_i}\hat{x_i}^Tp_1p_0<br>$$</p>
-</li>
-<li><p>停止准则 (当牛顿减量特别小的时候，表示函数此时十分平滑了)<br>$$<br>if\ \lambda^2&#x2F;2\leq \varepsilon, then\ quit<br>$$</p>
-</li>
-<li><p>回溯直线搜索，计算学习率 $t$</p>
-<p>given $\hat{\alpha}\in(0,0.5), \hat{\beta}\in(0,1)$，其中 $\beta$ 和 $\hat{\beta}$ 代表不同含义<br>$$<br>while\ f(\beta^k+t^k{\Delta \beta_{nt}}^k)&gt;f(\beta^k)-\hat{\alpha} t^k\lambda^2\<br>\ \ t^k:&#x3D;\hat{\beta}t^k<br>$$</p>
-</li>
-<li><p>参数更新<br>$$<br>\beta^{k+1}:&#x3D;\beta^{k}+t^k{\Delta \beta_{nt}}^k<br>$$</p>
-</li>
-</ol>
-<h3 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h3><p>given a starting point $\beta$，$\eta&#x3D;10^-5$</p>
-<p>repeat 1、2、3、4</p>
-<ol>
-<li><p>计算梯度下降步长<br>$$<br>\Delta x:&#x3D;-\frac{\partial l(\beta)}{\partial \beta}&#x3D;\sum_{i&#x3D;1}^n\hat{x_i}(y_i-p_1)<br>$$</p>
-</li>
-<li><p>停止准则判断：exit if<br>$$<br>||\frac{\partial l(\beta)}{\partial \beta}||_2\le\eta<br>$$</p>
-</li>
-<li><p>回溯直线搜索，计算学习率 $t$</p>
-<p>given $\hat{\alpha}\in(0,0.5), \hat{\beta}\in(0,1)$，其中 $\beta$ 和 $\hat{\beta}$ 代表不同含义<br>$$<br>while\ f(\beta^k+t^k{\Delta \beta_{nt}}^k)&gt;f(\beta^k)-\hat{\alpha} t^k\lambda^2\<br>\ \ t^k:&#x3D;\hat{\beta}t^k<br>$$</p>
-</li>
-<li><p>参数更新<br>$$<br>\beta^{k+1}:&#x3D;\beta^{k}+t^k{\Delta \beta_{nt}}^k<br>$$</p>
-</li>
-</ol>
-</blockquote>
-<h2 id="3-数据集介绍"><a href="#3-数据集介绍" class="headerlink" title="3. 数据集介绍"></a>3. 数据集介绍</h2><p>DATASET: <a target="_blank" rel="noopener" href="https://www.kaggle.com/datasets/architsharma01/loan-approval-prediction-dataset/data">Loan-Approval-Prediction-Dataset</a>, <strong>4296 × 13 features</strong> (9 integer, 2 string, 1 id, 1 other)</p>
-<p>The loan approval dataset is a collection of financial records and associated information used to <strong>determine the eligibility of individuals or organizations for obtaining loans</strong> from a lending institution. It includes various factors such as <strong>cibil score, income, employment status, loan term, loan amount, assets value, and loan status</strong>. </p>
-<h2 id="4-模型训练代码"><a href="#4-模型训练代码" class="headerlink" title="4. 模型训练代码"></a>4. 模型训练代码</h2><h3 id="LogisticRegression-newton-py"><a href="#LogisticRegression-newton-py" class="headerlink" title="LogisticRegression_newton.py"></a>LogisticRegression_newton.py</h3><blockquote>
-<p>此 python 文件定义了一个 LogisticRegression_newton 的类，通过实例化类对象和调用相关方法可以实现<strong>对数几率回归模型</strong>的训练和测试。</p>
-<ol>
-<li>实例化对数几率回归模型 <code>model = LogisticRegression_newton() </code><ul>
-<li>可以指定模型的相关参数：learning_rate 学习率；max_iterations 最大迭代次数</li>
-</ul>
-</li>
-<li>模型训练(实例化模型后) <code>model.fit(X_train, y_train)</code><ul>
-<li>参数解释：X_train 训练集样本数据集；y_train 训练集样本标签数据集</li>
-<li>该方法使用牛顿法求解对数几率回归模型的最优参数 $\beta$</li>
-</ul>
-</li>
-<li>模型测试(模型训练后) <code>model.accuracy(X_test, y_test)</code><ul>
-<li>参数解释：X_test 训练集样本数据集；y_test 训练集样本标签数据集</li>
-<li>该方法用于对模型进行测试，返回模型预测的精确度(预测准确样本数量&#x2F;测试样本数量)</li>
-</ul>
-</li>
-</ol>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LogisticRegression_newton</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 对数几率回归模型 Y=w^T*X+b=beta^T*X_hat &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, learning_rate=<span class="number">0.5</span>, max_iterations=<span class="number">10</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param learning_rate: float, 学习率</span></span><br><span class="line"><span class="string">        :param max_iterations: int, 最大迭代次数</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.beta = <span class="literal">None</span></span><br><span class="line">        self.learning_rate = learning_rate</span><br><span class="line">        self.max_iterations = max_iterations</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">initialize_weights</span>(<span class="params">self, m_features</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param m_features: 整型，特征维数</span></span><br><span class="line"><span class="string">        :return: 该方法用于初始化及调整权重</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 方法调用后，self.beta=[[w_1],[w_2],[w_3],...,[w_m],[0]] (列向量, (m+1,1))</span></span><br><span class="line">        limit = np.sqrt(<span class="number">1</span> / m_features)</span><br><span class="line">        w = np.random.uniform(-limit, limit, (m_features, <span class="number">1</span>))</span><br><span class="line">        b = np.asarray([[<span class="number">0</span>]])</span><br><span class="line">        self.beta = np.append(w, b, axis=<span class="number">0</span>)  <span class="comment"># beta=[w;b]，待求参数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param X: 2 dimensions matrix 样本数据集，矩阵的每一行是一个样本，即一个行向量是一个样本</span></span><br><span class="line"><span class="string">        :param y: column vector 样本标签</span></span><br><span class="line"><span class="string">        :return: 该方法用于求解模型参数 beta</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        n_samples, m_features = X.shape</span><br><span class="line">        self.initialize_weights(m_features)</span><br><span class="line"></span><br><span class="line">        X_plus_one = np.ones((n_samples, <span class="number">1</span>))</span><br><span class="line">        X = np.append(X, X_plus_one, axis=<span class="number">1</span>)  <span class="comment"># X = X_hat=[X;X_plus], shape of X is (n, m+1)</span></span><br><span class="line">        y = np.reshape(y, (n_samples, <span class="number">1</span>))  <span class="comment"># shape of y is (n,1)</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 模型训练(核心): 基于 X_hat、y、beta 进行训练</span></span><br><span class="line"><span class="string">            repeat</span></span><br><span class="line"><span class="string">            1. 计算牛顿步长和牛顿减量</span></span><br><span class="line"><span class="string">            2. 停止判断</span></span><br><span class="line"><span class="string">            3. 回溯直线搜索，计算学习率 t</span></span><br><span class="line"><span class="string">            4. 更新参数 β</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.max_iterations):</span><br><span class="line">            tolerance = <span class="number">10</span> ** -<span class="number">6</span>  <span class="comment"># 设定停止阈值</span></span><br><span class="line">            <span class="comment"># step1. 计算牛顿步长和牛顿减量</span></span><br><span class="line">            der_first = np.zeros((<span class="number">1</span>, m_features + <span class="number">1</span>))  <span class="comment"># 梯度，或者说是损失函数关于参数 beta 的一阶导数</span></span><br><span class="line">            der_second = np.zeros((m_features + <span class="number">1</span>, m_features + <span class="number">1</span>))  <span class="comment"># 海森矩阵，或者说是损失函数关于参数 beta 的二阶导数</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n_samples):</span><br><span class="line">                x = X[j, :].reshape(<span class="number">1</span>, -<span class="number">1</span>)  <span class="comment"># 取矩阵的第 j 行，并转换为行向量</span></span><br><span class="line">                eta = np.dot(x, self.beta)</span><br><span class="line">                p1 = np.exp(eta) / (<span class="number">1</span> + np.exp(eta)) <span class="keyword">if</span> eta &lt;= <span class="number">0</span> <span class="keyword">else</span> <span class="number">1.0</span> / (<span class="number">1</span> + np.exp(-eta))</span><br><span class="line">                p0 = <span class="number">1</span> - p1</span><br><span class="line">                der_first -= x * (y[j] - p1)</span><br><span class="line">                der_second += np.dot(x.T, x) * p1 * p0  <span class="comment"># der_second 是矩阵 (m+1, m+1)</span></span><br><span class="line">            der_first = der_first.reshape(-<span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># der_first 是列向量 (m+1, 1)</span></span><br><span class="line">            step_size_newton = -np.dot(np.linalg.pinv(der_second), der_first)  <span class="comment"># 牛顿步长，是一个列向量，(m+1, 1)</span></span><br><span class="line">            decrement_newton = np.dot(der_first.T, -step_size_newton)  <span class="comment"># 牛顿减量，是一个数字</span></span><br><span class="line">            <span class="comment"># step2. 停止判断</span></span><br><span class="line">            <span class="keyword">if</span> decrement_newton / <span class="number">2</span> &lt;= tolerance:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="comment"># step3. 回溯直线搜索 backtracking line search</span></span><br><span class="line">            alpha_search = <span class="number">0.3</span></span><br><span class="line">            beta_search = <span class="number">0.5</span></span><br><span class="line">            self.learning_rate = <span class="number">1.0</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                <span class="string">&quot;&quot;&quot; 优化函数为 min: l(self.beta)=SUM[-y_i*self.beta^T*x+ln(1+e^&#123;self.beta^Tx&#125;)] &quot;&quot;&quot;</span></span><br><span class="line">                fun_plus = <span class="number">0</span>  <span class="comment"># 分别计算两个优化函数值</span></span><br><span class="line">                fun = <span class="number">0</span></span><br><span class="line">                beta_plus = self.beta + self.learning_rate * step_size_newton  <span class="comment"># 列向量</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n_samples):</span><br><span class="line">                    x = X[j, :].reshape(-<span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># 取出 x 为列向量</span></span><br><span class="line">                    fun_plus += -y[j] * np.dot(beta_plus.T, x) + np.log(<span class="number">1</span> + self.sigmod(x.T, beta_plus))</span><br><span class="line">                    fun = -y[j] * np.dot(self.beta.T, x) + np.log(<span class="number">1</span> + self.sigmod(x.T, self.beta))</span><br><span class="line">                <span class="keyword">if</span> fun_plus &lt;= fun - alpha_search * self.learning_rate * decrement_newton:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                self.learning_rate = beta_search * self.learning_rate</span><br><span class="line">            <span class="comment"># step4. 参数更新</span></span><br><span class="line">            self.beta += self.learning_rate * step_size_newton</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, X_test</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param X_test: 测试数据集，矩阵的每一行是一个样本，即一个行向量是一个样本</span></span><br><span class="line"><span class="string">        :return: 列向量，表示测试数据集的预测值 (0 还是 1)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        n_test_samples = X_test.shape[<span class="number">0</span>]</span><br><span class="line">        y_predict = np.zeros((n_test_samples, <span class="number">1</span>))  <span class="comment"># 预测值列向量</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_test_samples):</span><br><span class="line">            x = X_test.iloc[i, :].values  <span class="comment"># 测试样本行向量</span></span><br><span class="line">            x = np.asarray(x).reshape(<span class="number">1</span>, -<span class="number">1</span>)</span><br><span class="line">            x = np.append(x, np.ones((<span class="number">1</span>, <span class="number">1</span>)), axis=<span class="number">1</span>)</span><br><span class="line">            y_predict[i] = <span class="number">0</span> <span class="keyword">if</span> self.sigmod(x, self.beta) &lt;= <span class="number">0.5</span> <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> y_predict</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">accuracy</span>(<span class="params">self, X_test, y_test</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param X_test: 测试数据集，矩阵的每一行是一个样本，即一个行向量是一个样本</span></span><br><span class="line"><span class="string">        :param y_test: 预测值列向量</span></span><br><span class="line"><span class="string">        :return: 返回模型预测准确度</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        n_test_samples = X_test.shape[<span class="number">0</span>]</span><br><span class="line">        y_predict = self.predict(X_test)</span><br><span class="line">        hit_samples = <span class="number">0</span>  <span class="comment"># 表示模型预测准确的样本量</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_test_samples):</span><br><span class="line">            <span class="keyword">if</span> y_test[i] == y_predict[i]:</span><br><span class="line">                hit_samples += <span class="number">1</span></span><br><span class="line">        accuracy = <span class="number">1.0</span> * hit_samples / n_test_samples</span><br><span class="line">        <span class="keyword">return</span> accuracy</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sigmod</span>(<span class="params">x, beta</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param beta: (m+1, 1) 列向量，beta=[w;b]=[[w_1],[w_2],[w_3],...,[w_m],[0]]</span></span><br><span class="line"><span class="string">        :param x: (1, m+1) 一个样本数据，行向量，x=[[x_1,x_2,x_3,...,x_m,1]]</span></span><br><span class="line"><span class="string">        :return: p in (0,1) 对数几率函数，返回对结果的可能性，大于 0.5 是正例，小于 0.5 是反例</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        eta = np.dot(x, beta)  <span class="comment"># a real number</span></span><br><span class="line">        <span class="keyword">if</span> eta &gt;= <span class="number">0</span>:  <span class="comment"># 引入 if-else 结构避免计算概率值时，exp() 的值过大移出 (避免上溢)</span></span><br><span class="line">            possibility = <span class="number">1.0</span> / (<span class="number">1.0</span> + np.exp(-eta))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            possibility = np.exp(eta) / (<span class="number">1.0</span> + np.exp(eta))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> possibility</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-模型测试代码"><a href="#5-模型测试代码" class="headerlink" title="5. 模型测试代码"></a>5. 模型测试代码</h2><h3 id="loan-approval-LR-py"><a href="#loan-approval-LR-py" class="headerlink" title="loan_approval_LR.py"></a>loan_approval_LR.py</h3><blockquote>
-<p>此 python 文件调用了 Util 文件中的若干方法，对对数几率回归模型 LogisticRegression_newton 进行：</p>
-<ol>
-<li><strong>测试集上的模型性能测试</strong></li>
-<li>绘制<strong>学习曲线</strong>，观察训练集规模对模型拟合程度的影响</li>
-</ol>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> LoanApprovalPredict.model.LogisticRegression.LogisticRegression_newton <span class="keyword">import</span> LogisticRegression_newton</span><br><span class="line"><span class="keyword">from</span> Utils <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入数据，并且获得预处理过的训练集和测试集合</span></span><br><span class="line">train, test = loan_approval_data_processed(directory=<span class="string">&#x27;../data/loan_approval_dataset.csv&#x27;</span>, minmax=<span class="literal">True</span>, scale=<span class="number">0.75</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分训练集和测试集的样本数据、标签</span></span><br><span class="line">X_train, y_train = dataset_split(train)</span><br><span class="line">X_test, y_test = dataset_split(test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型训练</span></span><br><span class="line">lr_model = LogisticRegression_newton()</span><br><span class="line">lr_model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型预测精度测试</span></span><br><span class="line">accuracy = lr_model.accuracy(X_test, y_test)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;模型的准确率为:%2.2f&quot;</span> % (accuracy * <span class="number">100</span>), <span class="string">&quot;%&quot;</span>)  <span class="comment"># 模型的准确率为:91.92 %</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制学习曲线 learning curve</span></span><br><span class="line"><span class="comment"># 横轴：训练集的样本数量，纵轴：模型在训练集和测试集上的准确度</span></span><br><span class="line">processed_data = loan_approval_data_processed(directory=<span class="string">&#x27;../data/loan_approval_dataset.csv&#x27;</span>, minmax=<span class="literal">True</span>, split=<span class="literal">False</span>)</span><br><span class="line">draw_learning_curve(processed_data, LogisticRegression_newton())</span><br></pre></td></tr></table></figure>
-
-<h3 id="Utils-py"><a href="#Utils-py" class="headerlink" title="Utils.py"></a>Utils.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    工具文件，内含一些工具函数</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing</span><br><span class="line"><span class="keyword">from</span> scipy.interpolate <span class="keyword">import</span> make_interp_spline</span><br><span class="line"><span class="keyword">from</span> LoanApprovalPredict.model.LogisticRegression.LogisticRegression_newton <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LoanApprovalPredict.model.DecisionTree.DecisionTree <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot; loan_approval_data: 4296 rows × 13 columns, 且数据集干净，无需缺失值处理等</span></span><br><span class="line"><span class="string">    loan_id                      int64  贷款批准样本的 id (无用特征)</span></span><br><span class="line"><span class="string">    no_of_dependents             int64  feature1: Number of Dependents of the Applicant(家属个数), int</span></span><br><span class="line"><span class="string">    education                   object  feature2: 受教育情况(Graduate/Not Graduate), str; Mapping(Graduate:1, Not Graduate:0)</span></span><br><span class="line"><span class="string">    self_employed               object  feature3: 是否为自雇人士(Yes/No), str; Mapping(Yes:1, No:0)</span></span><br><span class="line"><span class="string">    income_annum                 int64  feature4: 年收入, int</span></span><br><span class="line"><span class="string">    loan_amount                  int64  feature5: 贷款数额, int</span></span><br><span class="line"><span class="string">    loan_term                    int64  feature6: 贷款期限, int</span></span><br><span class="line"><span class="string">    cibil_score                  int64  feature7: 信用分数, int</span></span><br><span class="line"><span class="string">    residential_assets_value     int64  feature8: 住宅资产价值, int</span></span><br><span class="line"><span class="string">    commercial_assets_value      int64  feature9: 商业资产价值, int</span></span><br><span class="line"><span class="string">    luxury_assets_value          int64  feature10: 奢侈品资产价值, int</span></span><br><span class="line"><span class="string">    bank_asset_value             int64  feature11: 银行资产价值, int</span></span><br><span class="line"><span class="string">    loan_status                 object  y: 是否借贷(Approval/Rejected), str; Mapping(Approval:1, Rejected:0)</span></span><br><span class="line"><span class="string">    综上所述，一个样本总共有 11 个属性 or 特征，1 个值</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入、预处理、[划分]数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">loan_approval_data_processed</span>(<span class="params">directory=<span class="string">&#x27;../data/loan_approval_dataset.csv&#x27;</span>, minmax=<span class="literal">True</span>, split=<span class="literal">True</span>, scale=<span class="number">0.75</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param directory: loan_approval_predict 数据集位置</span></span><br><span class="line"><span class="string">    :param minmax: 是否进行归一化</span></span><br><span class="line"><span class="string">    :param split: 是否将数据集划分为训练集和测试集</span></span><br><span class="line"><span class="string">    :param scale: 训练集比例</span></span><br><span class="line"><span class="string">    :return: train, test</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 1. 导入数据</span></span><br><span class="line">    loan_approval_data = pd.read_csv(directory)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 数据预处理(由于提供的数据比较干净：无缺失值，因此只需要进行①删除指定列②将字符串映射为值，这两项工作即可)</span></span><br><span class="line">    loan_approval_data.drop(<span class="string">&quot;loan_id&quot;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)  <span class="comment"># 删除 loan_id 这一列的数据</span></span><br><span class="line">    loan_approval_data.columns = loan_approval_data.columns.<span class="built_in">str</span>.strip()  <span class="comment"># 清除列名的前后空格</span></span><br><span class="line">    <span class="comment"># loan_approval_data.columns = [name.strip() for name in loan_approval_data.columns]  # 清除列名的前后空格</span></span><br><span class="line">    <span class="comment"># 2.1 将属性 education 中的 Graduated 映射为 1，Not Graduated 映射为 0</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;education&quot;</span>] = loan_approval_data.loc[:,</span><br><span class="line">                                             <span class="string">&quot;education&quot;</span>].<span class="built_in">str</span>.strip()  <span class="comment"># 清除列 &quot;education&quot; 每一项的前后空格</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;education&quot;</span>] = loan_approval_data.loc[:, <span class="string">&quot;education&quot;</span>].<span class="built_in">map</span>(</span><br><span class="line">        &#123;<span class="string">&#x27;Graduate&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;Not Graduate&#x27;</span>: <span class="number">0</span>&#125;).astype(<span class="built_in">int</span>)</span><br><span class="line">    loan_approval_data[<span class="string">&quot;education&quot;</span>] = pd.to_numeric(loan_approval_data[<span class="string">&quot;education&quot;</span>],</span><br><span class="line">                                                    errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment"># 更改该列数据的属性为 int 类型</span></span><br><span class="line">    <span class="comment"># 2.2 将属性 self_employed 中的 Yes 映射为 1，No 映射为 0</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;self_employed&quot;</span>] = loan_approval_data.loc[:,</span><br><span class="line">                                                 <span class="string">&quot;self_employed&quot;</span>].<span class="built_in">str</span>.strip()  <span class="comment"># 清除列 &quot;self_employed&quot; 每一项的前后空格</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;self_employed&quot;</span>] = loan_approval_data.loc[:, <span class="string">&quot;self_employed&quot;</span>].<span class="built_in">map</span>(</span><br><span class="line">        &#123;<span class="string">&#x27;Yes&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;No&#x27;</span>: <span class="number">0</span>&#125;).astype(<span class="built_in">int</span>)</span><br><span class="line">    loan_approval_data[<span class="string">&quot;self_employed&quot;</span>] = pd.to_numeric(loan_approval_data[<span class="string">&quot;self_employed&quot;</span>],</span><br><span class="line">                                                        errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment"># 更改该列数据的属性为</span></span><br><span class="line">    <span class="comment"># 2.3 将属性 loan_status 中的 Approval 映射为 1，Rejected 映射为 0</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;loan_status&quot;</span>] = loan_approval_data.loc[:,</span><br><span class="line">                                               <span class="string">&quot;loan_status&quot;</span>].<span class="built_in">str</span>.strip()  <span class="comment"># 清除列 &quot;loan_status&quot; 每一项的前后空格</span></span><br><span class="line">    loan_approval_data.loc[:, <span class="string">&quot;loan_status&quot;</span>] = loan_approval_data.loc[:, <span class="string">&quot;loan_status&quot;</span>].<span class="built_in">map</span>(</span><br><span class="line">        &#123;<span class="string">&#x27;Approved&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;Rejected&#x27;</span>: <span class="number">0</span>&#125;).astype(<span class="built_in">int</span>)</span><br><span class="line">    loan_approval_data[<span class="string">&quot;loan_status&quot;</span>] = pd.to_numeric(loan_approval_data[<span class="string">&quot;loan_status&quot;</span>], errors=<span class="string">&#x27;coerce&#x27;</span>)  <span class="comment"># 更改该列数据的属性为</span></span><br><span class="line">    <span class="comment"># 2.4 对数据进行归一化操作</span></span><br><span class="line">    processed_data = loan_approval_data</span><br><span class="line">    <span class="keyword">if</span> minmax:</span><br><span class="line">        minmax_scaler = preprocessing.MinMaxScaler()</span><br><span class="line">        minmax_data = minmax_scaler.fit_transform(loan_approval_data)</span><br><span class="line">        processed_data = pd.DataFrame(minmax_data, columns=loan_approval_data.columns)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 划分训练集和验证集</span></span><br><span class="line">    <span class="keyword">if</span> split:</span><br><span class="line">        train = processed_data.sample(frac=scale, random_state=<span class="built_in">int</span>(time.time()))</span><br><span class="line">        test = processed_data.drop(train.index)</span><br><span class="line">        train.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">        test.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> train, test</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> processed_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据集划分为样本数据、标签</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dataset_split</span>(<span class="params">data</span>):</span><br><span class="line">    X = data.iloc[:, <span class="number">0</span>:-<span class="number">1</span>]</span><br><span class="line">    y = data.iloc[:, -<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">draw_learning_curve</span>(<span class="params">data, model, start=<span class="number">0.001</span>, end=<span class="number">0.3</span>, step=<span class="number">0.001</span></span>):</span><br><span class="line">    plt.xlabel(<span class="string">&quot;Number of training samples&quot;</span>)  <span class="comment"># 横轴</span></span><br><span class="line">    plt.ylabel(<span class="string">&quot;Accuracy&quot;</span>)  <span class="comment"># 纵轴</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算出对应不同训练集规模的时，模型在训练集和测试集合上的比重</span></span><br><span class="line">    train_size_list = <span class="built_in">list</span>(np.arange(start, end, step))  <span class="comment"># 训练集占全部数据集的比重</span></span><br><span class="line">    number_of_training_samples_list = [<span class="built_in">int</span>(size * data.shape[<span class="number">0</span>]) <span class="keyword">for</span> size <span class="keyword">in</span></span><br><span class="line">                                       train_size_list]  <span class="comment"># 训练集的样本数量(横坐标的值)</span></span><br><span class="line">    train_accuracy_list = []  <span class="comment"># 训练集随样本数的准确度取值(纵坐标)</span></span><br><span class="line">    test_accuracy_list = []  <span class="comment"># 测试集随样本数的准确度取值(纵坐标)</span></span><br><span class="line">    <span class="comment"># 获取两个图像的纵坐标取值</span></span><br><span class="line">    <span class="keyword">for</span> frac <span class="keyword">in</span> train_size_list:</span><br><span class="line">        <span class="comment"># a = time.time()</span></span><br><span class="line">        <span class="comment"># 按照预定的比例划分数据集和测试集合</span></span><br><span class="line">        train = data.sample(frac=frac, random_state=<span class="built_in">int</span>(time.time()))</span><br><span class="line">        test = data.drop(train.index)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(model, LogisticRegression_newton):</span><br><span class="line">            plt.title(<span class="string">&quot;learning curve(Logistic Regression)&quot;</span>)  <span class="comment"># 标题</span></span><br><span class="line">            <span class="comment"># 重置索引</span></span><br><span class="line">            train.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">            test.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 划分训练集和测试集的样本数据、标签</span></span><br><span class="line">            X_train, y_train = dataset_split(train)</span><br><span class="line">            X_test, y_test = dataset_split(test)</span><br><span class="line">            <span class="comment"># 模型训练</span></span><br><span class="line">            model.fit(X_train, y_train)</span><br><span class="line">            <span class="comment"># 添加纵坐标值</span></span><br><span class="line">            train_accuracy = model.accuracy(X_train, y_train)</span><br><span class="line">            train_accuracy_list.append(train_accuracy)</span><br><span class="line">            test_accuracy = model.accuracy(X_test, y_test)</span><br><span class="line">            test_accuracy_list.append(test_accuracy)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            plt.title(<span class="string">&quot;learning curve(Decision Tree)&quot;</span>)  <span class="comment"># 标题</span></span><br><span class="line">            <span class="comment"># 重置索引</span></span><br><span class="line">            train.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">            test.reset_index(drop=<span class="literal">True</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 模型训练</span></span><br><span class="line">            model.fit(train)</span><br><span class="line">            <span class="comment"># 添加纵坐标值</span></span><br><span class="line">            train_accuracy = model.accuracy(train)</span><br><span class="line">            train_accuracy_list.append(train_accuracy)</span><br><span class="line">            test_accuracy = model.accuracy(test)</span><br><span class="line">            test_accuracy_list.append(test_accuracy)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># b = time.time()</span></span><br><span class="line">        <span class="comment"># print(&quot;\nfrac=%.2f&quot; % frac)</span></span><br><span class="line">        <span class="comment"># print(&quot;time=%.2f&quot; % (b - a))</span></span><br><span class="line">        <span class="comment"># print(&quot;train_acc%.2f&quot; % train_accuracy)</span></span><br><span class="line">        <span class="comment"># print(&quot;test_acc%.2f&quot; % test_accuracy)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绘图</span></span><br><span class="line">    <span class="comment"># 对 x、y_train 插值</span></span><br><span class="line">    number_of_training_samples_list_smooth = np.linspace(<span class="built_in">min</span>(number_of_training_samples_list),</span><br><span class="line">                                                         <span class="built_in">max</span>(number_of_training_samples_list), <span class="number">50</span>)</span><br><span class="line">    train_accuracy_list_smooth = make_interp_spline(number_of_training_samples_list, train_accuracy_list)(</span><br><span class="line">        number_of_training_samples_list_smooth)</span><br><span class="line">    plt.plot(number_of_training_samples_list_smooth, train_accuracy_list_smooth, color=<span class="string">&#x27;r&#x27;</span>, label=<span class="string">&#x27;Training Score&#x27;</span>)</span><br><span class="line">    <span class="comment"># 对 y_test 插值</span></span><br><span class="line">    test_accuracy_list_smooth = make_interp_spline(number_of_training_samples_list, test_accuracy_list)(</span><br><span class="line">        number_of_training_samples_list_smooth)</span><br><span class="line">    plt.plot(number_of_training_samples_list_smooth, test_accuracy_list_smooth, color=<span class="string">&#x27;g&#x27;</span>, label=<span class="string">&#x27;Test Score&#x27;</span>)</span><br><span class="line">    plt.legend(loc=<span class="string">&#x27;best&#x27;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回模型训练时间</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">time_consumption</span>(<span class="params">data, model</span>):</span><br><span class="line">    start = time.time()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(model, DecisionTree):</span><br><span class="line">        model.fit(data)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">isinstance</span>(model, LogisticRegression_newton):</span><br><span class="line">        X, y = data</span><br><span class="line">        model.fit(X, y)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception</span><br><span class="line">    end = time.time()</span><br><span class="line">    <span class="keyword">return</span> end - start</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-结果分析"><a href="#5-结果分析" class="headerlink" title="5. 结果分析"></a>5. 结果分析</h2><ol>
-<li><p>给定训练集比例 0.75，测试集比例 0.25，模型的准确率为 91.19 %</p>
-</li>
-<li><p>模型的<strong>学习曲线</strong>绘制如下，发现</p>
-<ul>
-<li>当训练集规模 &lt; 200 时，模型出现<strong>欠拟合</strong>状态，即模型在训练集上表现良好，在测试集上表现不佳</li>
-<li>当训练集规模 &gt; 200 时，模型表现<strong>趋于稳定</strong>，预测准确率在 92% 左右</li>
-</ul>
-<img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231031202405459.png" alt="image-20231031202405459" style="zoom: 67%;" /></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/07/%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" data-id="clopou1qy0007vk1v28t84hey" data-title="对数几率回归(逻辑回归)" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-shall I compare thee to a summer’s day" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/" class="article-date">
-  <time class="dt-published" datetime="2023-11-07T09:54:11.000Z" itemprop="datePublished">2023-11-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          Hello World
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/">shall I compare thee to a summer&#39;s day</a>
-    </h1>
   
+    <a href="/2023/11/07/%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">对数几率回归(逻辑回归)</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Shall I compare thee to a summer’s day</p>
-<p>Thou art more lovely and more temperate</p>
-<p>Rough winds do shake the darling buds of May,</p>
-<p>And summer’s lease hath all too short a date;</p>
-<p>Sometime too hot the eye of heaven shines,</p>
-<p>And often is his gold complexion dimm’d;</p>
-<p>And every fair from fair sometime declines,</p>
-<p>By chance, or nature’s changing course, untrimm’d;</p>
-<p>But thy eternal summer shall not fade,</p>
-<p>Nor lose possession of that fair thou ow’st;</p>
-<p>Nor shall Death brag thou wanderest in his shade,</p>
-<p>When in eternal lines to time thou grow’st;</p>
-<p>So long as men can breathe, or eyes can see,</p>
-<p>So long lives this, and this gives life to thee.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/" data-id="clopou1qe0000vk1ved2b1qsb" data-title="shall I compare thee to a summer&#39;s day" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C%E5%88%86%E4%BA%AB/" rel="tag">诗歌分享</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
