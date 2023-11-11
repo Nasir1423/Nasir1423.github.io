@@ -19,28 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Shall I compare thee to a summer’s day Thou art more lovely and more temperate Rough winds do shake the darling buds of May, And summer’s lease hath all too short a date; Sometime too hot the eye of h">
+    <meta name="description" content="维数约简维数约简概述 维数约简（dimension reduction）：又称“降维”，即通过某种数学变换将原始高维属性空间转变为一个低维子空间。 维数约简的必要性 缓解维数灾难（curse of dimensionality）：即在高维情形下出现数据样本稀疏、距离计算困难等问题。 高维数据的低维嵌入（embedding）：即模型训练所需要的数据样本的维度也许是观测到的高维数据的某个低维分布，因此">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shall I compare thee to a summer&#39;s day">
-<meta property="og:url" content="http://example.com/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/index.html">
+<meta property="og:title" content="维数约简">
+<meta property="og:url" content="http://example.com/2023/11/11/%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Shall I compare thee to a summer’s day Thou art more lovely and more temperate Rough winds do shake the darling buds of May, And summer’s lease hath all too short a date; Sometime too hot the eye of h">
+<meta property="og:description" content="维数约简维数约简概述 维数约简（dimension reduction）：又称“降维”，即通过某种数学变换将原始高维属性空间转变为一个低维子空间。 维数约简的必要性 缓解维数灾难（curse of dimensionality）：即在高维情形下出现数据样本稀疏、距离计算困难等问题。 高维数据的低维嵌入（embedding）：即模型训练所需要的数据样本的维度也许是观测到的高维数据的某个低维分布，因此">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-11-07T09:54:11.000Z">
-<meta property="article:modified_time" content="2023-11-07T10:11:08.398Z">
+<meta property="article:published_time" content="2023-11-11T07:14:25.000Z">
+<meta property="article:modified_time" content="2023-11-11T07:14:51.911Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="诗歌分享">
+<meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/">
+<link rel="canonical" href="http://example.com/2023/11/11/%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/","path":"2023/11/07/shall I compare thee to a summer’s day/","title":"shall I compare thee to a summer's day"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/11/11/%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80/","path":"2023/11/11/维数约简/","title":"维数约简"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>shall I compare thee to a summer's day | Hexo</title>
+<title>维数约简 | Hexo</title>
   
 
 
@@ -92,7 +92,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -105,6 +105,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80"><span class="nav-number">1.</span> <span class="nav-text">维数约简</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">维数约简概述</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -149,7 +150,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/07/shall%20I%20compare%20thee%20to%20a%20summer%E2%80%99s%20day/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/11/%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -162,12 +163,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="shall I compare thee to a summer's day | Hexo">
+      <meta itemprop="name" content="维数约简 | Hexo">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          shall I compare thee to a summer's day
+          维数约简
         </h1>
 
         <div class="post-meta-container">
@@ -179,7 +180,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2023-11-07 17:54:11 / Modified: 18:11:08" itemprop="dateCreated datePublished" datetime="2023-11-07T17:54:11+08:00">2023-11-07</time>
+      <time title="Created: 2023-11-11 15:14:25 / Modified: 15:14:51" itemprop="dateCreated datePublished" datetime="2023-11-11T15:14:25+08:00">2023-11-11</time>
     </span>
 
   
@@ -191,20 +192,22 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>Shall I compare thee to a summer’s day</p>
-<p>Thou art more lovely and more temperate</p>
-<p>Rough winds do shake the darling buds of May,</p>
-<p>And summer’s lease hath all too short a date;</p>
-<p>Sometime too hot the eye of heaven shines,</p>
-<p>And often is his gold complexion dimm’d;</p>
-<p>And every fair from fair sometime declines,</p>
-<p>By chance, or nature’s changing course, untrimm’d;</p>
-<p>But thy eternal summer shall not fade,</p>
-<p>Nor lose possession of that fair thou ow’st;</p>
-<p>Nor shall Death brag thou wanderest in his shade,</p>
-<p>When in eternal lines to time thou grow’st;</p>
-<p>So long as men can breathe, or eyes can see,</p>
-<p>So long lives this, and this gives life to thee.</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="维数约简"><a href="#维数约简" class="headerlink" title="维数约简"></a>维数约简</h1><h2 id="维数约简概述"><a href="#维数约简概述" class="headerlink" title="维数约简概述"></a>维数约简概述</h2><ol>
+<li><strong>维数约简</strong>（dimension reduction）：又称“降维”，即通过某种<strong>数学变换</strong>将<strong>原始高维属性空间</strong>转变为一个<strong>低维子空间</strong>。</li>
+<li><strong>维数约简的必要性</strong><ul>
+<li>缓解<strong>维数灾难</strong>（curse of dimensionality）：即在高维情形下出现数据样本稀疏、距离计算困难等问题。</li>
+<li>高维数据的<strong>低维嵌入</strong>（embedding）：即模型训练所需要的数据样本的维度也许是观测到的高维数据的某个低维分布，因此维数约简可以增加样本特征之间的无关程度，便于模型训练。</li>
+</ul>
+</li>
+<li><strong>维数约简的效果评估</strong><ul>
+<li><strong>累计解释方差</strong>：累计解释方差是在主成分分析和因子分析中使用的概念，其等于降维过程中<strong>保留的总方差比例</strong>，表示提取的主成分或因子对原有变量的解释能力。<strong>累计方差解释率越高，则解释能力越强</strong>，提取的主成分或因子越有效。通常希望保留足够多的主成分，从而使得累计解释方差达到一个合理的阈值，例如 95 %、85% 等。</li>
+<li><strong>奇异值分解</strong>：在主成分分析（PCA）的背景下，<strong>保留的奇异值的平方和与总的奇异值的平方和之比</strong>，可以解释原始数据的方差的百分比。这可以作为一种衡量维数约简效果的指标。</li>
+<li><strong>重建误差</strong>：重建误差是指在进行数据降维后，通过将降维后的数据重新映射回原始维度，<strong>与原始数据之间的差异或损失的信息量</strong>。它是衡量降维效果的一种常用指标，通常使用<strong>均方误差</strong>（Mean Squared Error，MSE）或其他适当的距离度量来表示。</li>
+<li><strong>模型学习能力</strong>：即比较在降维前后的数据上训练的模型的性能差异。</li>
+<li><strong>可视化</strong>：通过在二维或三维空间中绘制降维后的数据，可以直观评估数据的分布情况。</li>
+</ul>
+</li>
+</ol>
 
     </div>
 
@@ -214,18 +217,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%AF%97%E6%AD%8C%E5%88%86%E4%BA%AB/" rel="tag"># 诗歌分享</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2023/11/11/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/" rel="prev" title="主成分分析">
+                  <i class="fa fa-angle-left"></i> 主成分分析
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/11/07/%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" rel="next" title="对数几率回归(逻辑回归)">
-                  对数几率回归(逻辑回归) <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

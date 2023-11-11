@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="主成分分析1. 原理概述 主成分分析（Principal Component Analysis，简称 PCA），其主要目标是将高维数据映射到低维空间中，并且希望在该低维空间中原数据的信息量尽可能不丢失。其中该低维空间中的特征是全新的正交特征（即线性无关），又称为主成分。  为了在低维空间中尽量保留高维数据的信息，则对原始特征降维时，需要尽可能在原始特征具有最大投影信息量的维度上进行投影，从而使得降">
+<meta property="og:type" content="article">
+<meta property="og:title" content="主成分分析">
+<meta property="og:url" content="http://example.com/2023/11/11/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="主成分分析1. 原理概述 主成分分析（Principal Component Analysis，简称 PCA），其主要目标是将高维数据映射到低维空间中，并且希望在该低维空间中原数据的信息量尽可能不丢失。其中该低维空间中的特征是全新的正交特征（即线性无关），又称为主成分。  为了在低维空间中尽量保留高维数据的信息，则对原始特征降维时，需要尽可能在原始特征具有最大投影信息量的维度上进行投影，从而使得降">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231111141528295.png">
+<meta property="og:image" content="c:\Users\15787\AppData\Roaming\Typora\typora-user-images\image-20231111141542599.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231111150609150.png">
+<meta property="article:published_time" content="2023-11-11T07:12:44.000Z">
+<meta property="article:modified_time" content="2023-11-11T07:14:05.481Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231111141528295.png">
+
+
+<link rel="canonical" href="http://example.com/2023/11/11/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2023/11/11/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/","path":"2023/11/11/主成分分析/","title":"主成分分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>主成分分析 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%8E%9F%E7%90%86%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">1. 原理概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9C%80%E5%A4%A7%E6%96%B9%E5%B7%AE%E7%90%86%E8%AE%BA%EF%BC%88PCA-%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2. 最大方差理论（PCA 的实现步骤）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-python-%E5%AE%9E%E7%8E%B0-PCA"><span class="nav-number">1.3.</span> <span class="nav-text">3. python 实现 PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PCA-py"><span class="nav-number">1.3.1.</span> <span class="nav-text">PCA.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%A3%E7%82%B9%E5%9B%BE%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.3.2.</span> <span class="nav-text">散点图可视化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-sklearn-%E4%B8%AD%E7%9A%84-PCA"><span class="nav-number">1.4.</span> <span class="nav-text">4. sklearn 中的 PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PCA-sklearn-py"><span class="nav-number">1.4.1.</span> <span class="nav-text">PCA_sklearn.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%A3%E7%82%B9%E5%9B%BE%E5%8F%AF%E8%A7%86%E5%8C%96-1"><span class="nav-number">1.4.2.</span> <span class="nav-text">散点图可视化</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/11/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="主成分分析 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          主成分分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-11-11 15:12:44 / Modified: 15:14:05" itemprop="dateCreated datePublished" datetime="2023-11-11T15:12:44+08:00">2023-11-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="主成分分析"><a href="#主成分分析" class="headerlink" title="主成分分析"></a>主成分分析</h1><h2 id="1-原理概述"><a href="#1-原理概述" class="headerlink" title="1. 原理概述"></a>1. 原理概述</h2><ol>
+<li><p>主成分分析（Principal Component Analysis，简称 PCA），其主要目标是<strong>将高维数据映射到低维空间中</strong>，并且希望在该低维空间中<strong>原数据的信息量尽可能不丢失</strong>。其中该低维空间中的特征是<strong>全新的正交特征</strong>（即线性无关），又称为<strong>主成分</strong>。</p>
+</li>
+<li><p>为了在低维空间中尽量保留高维数据的信息，则对原始特征降维时，需要尽可能<strong>在原始特征具有最大投影信息量的维度上进行投影</strong>，从而使得降维后的信息量损失最小。</p>
+</li>
+<li><p>为了实现上述要求，PCA 的工作内容就是<strong>从原始的空间中顺序地找出一组相互正交的坐标轴（特征）</strong></p>
+<ul>
+<li>第一个坐标轴（特征）选取<strong>原始数据中方差最大的方向</strong>，对应于<strong>第一主成分（PC1）</strong>。</li>
+<li>第二个坐标轴选取<strong>与第一个坐标轴正交的平面中原始数据方差最大的方向</strong>，对应于<strong>第二主成分（PC2）</strong>。</li>
+<li>第三个坐标轴选取<strong>与第一、第二个坐标轴正交的平面中原始数据方差最大的方向</strong>，对应<strong>第三主成分（PC3）</strong>。</li>
+<li>以此类推</li>
+</ul>
+</li>
+<li><p>通过数学分析，可以发现：<strong>原始数据在 PC1 上的投影上方差最大，代表了绝大部分信息</strong>，新的主成分所包含的信息量依次递减。因此<strong>大部分方差包含在前 k 个坐标轴（主成分）中，后边的坐标轴（主成分）所含的方差几乎为 0</strong>，通过此我们可以只保留包含绝大部分方差的特征维度，而忽略包含方差几乎为 0 的特征维度，从而实现对数据特征的降维处理。</p>
+<blockquote>
+<p>i.e. <strong>（全新的正交）特征、主成分、坐标轴在这里为统一概念</strong>，PCA 主要功能就是将高纬特征映射到低维的正交特征（又称之为主成分）</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="2-最大方差理论（PCA-的实现步骤）"><a href="#2-最大方差理论（PCA-的实现步骤）" class="headerlink" title="2. 最大方差理论（PCA 的实现步骤）"></a>2. 最大方差理论（PCA 的实现步骤）</h2><ol>
+<li>在信号处理领域，我们认为<strong>信号具有较大方差，而噪声具有较小方差</strong>。主成分分析（Principal Component Analysis，PCA）是一种常用于数据降维的技术，其<strong>核心思想是寻找数据中变异性最大的方向（主成分）</strong>，以便通过选择少量主成分来近似表示原始数据。因此我们不难引出 PCA 的目标即<strong>最大化投影方差</strong>，也就是让<strong>数据在主轴上投影的方差最大</strong>。</li>
+<li><strong>最大方差理论</strong>的关键观点是，通过选择方差最大的方向，我们能够最大限度地保留原始数据的信息。这是因为<strong>方差衡量了数据在某个方向上的变异性</strong>，而选择方差最大的方向相当于选择了数据中最主要的变化方向。</li>
+</ol>
+<blockquote>
+<p>主成分分析（PCA）的实现步骤如下，</p>
+<ol>
+<li><p>对所有<strong>样本进行中心化</strong>：对原始数据进行中心化，可以移除数据的均值，使得数据围绕原点分布。从而有利于 PCA 基于数据的相对位置进行降维。</p>
+</li>
+<li><p>**计算样本的协方差矩阵 $XX^T$**：样本 $x_i$ 在投影方向 $W$ （单位向量，unit vector）上的投影坐标为 $x_i^TW$，因此所有样本点投影后的方差可以表示为 $D(x)&#x3D;\sum_iW^Tx_ix_i^TW$（等价于 $\underset{W}{max}\ W^TXX^TW$），且 $W^TW&#x3D;I$。因此优化问题变为，<br>$$<br>\underset{W}{max}\ W^TXX^TW\tag{1}\<br>s.t.\ W^TW&#x3D;I<br>$$</p>
+</li>
+<li><p><strong>对协方差矩阵 $XX^T$ 做特征值分解</strong>，解得特征值和特征向量：对式 (1) 使用拉格朗日乘子法有 $XX^TW&#x3D;\lambda W$，将其带入 $D(x)$ 得到 $D(x)&#x3D;W^TXX^TW&#x3D;W^T\lambda W&#x3D;\lambda$，即<strong>样本点投影后的方差即协方差矩阵 $XX^T$ 的特征值</strong>，且最大方差即协方差矩阵最大的特征值。</p>
+</li>
+<li><p><strong>选择主成分</strong>：按照特征值<strong>降序排列</strong>特征向量，选择前几个特征向量作为主成分。这些主成分构成了一个新的坐标系，称之为主成分空间。关于主成分数量选择有以下两种方式：</p>
+<ul>
+<li><p><strong>预先指定</strong>低维空间的维数为 d’，则取最大的 d’ 个特征值对应的特征向量 $w_1,w_2,w_3,..,w_d’$ 即可</p>
+</li>
+<li><p><strong>设置重构阈值</strong>（可看作累计解释方差），记为 t，然后取使得下式成立的最小的 d’ 值，再取对应数量的特征向量即可<br>$$<br>\frac{\sum_{i&#x3D;1}^{d’}\lambda_i}{\sum_{i&#x3D;1}^{d}\lambda_i}\ge t\tag{2}<br>$$</p>
+</li>
+</ul>
+</li>
+<li><p><strong>数据投影</strong>：将原始数据投影到选择的主成分空间中，得到降维后的数据。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="3-python-实现-PCA"><a href="#3-python-实现-PCA" class="headerlink" title="3. python 实现 PCA"></a>3. python 实现 PCA</h2><h3 id="PCA-py"><a href="#PCA-py" class="headerlink" title="PCA.py"></a>PCA.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PCA</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot; 主成分分析类，实现维数约简 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; PCA 类的使用说明</span></span><br><span class="line"><span class="string">        1. pca = PCA(data, threshold=0.85, dimension=None)  首先传入高维数据，指定重构阈值[可选]，指定主成分数量[可选]</span></span><br><span class="line"><span class="string">        2. projectedData = pca.project() 调用 project() 方法，返回投影数据</span></span><br><span class="line"><span class="string">        3. pca.visualize() 对降维后的数据进行二维或三维可视化</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data, threshold=<span class="number">0.85</span>, dimension=<span class="literal">None</span></span>):</span><br><span class="line">        self.data = data  <span class="comment"># 原始数据矩阵，n × m，样本行向量，共计 n 个样本，每个样本 m 维特征</span></span><br><span class="line">        self.threshold = threshold  <span class="comment"># 重构阈值（or 最小累计解释方差），用于选择主成分的数量（低维空间的维数）</span></span><br><span class="line">        self.dimension = dimension  <span class="comment"># 指定主成分的数量，if None，则通过默认的重构阈值选择主成分，如果该属性有值，则忽略重构阈值</span></span><br><span class="line"></span><br><span class="line">        self._projectMatrix = <span class="literal">None</span>  <span class="comment"># 投影矩阵，PCA 的目标</span></span><br><span class="line">        self._cov = <span class="literal">None</span>  <span class="comment"># 数据样本中心化处理之后的协方差矩阵</span></span><br><span class="line">        self._sorted_eigenvalues = <span class="literal">None</span>  <span class="comment"># 协方差矩阵的升序排列的特征值</span></span><br><span class="line">        self._sorted_eigenvectors = <span class="literal">None</span>  <span class="comment"># 协方差矩阵的特征值对应的特征向量</span></span><br><span class="line">        self._cev = <span class="literal">None</span>  <span class="comment"># 协方差矩阵的前 i 个特征值对应的累计解释方差</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_fit</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 核心函数，根据传入数据得到投影矩阵 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 0.数据预处理（数据标准化）</span></span><br><span class="line">        <span class="comment"># 标准化：即一列的每个元素，减去该列的均值后，除以该列的方差</span></span><br><span class="line">        data = np.array(self.data, dtype=<span class="built_in">float</span>)  <span class="comment"># 确保数据矩阵是 ndarray 类型，其中数据是浮点数</span></span><br><span class="line">        mean = np.mean(data, axis=<span class="number">0</span>)  <span class="comment"># 求解每列均值</span></span><br><span class="line">        std_dev = np.std(data, axis=<span class="number">0</span>)  <span class="comment"># 求每列标准差</span></span><br><span class="line">        normalized_data = ((data - mean) / std_dev)  <span class="comment"># 标准化后的数据矩阵</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 1.样本中心化：即将每列的数据减去每列均值，数据预处理阶段已经完成该内容</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2.计算协方差矩阵 XX^T (shape=m×m)</span></span><br><span class="line">        <span class="comment"># p.s. 一般而言，数据矩阵 X 中一个列向量为一个样本，因此其协方差矩阵计算是 XX^T，</span></span><br><span class="line">        <span class="comment"># 但是此处的数据矩阵要求一个行向量为一个样本，因此其协方差矩阵计算是 X^TX</span></span><br><span class="line">        cov = np.dot(normalized_data.T, normalized_data)</span><br><span class="line">        self._cov = cov</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 3.对协方差矩阵做特征值分解</span></span><br><span class="line">        eigenvalues, eigenvectors = np.linalg.eig(cov)  <span class="comment"># 特征值和对应的特征向量（列向量）</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4.选择主成分</span></span><br><span class="line">        <span class="comment"># 基于特征值对特征值和特征向量降序排列</span></span><br><span class="line">        sort_indices = np.argsort(eigenvalues)[::-<span class="number">1</span>]  <span class="comment"># 获取特征值降序排序索引</span></span><br><span class="line">        sorted_eigenvalues = eigenvalues[sort_indices]  <span class="comment"># 使用索引值对特征值和特征向量进行排序</span></span><br><span class="line">        sorted_eigenvectors = eigenvectors[:, sort_indices]</span><br><span class="line">        self._sorted_eigenvalues = sorted_eigenvalues</span><br><span class="line">        self._sorted_eigenvectors = sorted_eigenvectors</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.dimension:  <span class="comment"># 未指定维数，则基于重构阈值选择主成分</span></span><br><span class="line">            <span class="comment"># 计算累计解释方差，cev[i] 表示前 i 个特征值的累计解释方差</span></span><br><span class="line">            cev = []</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(sorted_eigenvalues)):</span><br><span class="line">                cev_i = <span class="built_in">sum</span>(sorted_eigenvalues[:i + <span class="number">1</span>]) / <span class="built_in">sum</span>(sorted_eigenvalues)</span><br><span class="line">                cev.append(cev_i)</span><br><span class="line">            self._cev = cev</span><br><span class="line">            <span class="comment"># 基于重构阈值，选择主成分</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(cev)):</span><br><span class="line">                <span class="keyword">if</span> cev[i] &gt;= self.threshold:  <span class="comment"># 满足重构阈值，则确定投影矩阵</span></span><br><span class="line">                    self._projectMatrix = sorted_eigenvectors[:, :i + <span class="number">1</span>]</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># 基于指定维数选择主成分</span></span><br><span class="line">            <span class="keyword">if</span> self.dimension &gt; self.data.shape[<span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">&quot;illegal dimension&quot;</span>)</span><br><span class="line">            self._projectMatrix = sorted_eigenvectors[:, :self.dimension + <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 5.数据投影：将原始数据投影到主成分空间中</span></span><br><span class="line">        <span class="comment"># 需调用 PCA 的方法，project</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">project</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 获取投影后的数据（低维数据） &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># self.data n 行样本，m 维特征；self.projectMatrix m 维载荷因子，k 个主成分（PCA）</span></span><br><span class="line">        self._fit()</span><br><span class="line"></span><br><span class="line">        projectedData = np.dot(self.data, self._projectMatrix)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> projectedData</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">visualize</span>(<span class="params">self, target, dimension=<span class="number">2</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; 对降维后的数据进行二维的可视化操作（即只选择两个主成分） &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># target 是每个样本的分类，基于此可以对相同的样本点以相同的颜色表示</span></span><br><span class="line">        self.dimension = dimension</span><br><span class="line">        <span class="comment"># 获取样本的类别情况</span></span><br><span class="line">        unique_labels = np.unique(target)</span><br><span class="line">        <span class="comment"># 将数据和标签拼接</span></span><br><span class="line">        target = target.reshape(-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">        data = np.concatenate((self.project(), target), axis=<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 替换为系统中存在的中文字体</span></span><br><span class="line">        plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = <span class="string">&#x27;Microsoft YaHei&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.dimension == <span class="number">2</span>:  <span class="comment"># 二维可视化</span></span><br><span class="line">            <span class="comment"># 可视化</span></span><br><span class="line">            <span class="keyword">for</span> label <span class="keyword">in</span> unique_labels:</span><br><span class="line">                class_points = data[data[:, -<span class="number">1</span>] == label]  <span class="comment"># 获取类别为 label 的样本点</span></span><br><span class="line">                plt.scatter(class_points[:, <span class="number">0</span>], class_points[:, <span class="number">1</span>], label=<span class="string">f&quot;Class <span class="subst">&#123;label&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">            plt.xlabel(<span class="string">&quot;PC1&quot;</span>)</span><br><span class="line">            plt.ylabel(<span class="string">&quot;PC2&quot;</span>)</span><br><span class="line">            plt.title(<span class="string">&quot;主成分分析可视化散点图&quot;</span>)</span><br><span class="line">            plt.legend()</span><br><span class="line">            plt.show()</span><br><span class="line">        <span class="keyword">elif</span> self.dimension == <span class="number">3</span>:  <span class="comment"># 三维可视化</span></span><br><span class="line">            figure = plt.figure()</span><br><span class="line">            ax = figure.add_subplot(<span class="number">111</span>, projection=<span class="string">&quot;3d&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 可视化</span></span><br><span class="line">            <span class="keyword">for</span> label <span class="keyword">in</span> unique_labels:</span><br><span class="line">                class_points = data[data[:, -<span class="number">1</span>] == label]  <span class="comment"># 获取类别为 label 的样本点</span></span><br><span class="line">                ax.scatter(class_points[:, <span class="number">0</span>], class_points[:, <span class="number">1</span>], class_points[:, <span class="number">2</span>], label=<span class="string">f&#x27;Class <span class="subst">&#123;label&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line">            ax.set_xlabel(<span class="string">&quot;PC1&quot;</span>)</span><br><span class="line">            ax.set_ylabel(<span class="string">&quot;PC2&quot;</span>)</span><br><span class="line">            ax.set_zlabel(<span class="string">&quot;PC3&quot;</span>)</span><br><span class="line">            ax.set_title(<span class="string">&quot;主成分分析可视化散点图&quot;</span>)</span><br><span class="line">            ax.legend()</span><br><span class="line">            plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># 载入数据</span></span><br><span class="line">    <span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line">    iris_dataset = load_iris()</span><br><span class="line">    iris_target = iris_dataset[<span class="string">&#x27;target&#x27;</span>]  <span class="comment"># 数据标签</span></span><br><span class="line">    iris_target_names = iris_dataset[<span class="string">&#x27;target_names&#x27;</span>]  <span class="comment"># 数据标签名</span></span><br><span class="line">    iris_data = iris_dataset[<span class="string">&#x27;data&#x27;</span>]  <span class="comment"># 数据集</span></span><br><span class="line">    iris_feature_names = iris_dataset[<span class="string">&#x27;feature_names&#x27;</span>]  <span class="comment"># 数据集特征名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 主成分分析</span></span><br><span class="line">    pca = PCA(iris_data)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可视化主成分分析后的结果</span></span><br><span class="line">    pca.visualize(iris_target, <span class="number">2</span>)  <span class="comment"># 二维可视化</span></span><br><span class="line">    pca.visualize(iris_target, <span class="number">3</span>)  <span class="comment"># 三维可视化</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="散点图可视化"><a href="#散点图可视化" class="headerlink" title="散点图可视化"></a>散点图可视化</h3><img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231111141528295.png" alt="image-20231111141528295" style="zoom: 50%;" />
+
+<img src="C:\Users\15787\AppData\Roaming\Typora\typora-user-images\image-20231111141542599.png" alt="image-20231111141542599" style="zoom:50%;" />
+
+<h2 id="4-sklearn-中的-PCA"><a href="#4-sklearn-中的-PCA" class="headerlink" title="4. sklearn 中的 PCA"></a>4. sklearn 中的 PCA</h2><h3 id="PCA-sklearn-py"><a href="#PCA-sklearn-py" class="headerlink" title="PCA_sklearn.py"></a>PCA_sklearn.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">iris_dataset = load_iris()</span><br><span class="line">iris_target = iris_dataset[<span class="string">&#x27;target&#x27;</span>]  <span class="comment"># 数据标签</span></span><br><span class="line">iris_target_names = iris_dataset[<span class="string">&#x27;target_names&#x27;</span>]  <span class="comment"># 数据标签名</span></span><br><span class="line">iris_data = iris_dataset[<span class="string">&#x27;data&#x27;</span>]  <span class="comment"># 数据集</span></span><br><span class="line">iris_feature_names = iris_dataset[<span class="string">&#x27;feature_names&#x27;</span>]  <span class="comment"># 数据集特征名</span></span><br><span class="line"></span><br><span class="line">pca = PCA()</span><br><span class="line">iris_data_projected = pca.fit_transform(iris_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维可视化</span></span><br><span class="line"><span class="comment"># 获取样本的类别情况</span></span><br><span class="line">unique_labels = np.unique(iris_target)</span><br><span class="line"><span class="comment"># 将数据和标签拼接</span></span><br><span class="line">target = iris_target.reshape(-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">data = np.concatenate((iris_data_projected, target), axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 替换为系统中存在的中文字体</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = <span class="string">&#x27;Microsoft YaHei&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> label <span class="keyword">in</span> unique_labels:</span><br><span class="line">    class_points = data[data[:, -<span class="number">1</span>] == label]  <span class="comment"># 获取类别为 label 的样本点</span></span><br><span class="line">    plt.scatter(class_points[:, <span class="number">0</span>], class_points[:, <span class="number">1</span>], label=<span class="string">f&quot;Class <span class="subst">&#123;label&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">&quot;PC1&quot;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&quot;PC2&quot;</span>)</span><br><span class="line">plt.title(<span class="string">&quot;主成分分析可视化散点图&quot;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="散点图可视化-1"><a href="#散点图可视化-1" class="headerlink" title="散点图可视化"></a>散点图可视化</h3><img src="https://raw.githubusercontent.com/Nasir1423/blog-img/main/image-20231111150609150.png" alt="image-20231111150609150" style="zoom: 50%;" />
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/11/07/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="prev" title="决策树">
+                  <i class="fa fa-angle-left"></i> 决策树
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/11/11/%E7%BB%B4%E6%95%B0%E7%BA%A6%E7%AE%80/" rel="next" title="维数约简">
+                  维数约简 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
