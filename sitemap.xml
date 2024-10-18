@@ -2,9 +2,45 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhengzehua.top/2024/10/18/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%AA%E7%A7%BB%EF%BC%88baidu%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhengzehua.top/2024/09/27/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2%EF%BC%88leetcode%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhengzehua.top/2024/10/18/%E9%80%89%E6%95%B0I%EF%BC%88baidu%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhengzehua.top/2024/10/10/%E4%B8%89%E8%A7%92%E5%BD%A2%E9%97%AE%E9%A2%98%EF%BC%88xhs%EF%BC%89/</loc>
+    
+    <lastmod>2024-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/</loc>
     
-    <lastmod>2024-10-17</lastmod>
+    <lastmod>2024-10-18</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -20,25 +56,7 @@
   </url>
   
   <url>
-    <loc>https://zhengzehua.top/2024/10/10/%E4%B8%89%E8%A7%92%E5%BD%A2%E9%97%AE%E9%A2%98%EF%BC%88xhs%EF%BC%89/</loc>
-    
-    <lastmod>2024-10-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zhengzehua.top/2024/10/10/%E6%95%B0%E4%BD%8D%E5%92%8C%E8%BF%9E%E9%80%9A%E5%9D%97%E5%8D%9A%E5%BC%88%EF%BC%88xhs%EF%BC%89/</loc>
-    
-    <lastmod>2024-10-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zhengzehua.top/2024/09/27/%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2%EF%BC%88leetcode%EF%BC%89/</loc>
     
     <lastmod>2024-10-11</lastmod>
     
@@ -110,6 +128,13 @@
 
   
   <url>
+    <loc>https://zhengzehua.top/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2024-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://zhengzehua.top/tags/Hexo/</loc>
     <lastmod>2024-10-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -131,14 +156,14 @@
   </url>
   
   <url>
-    <loc>https://zhengzehua.top/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
+    <loc>https://zhengzehua.top/tags/baidu/</loc>
     <lastmod>2024-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://zhengzehua.top/tags/LeetCode/</loc>
+    <loc>https://zhengzehua.top/tags/leetCode/</loc>
     <lastmod>2024-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
