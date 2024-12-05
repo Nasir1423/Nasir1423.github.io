@@ -1,0 +1,367 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝谈谈你对观察者和订阅发布的理解 | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 观察者设计模式   场景引入之杂志订阅：小王想要购买一本尚未出版的杂志，他向出版社预订该杂志并提供联系方式，一旦该杂志出版，出版社就会根据小王预留的联系方式通知他可以来购买了。这个简单的场景就是一个简单的观察者模式，可以将小王扩充到任意数量的消费者，一旦某个杂志出版了，出版社就可以根据维护的订阅该杂志的消费者列表进行逐一通知。   观察者模式的解释：观察者模式定义了一种一对多的依赖关系，使得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝谈谈你对观察者和订阅发布的理解">
+<meta property="og:url" content="https://zhengzehua.top/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="1. 观察者设计模式   场景引入之杂志订阅：小王想要购买一本尚未出版的杂志，他向出版社预订该杂志并提供联系方式，一旦该杂志出版，出版社就会根据小王预留的联系方式通知他可以来购买了。这个简单的场景就是一个简单的观察者模式，可以将小王扩充到任意数量的消费者，一旦某个杂志出版了，出版社就可以根据维护的订阅该杂志的消费者列表进行逐一通知。   观察者模式的解释：观察者模式定义了一种一对多的依赖关系，使得">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-06-03T10:59:00.000Z">
+<meta property="article:modified_time" content="2024-11-14T11:15:21.604Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JRLJPHP21V');
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝谈谈你对观察者和订阅发布的理解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-14 19:15:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/butterfly_avatar_img.svg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);"><nav id="nav"><span id="blog-info"><a href="/" title="川一土的博客视界"><img class="site-icon" src="/images/butterfly_nav_logo.svg"/><span class="site-name">川一土的博客视界</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">📝谈谈你对观察者和订阅发布的理解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-03T10:59:00.000Z" title="发表于 2024-06-03 18:59:00">2024-06-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-14T11:15:21.604Z" title="更新于 2024-11-14 19:15:21">2024-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="📝谈谈你对观察者和订阅发布的理解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-观察者设计模式">1. 观察者设计模式</h2>
+<ul>
+<li>
+<p><strong>场景引入之杂志订阅</strong>：小王想要购买一本尚未出版的杂志，他向出版社预订该杂志并提供联系方式，一旦该杂志出版，出版社就会根据小王预留的联系方式通知他可以来购买了。这个简单的场景就是一个简单的观察者模式，可以将小王扩充到任意数量的消费者，一旦某个杂志出版了，出版社就可以根据维护的订阅该杂志的消费者列表进行逐一通知。</p>
+</li>
+<li>
+<p><strong>观察者模式的解释</strong>：观察者模式定义了一种<strong>一对多的依赖关系</strong>，使得当一个<strong>对象（主题，被观察者，Subject）<strong>的</strong>状态改变</strong>时，所有<strong>依赖它的对象（观察者，Observer）<strong>都会得到</strong>通知并自动更新</strong>。观察者模式中，观察者和被观察者的关系是通过被观察者建立的。</p>
+<ul>
+<li><strong>被观察者</strong>身上必须有三个方法：<strong>添加观察者（addObserver）、删除观察者（delObserver）、通知观察者（notifyObserver）</strong>。被观察者维护一个观察者列表，使用其自身的 <code>addObserver</code> 和 <code>delObserver</code> 方法添加或删除观察者。</li>
+<li><strong>观察者</strong>身上必须有一个方法：<strong>更新（update）</strong>。一旦<strong>被观察者的状态改变</strong>，就会调用 <code>notifyObserver</code> 方法，遍历其维护的观察者列表，同时调用每个观察者的 <code>update</code> 的方法，用于对被观察者的状态改变做出响应。</li>
+<li>将观察者模式与杂志订阅进行类比，被观察者是出版社（Subject），其状态是对应杂志是否出版，一旦杂志出版（状态变化），出版社就会根据其维护的订阅者列表逐一通知（调用 <code>notifyObserver</code> 方法，该方法遍历每个观察者，调用对应观察者的 <code>update</code> 方法）。观察者收到通知后，就会来出版社购买杂志（<code>update</code> 方法的调用结果）。同时，如果有其他消费者（Observer）想要订阅杂志，就要来出版社留下联系方式（出版社调用其 <code>addObserver</code> 方法）。</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/solution2-zh-2x.png" alt="img" style="zoom: 33%;" />
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/structure-2x.png" alt="img" style="zoom:33%;" />
+</li>
+<li>
+<p><strong>观察者模式之杂志订阅的 TS 实现</strong></p>
+<ul>
+<li>
+<p>观察者接口</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 观察者接口：所有观察者必须实现 update 方法 */</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line">    <span class="title function_">update</span>(<span class="attr">magazineName</span>: <span class="built_in">string</span>): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>被观察者接口</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 主题/被观察者接口：被观察者必须实现 add、del、notifyAll 方法，并且必须维护一个观察者列表 */</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">    <span class="title function_">add</span>(<span class="attr">observer</span>: <span class="title class_">Observer</span>): <span class="title class_">Subject</span>;</span><br><span class="line">    <span class="title function_">del</span>(<span class="attr">observer</span>: <span class="title class_">Observer</span>): <span class="title class_">Subject</span>;</span><br><span class="line">    <span class="title function_">notifyAll</span>(<span class="attr">msg</span>: <span class="built_in">string</span>): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>观察者实现/消费者类的定义</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 消费者类 —— 实现观察者接口 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subscriber</span> <span class="keyword">implements</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="attr">name</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">update</span>(<span class="attr">magazineName</span>: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`消费者 <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> 收到了消息：<span class="subst">$&#123;magazineName&#125;</span> 现在可以购买了！！！`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>被观察者实现/出版社类的定义</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 出版社类 —— 实现被观察者接口 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Publisher</span> <span class="keyword">implements</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="attr">observerList</span>: <span class="title class_">Observer</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">/* 出版社维护的消费者列表 ==&gt; 相当于被观察者维护的观察者列表 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">observerList</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">add</span>(<span class="attr">observer</span>: <span class="title class_">Observer</span>): <span class="title class_">Publisher</span> &#123;</span><br><span class="line">        <span class="comment">/* 添加观察者 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">push</span>(observer);</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">del</span>(<span class="attr">observer</span>: <span class="title class_">Observer</span>): <span class="title class_">Publisher</span> &#123;</span><br><span class="line">        <span class="comment">/* 删除观察者 */</span></span><br><span class="line">        <span class="keyword">const</span> index = <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">indexOf</span>(observer);</span><br><span class="line">        <span class="keyword">if</span> (index !== -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">splice</span>(index, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">notifyAll</span>(<span class="attr">msg</span>: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="comment">/* 通知所有观察者 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">forEach</span>(<span class="function"><span class="params">observer</span> =&gt;</span> observer.<span class="title function_">update</span>(msg));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">publishMagazine</span>(<span class="attr">magazineName</span>: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="comment">/* 发布杂志 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">notifyAll</span>(magazineName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>测试样例</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 测试用例 */</span></span><br><span class="line"><span class="comment">// 创建出版社</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">publisher</span>: <span class="title class_">Publisher</span> = <span class="keyword">new</span> <span class="title class_">Publisher</span>();</span><br><span class="line"><span class="comment">// 创建消费者</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">chris</span>: <span class="title class_">Subscriber</span> = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&quot;Chris&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="attr">jerry</span>: <span class="title class_">Subscriber</span> = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&quot;Jerry&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="attr">tom</span>: <span class="title class_">Subscriber</span> = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line"><span class="comment">// 消费者订阅</span></span><br><span class="line">publisher.<span class="title function_">add</span>(chris).<span class="title function_">add</span>(jerry).<span class="title function_">add</span>(tom);</span><br><span class="line"><span class="comment">// 出版社杂志出版（自动通知消费者）</span></span><br><span class="line">publisher.<span class="title function_">publishMagazine</span>(<span class="string">&quot;《简爱》&quot;</span>);</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">    输出：</span></span><br><span class="line"><span class="comment">    消费者 Chris 收到了消息：《简爱》 现在可以购买了！！！</span></span><br><span class="line"><span class="comment">    消费者 Jerry 收到了消息：《简爱》 现在可以购买了！！！</span></span><br><span class="line"><span class="comment">    消费者 Tom 收到了消息：《简爱》 现在可以购买了！！！</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-订阅发布消息范式">2. 订阅发布消息范式</h2>
+<ul>
+<li>
+<p><strong>场景引入之仍是杂志订阅</strong>：假设有许多消费者想要订阅杂志，出版社需要维护一个<strong>庞大的消费者列表</strong>。当杂志出版时，出版社需要根据这个列表逐一通知所有订阅者来购买杂志。显然，随着消费者列表中的元素数量增加，出版社需要花费大量时间来维护列表、处理订阅和取消订阅请求，并逐一通知用户。这种做法显然会耽误出版社的本职工作——出版杂志。因此，出版社决定寻找一个代理中介，由这个中介来维护订阅者列表。这样一来，出版社除了出版杂志之外，只需要通知中介即可，中介则会根据维护的订阅者列表，逐一通知所有订阅者。这就是发布-订阅消息范式。通过使用发布-订阅消息范式，观察者与被观察者之间的耦合性得到了降低。被观察者只需要通知中介，这称为“发布”；观察者只需要向中介注册，这称为“订阅”。一旦中介收到被观察者的通知，就会将相应的信息告知所有观察者。</p>
+</li>
+<li>
+<p><strong>订阅发布消息范式的解释</strong>：订阅发布消息范式可以理解为观察者模式的升级版，在观察者和被观察者之间引入了一个中介。在这种范式中，我们引入了几个概念：<strong>消息</strong>、<strong>订阅者</strong>、<strong>发布者</strong>和<strong>发布订阅中心</strong>。发布者发布一个消息，包含<strong>消息名和消息内容</strong>；订阅者注册自己的信息，包含<strong>消息名和回调函数</strong>；发布订阅中心<strong>维护一个消息对象和一个回调对象</strong>，每个对象的元素为列表，<strong>列表名为消息名，列表中的元素为发布者发布的消息内容或订阅者注册的回调函数</strong>。发布者通过发布订阅中心发布消息，订阅者通过发布订阅中心注册信息，发布订阅中心根据消息类型，使用对应的消息内容和回调函数执行相应的逻辑。</p>
+<ul>
+<li><strong>发布订阅中心</strong>必须有三个方法：<strong>发布（publish）、订阅（subscribe）、通知（notify）</strong>。发布订阅中心维护两个对象：一个是以消息名为键，消息内容数组为值；另一个是以消息名为键，回调函数数组为值。</li>
+<li><strong>发布者和订阅者</strong>必须拥有发布订阅中心的引用，以便在合适的时机根据自身逻辑进行发布或订阅。</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/19b670df6cb54c4ebdc17a114b5dc97c~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp" alt="img" style="zoom: 50%;" />
+</li>
+<li>
+<p><strong>订阅发布消息范式之考虑一个新闻发布系统</strong></p>
+<blockquote>
+<p>发布者A发布关于“体育”的消息。发布者B也发布关于“体育”的消息。</p>
+<p>发布者C发布关于“科技”的消息。</p>
+<hr>
+<p>订阅者X订阅“体育”主题，所以它会收到发布者A和发布者B的所有“体育”消息。</p>
+<p>订阅者Y订阅“科技”主题，它只会收到发布者C关于“科技”的消息。</p>
+<hr>
+<p>优点：发布者和订阅者彼此独立，可以独立扩展和修改，消息代理负责消息的传递，简化了系统的复杂性。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>订阅发布消息范式之杂志订阅 + 商品预购的 JS 实现</strong></p>
+<blockquote>
+<p>此示例想要表明：<strong>发布订阅中心根据消息管理发布消息信息和订阅回调</strong>，发布者可以有多个，不同发布者发布的消息可能被相同的订阅者订阅。<strong>一个消息即可以被不同发布者发布，也可以被不同消费者消费</strong>。</p>
+</blockquote>
+<ul>
+<li>
+<p>发布者/出版商 ＆ 商家（两种消息类型，“books”, “products”）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 发布者 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Publisher</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">pubsub, msgType</span>) &#123;</span><br><span class="line">        <span class="comment">/* 每个发布者都可以通过自身访问到订阅发布中心 this.pubsub*/</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pubsub</span> = pubsub;</span><br><span class="line">        <span class="comment">/* this.type 表示当前发布者发布的消息类型 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">msgType</span> = msgType;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">publish</span>(<span class="params">msg</span>) &#123;</span><br><span class="line">        <span class="comment">/* 发布类型为 this.msgType 的消息 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pubsub</span>.<span class="title function_">publish</span>(<span class="variable language_">this</span>.<span class="property">msgType</span>, msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>订阅者/消费者</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 订阅者 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subscriber</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">pubsub, name</span>) &#123;</span><br><span class="line">        <span class="comment">/* 每一个订阅者都可以通过自身访问到订阅发布中心 this.pubsub */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pubsub</span> = pubsub;</span><br><span class="line">        <span class="comment">/* 消费者姓名 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">subscribe</span>(<span class="params">msgType, cb</span>) &#123;</span><br><span class="line">        <span class="comment">/* 订阅类型为 msgType 的消息，发布订阅中心使用每个 cb 处理对应消息类型的所有消息内容 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pubsub</span>.<span class="title function_">subscribe</span>(msgType, cb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>发布订阅中心</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 发布订阅中心 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PubSub</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">/* 以下两个对象的元素都是数组，数组名表示消息类型，数组中的元素表示一个消息内容 or 一个回调函数 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">messages</span> = &#123;&#125;; <span class="comment">// 根据消息类型维护的消息内容对象</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">listeners</span> = &#123;&#125; <span class="comment">// 根据消息类型维护的回调函数对象</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">publish</span>(<span class="params">msgType, msg</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> isExist = <span class="variable language_">this</span>.<span class="property">messages</span>[msgType];</span><br><span class="line">        <span class="keyword">if</span> (!isExist) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">messages</span>[msgType] = []</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">messages</span>[msgType].<span class="title function_">push</span>(msg)</span><br><span class="line">        <span class="comment">/* 一旦发布者发布，就通知订阅者，即执行订阅者传递的回调函数 */</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">notifyAsType</span>(msgType)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">subscribe</span>(<span class="params">msgType, cb</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> isExist = <span class="variable language_">this</span>.<span class="property">listeners</span>[msgType];</span><br><span class="line">        <span class="keyword">if</span> (!isExist) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">listeners</span>[msgType] = []</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">listeners</span>[msgType].<span class="title function_">push</span>(cb)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">notifyAsType</span>(<span class="params">msgType</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> messages = <span class="variable language_">this</span>.<span class="property">messages</span>[msgType];</span><br><span class="line">        <span class="keyword">const</span> listeners = <span class="variable language_">this</span>.<span class="property">listeners</span>[msgType];</span><br><span class="line">        <span class="keyword">if</span> (!listeners) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">/* 所谓的通知订阅者，即调用订阅者传递的回调，同时接收一个参数，为当前消息类型的消息信息构成的数组 */</span></span><br><span class="line">        listeners.<span class="title function_">forEach</span>(<span class="function">(<span class="params">cb</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">cb</span>(messages);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>测试样例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 测试样例 */</span></span><br><span class="line"><span class="comment">/* 订阅发布中心 */</span></span><br><span class="line"><span class="keyword">const</span> broker = <span class="keyword">new</span> <span class="title class_">PubSub</span>(); <span class="comment">// 发布订阅中心</span></span><br><span class="line"><span class="comment">/* 发布者 */</span></span><br><span class="line"><span class="keyword">const</span> publisher = <span class="keyword">new</span> <span class="title class_">Publisher</span>(broker, <span class="string">&quot;books&quot;</span>); <span class="comment">// 发布者之出版社</span></span><br><span class="line"><span class="keyword">const</span> seller = <span class="keyword">new</span> <span class="title class_">Publisher</span>(broker, <span class="string">&quot;products&quot;</span>); <span class="comment">// 发布者之商家</span></span><br><span class="line"><span class="comment">/* 订阅者 */</span></span><br><span class="line"><span class="keyword">const</span> chris = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(broker, <span class="string">&quot;chris&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> jerry = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(broker, <span class="string">&quot;jerry&quot;</span>);</span><br><span class="line"><span class="comment">/* 订阅消息 */</span></span><br><span class="line">chris.<span class="title function_">subscribe</span>(<span class="string">&quot;books&quot;</span>, <span class="function">(<span class="params">message, name = <span class="string">&quot;chris&quot;</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/* 定义简单的处理消息内容的回调函数 */</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 收到通知，出版社出新书了，现在出版书籍为 <span class="subst">$&#123;message&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line">jerry.<span class="title function_">subscribe</span>(<span class="string">&quot;books&quot;</span>, <span class="function">(<span class="params">message, name = <span class="string">&quot;jerry&quot;</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 收到通知，出版社出新书了，现在出版书籍为 <span class="subst">$&#123;message&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line">jerry.<span class="title function_">subscribe</span>(<span class="string">&quot;products&quot;</span>, <span class="function">(<span class="params">message, name = <span class="string">&quot;jerry&quot;</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 收到通知，新品上架了，现在有新品为 <span class="subst">$&#123;message&#125;</span>`</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">/* 发布消息 */</span></span><br><span class="line">publisher.<span class="title function_">publish</span>(<span class="string">&quot;简爱&quot;</span>);</span><br><span class="line">publisher.<span class="title function_">publish</span>(<span class="string">&quot;悉达多&quot;</span>);</span><br><span class="line">publisher.<span class="title function_">publish</span>(<span class="string">&quot;风沙星辰&quot;</span>);</span><br><span class="line">seller.<span class="title function_">publish</span>(<span class="string">&quot;水杯&quot;</span>);</span><br><span class="line">seller.<span class="title function_">publish</span>(<span class="string">&quot;牙刷&quot;</span>);</span><br><span class="line">seller.<span class="title function_">publish</span>(<span class="string">&quot;牙膏&quot;</span>);</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">    chris 收到通知，出版社出新书了，现在出版书籍为 简爱</span></span><br><span class="line"><span class="comment">    jerry 收到通知，出版社出新书了，现在出版书籍为 简爱</span></span><br><span class="line"><span class="comment">    chris 收到通知，出版社出新书了，现在出版书籍为 简爱,悉达多</span></span><br><span class="line"><span class="comment">    jerry 收到通知，出版社出新书了，现在出版书籍为 简爱,悉达多</span></span><br><span class="line"><span class="comment">    chris 收到通知，出版社出新书了，现在出版书籍为 简爱,悉达多,风沙星辰</span></span><br><span class="line"><span class="comment">    jerry 收到通知，出版社出新书了，现在出版书籍为 简爱,悉达多,风沙星辰</span></span><br><span class="line"><span class="comment">    jerry 收到通知，新品上架了，现在有新品为 水杯</span></span><br><span class="line"><span class="comment">    jerry 收到通知，新品上架了，现在有新品为 水杯,牙刷</span></span><br><span class="line"><span class="comment">    jerry 收到通知，新品上架了，现在有新品为 水杯,牙刷,牙膏</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-辨·区别">3. 辨·区别</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">区别</th>
+<th style="text-align:center">观察者</th>
+<th style="text-align:center">订阅发布</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">类型</td>
+<td style="text-align:center">设计模式</td>
+<td style="text-align:center">消息范式</td>
+</tr>
+<tr>
+<td style="text-align:center">对象数量</td>
+<td style="text-align:center">至少两个<br />（观察者&gt;=1，被观察者&gt;=1）</td>
+<td style="text-align:center">至少三个<br />（发布者&gt;=1，订阅者&gt;=1，发布订阅中心=1）</td>
+</tr>
+<tr>
+<td style="text-align:center">关注重点</td>
+<td style="text-align:center">被观察者<br />（方法：添加观察者、移除观察者、通知观察者）</td>
+<td style="text-align:center">发布订阅中心<br />（方法：发布、订阅、通知）</td>
+</tr>
+<tr>
+<td style="text-align:center">耦合程度</td>
+<td style="text-align:center">松耦合<br />（观察者功能不存粹，需要将自身的变化响应式的反馈到观察者）</td>
+<td style="text-align:center">解耦合<br />（发布者只关注发布逻辑，订阅者只关注订阅逻辑和实现接收到通知后的逻辑）</td>
+</tr>
+<tr>
+<td style="text-align:center">图像对比</td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/567e4179118647d59f000763a3bc5046~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp" alt="观察者.jpg"></td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/74f06fb7a35143b798b010b0481d853f~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp" alt="发布订阅模拟观察者模式.jpg"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="REFERENCES">REFERENCES</h2>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6978728619782701087">https://juejin.cn/post/6978728619782701087</a></p>
+<p><a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns/observer">https://refactoringguru.cn/design-patterns/observer</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/">https://zhengzehua.top/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/" title="📝说一下 http 报文都有哪些东西？"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">📝说一下 http 报文都有哪些东西？</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/02/%E8%AF%A6%E8%A7%A3%20Cookies%20%E5%92%8C%20WebStorage/" title="📝Cookies 和 WebStorage"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">📝Cookies 和 WebStorage</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%A7%82%E5%AF%9F%E8%80%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">1. 观察者设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E6%B6%88%E6%81%AF%E8%8C%83%E5%BC%8F"><span class="toc-text">2. 订阅发布消息范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BE%A8%C2%B7%E5%8C%BA%E5%88%AB"><span class="toc-text">3. 辨·区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-text">REFERENCES</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs@6.3.0/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'Nasir1423/blog-comment')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

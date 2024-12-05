@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝JS 中怎么实现深克隆和浅克隆 | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、深克隆和浅克隆 1. 克隆的研究对象 克隆（拷贝）就是创建一份数据的副本，其分为深克隆和浅克隆两种实现方式。对于原始类型的值而言，深克隆和浅克隆没有任何区别，因此我们关于克隆的研究对象是对象类型。 2. 两种克隆的区别  深克隆：深克隆会对原始对象进行无限层级的复制，会递归地复制原始对象中的所有属性，从而创建一个独立于原始对象的全新副本。修改深克隆后的对象中的数据，不会影响到原始对象。 浅克隆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝JS 中怎么实现深克隆和浅克隆">
+<meta property="og:url" content="https://zhengzehua.top/2024/06/06/JS%E4%B8%AD%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%85%8B%E9%9A%86%E5%92%8C%E6%B5%85%E5%85%8B%E9%9A%86/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="一、深克隆和浅克隆 1. 克隆的研究对象 克隆（拷贝）就是创建一份数据的副本，其分为深克隆和浅克隆两种实现方式。对于原始类型的值而言，深克隆和浅克隆没有任何区别，因此我们关于克隆的研究对象是对象类型。 2. 两种克隆的区别  深克隆：深克隆会对原始对象进行无限层级的复制，会递归地复制原始对象中的所有属性，从而创建一个独立于原始对象的全新副本。修改深克隆后的对象中的数据，不会影响到原始对象。 浅克隆">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-06-06T10:59:00.000Z">
+<meta property="article:modified_time" content="2024-11-14T11:24:56.339Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/06/06/JS%E4%B8%AD%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%85%8B%E9%9A%86%E5%92%8C%E6%B5%85%E5%85%8B%E9%9A%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JRLJPHP21V');
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝JS 中怎么实现深克隆和浅克隆',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-14 19:24:56'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/butterfly_avatar_img.svg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);"><nav id="nav"><span id="blog-info"><a href="/" title="川一土的博客视界"><img class="site-icon" src="/images/butterfly_nav_logo.svg"/><span class="site-name">川一土的博客视界</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">📝JS 中怎么实现深克隆和浅克隆</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-06T10:59:00.000Z" title="发表于 2024-06-06 18:59:00">2024-06-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-14T11:24:56.339Z" title="更新于 2024-11-14 19:24:56">2024-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="📝JS 中怎么实现深克隆和浅克隆"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="一、深克隆和浅克隆">一、深克隆和浅克隆</h2>
+<h3 id="1-克隆的研究对象">1. 克隆的研究对象</h3>
+<p>克隆（拷贝）就是创建一份<strong>数据的副本</strong>，其分为<strong>深克隆和浅克隆</strong>两种实现方式。对于原始类型的值而言，深克隆和浅克隆没有任何区别，因此我们<strong>关于克隆的研究对象是对象类型</strong>。</p>
+<h3 id="2-两种克隆的区别">2. 两种克隆的区别</h3>
+<ul>
+<li><strong>深克隆</strong>：深克隆会对原始对象进行<strong>无限层级</strong>的复制，会<strong>递归</strong>地复制原始对象中的所有属性，从而创建一个<strong>独立于原始对象的全新副本</strong>。修改深克隆后的对象中的数据，<strong>不会影响</strong>到原始对象。</li>
+<li><strong>浅克隆</strong>：浅克隆会对原始对象进行<strong>一层</strong>复制，会复制原始对象中的所有属性，但<strong>对于嵌套对象或数组，只会复制引用</strong>。修改浅克隆后的对象中的数据，<strong>会影响</strong>到原始对象。</li>
+</ul>
+<blockquote>
+<p>注意：直接将对象赋值给一个变量不算浅拷贝。浅拷贝的结果和原数据至少在 <code>===</code> 的判断下是 <code>false</code>！</p>
+</blockquote>
+<h2 id="二、浅克隆的实现方式">二、浅克隆的实现方式</h2>
+<h3 id="1-Object-assign（对象）">1. Object.assign（对象）</h3>
+<ul>
+<li>
+<p><strong>语法</strong>：<code>Object.assign(target, source1, source2, ...)</code></p>
+<ul>
+<li><strong>功能</strong>：将一个或多个源对象（<code>source</code>）的<strong>可枚举属性</strong>复制到目标对象（<code>target</code>）。</li>
+<li><strong>参数</strong>
+<ul>
+<li><code>target</code> 目标对象，用于接收源对象的属性。</li>
+<li><code>source</code> 源对象，其属性会被复制到目标对象。</li>
+</ul>
+</li>
+<li><strong>返回值</strong>：目标对象（<code>target</code>），其包含了源对象中的所有属性。</li>
+<li><strong>注意事项</strong>
+<ul>
+<li>对于目标对象中的<strong>嵌套对象或数组</strong>属性，<code>Object.assign</code> 方法只会复制它们的引用，而不会创建全新副本。因此<strong>如果修改嵌套对象或数组中的内容，目标对象和源对象都会受到影响</strong>。</li>
+<li>如果 <code>target</code>、<code>source1</code>、<code>source2</code>、<code>...</code> 中存在同名属性，则以后边对象的属性值为准，这称之为<strong>属性覆盖</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>浅克隆的实现</strong>：<code>const target = Object.assign(&#123;&#125;, source);</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;chuanyitu&quot;</span>,</span><br><span class="line">    <span class="attr">gender</span>: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">    <span class="attr">info</span>: &#123;</span><br><span class="line">        <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>,</span><br><span class="line">        <span class="attr">position</span>: <span class="string">&quot;North&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, source); <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source.<span class="property">info</span> === target.<span class="property">info</span>); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-array-slice（数组）">2. array.slice（数组）</h3>
+<ul>
+<li>
+<p><strong>语法</strong>：<code>array.slice([begin[, end]])</code></p>
+<ul>
+<li><strong>功能</strong>：提取数组的一部分（<code>[begin, end)</code>），作为一个新数组返回。</li>
+<li><strong>参数</strong>
+<ul>
+<li><code>begin</code>：提取元素的开始索引（包括该索引对应元素）。如果省略该参数，则默认从索引 <code>0</code> 开始。如果该参数为负数，则表示从数组末尾相应位置开始。</li>
+<li><code>end</code>：提取元素的结束位置（不包括对应元素）。如果省略该参数，则默认一直提取到数组最后一个元素。如果该参数为负数，则表示从数组末尾相应位置结束。</li>
+</ul>
+</li>
+<li><strong>返回值</strong>：一个新的数组，包含 <code>[begin, end)</code> 的数组元素。</li>
+<li><strong>注意事项</strong>：对于数组中的<strong>对象或数组</strong>类型的元素，<code>.slice</code> 方法只会复制它们的引用，而不会创建全新副本。</li>
+</ul>
+</li>
+<li>
+<p><strong>浅克隆的实现</strong>：<code>const target = source.slice();</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = [<span class="string">&quot;chuanyitu&quot;</span>, <span class="string">&quot;male&quot;</span>, &#123; <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>, <span class="attr">position</span>: <span class="string">&quot;North&quot;</span> &#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = source.<span class="title function_">slice</span>(); <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source ===  target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source[<span class="number">2</span>] === target[<span class="number">2</span>]); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-array-concat（数组）">3. array.concat（数组）</h3>
+<ul>
+<li>
+<p><strong>语法</strong>：<code>array.concat(source1[, source2[, source3[, ...]]])</code></p>
+<ul>
+<li><strong>功能</strong>：将一个或多个数组或元素和当前数组合并，作为一个新数组返回。原数组不会受到影响。</li>
+<li><strong>参数</strong>：<code>source</code> 如果该参数是一个元素，则将其添加到新数组中。如果该参数是一个数组，则将其中的元素提取出来，添加到新数组中。</li>
+<li><strong>返回值</strong>：一个新的数组，包含 <code>array</code> 中的所有元素，以及 <code>source</code> 中的元素（作为元素添加其本身，作为数组添加其中的元素）。</li>
+<li><strong>注意事项</strong>：对于数组中的<strong>对象或数组</strong>类型的元素，<code>.concat</code> 方法只会复制它们的引用，而不会创建全新副本。</li>
+</ul>
+</li>
+<li>
+<p><strong>浅克隆的实现</strong>：<code>const target = [].concat(source); </code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = [<span class="string">&quot;chuanyitu&quot;</span>, <span class="string">&quot;male&quot;</span>, &#123; <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>, <span class="attr">position</span>: <span class="string">&quot;North&quot;</span> &#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = [].<span class="title function_">concat</span>(source); <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source ===  target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source[<span class="number">2</span>] === target[<span class="number">2</span>]); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-Array-from（数组）">4. Array.from（数组）</h3>
+<ul>
+<li>
+<p><strong>语法</strong>：<code>Array.from(arrayLike/iterableObjects[, mapFn[, thisArg]])</code></p>
+<ul>
+<li><strong>功能</strong>：基于<strong>类数组对象或可迭代对象</strong>创建一个数组。
+<ul>
+<li>类数组对象：具有 <code>length</code> 属性和索引元素的对象，如 <code>String</code>、<code>arguments</code> 等。</li>
+<li>可迭代对象：如 <code>Set</code>、<code>Map</code> 等。</li>
+</ul>
+</li>
+<li><strong>参数</strong>
+<ul>
+<li><code>arrayLike/iterableObjects</code>：类数组或可迭代对象。</li>
+<li><code>mapFn</code>：映射函数，用于对每个元素进行处理，生成新的数组元素。</li>
+<li><code>thisArg</code>：表示 <code>mapFn</code> 函数中 <code>this</code> 指向。</li>
+</ul>
+</li>
+<li><strong>返回值</strong>：由类数组对象或可迭代对象创建的新的数组对象。</li>
+<li><strong>注意事项</strong>：对于对象中的<strong>嵌套对象或数组</strong>，<code>Array.from</code> 方法只会复制它们的引用，而不会创建全新副本。</li>
+</ul>
+</li>
+<li>
+<p><strong>浅克隆的实现</strong>：<code>const target = Array.from(source);</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = [<span class="string">&quot;chuanyitu&quot;</span>, <span class="string">&quot;male&quot;</span>, &#123; <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>, <span class="attr">position</span>: <span class="string">&quot;North&quot;</span> &#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = <span class="title class_">Array</span>.<span class="title function_">from</span>(source); <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source ===  target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source[<span class="number">2</span>] === target[<span class="number">2</span>]); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5-展开运算符（对象或数组）">5. 展开运算符（对象或数组）</h3>
+<ul>
+<li>
+<p>我们也可以使用展开运算符实现浅克隆，而且<strong>对数组和对象都生效</strong>！！！</p>
+<blockquote>
+<p><code>Object.assign</code> 对象生效</p>
+<p><code>array.slice</code>、<code>array.concat</code>、<code>Array.from</code> 数组生效</p>
+</blockquote>
+</li>
+<li>
+<p><strong>浅克隆的实现（对象）</strong>：<code>const target = &#123;...source&#125;;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;chuanyitu&quot;</span>,</span><br><span class="line">    <span class="attr">gender</span>: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">    <span class="attr">info</span>: &#123;</span><br><span class="line">        <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>,</span><br><span class="line">        <span class="attr">position</span>: <span class="string">&quot;North&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = &#123;...source&#125;; <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source.<span class="property">info</span> === target.<span class="property">info</span>); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>浅克隆的实现（数组）</strong>：<code>const target = [...source];</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = [<span class="string">&quot;chuanyitu&quot;</span>, <span class="string">&quot;male&quot;</span>, &#123; <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>, <span class="attr">position</span>: <span class="string">&quot;North&quot;</span> &#125;];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = [...source]; <span class="comment">// 实现了浅拷贝</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source[<span class="number">2</span>] === target[<span class="number">2</span>]); <span class="comment">// true 说明只复制了引用</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="三、深克隆的实现方式">三、深克隆的实现方式</h2>
+<h3 id="0-深克隆要考虑的逻辑细节">0. 深克隆要考虑的逻辑细节</h3>
+<ul>
+<li>
+<p><strong>对于原始类型</strong> =&gt; 直接返回</p>
+</li>
+<li>
+<p><strong>对于循环引用</strong> =&gt; 使用 Map 或 WeakMap 记录已经处理过的对象，避免无限递归（建议使用 WeakMap，建立弱引用关系）</p>
+</li>
+<li>
+<p><strong>对于函数</strong> =&gt; 直接返回</p>
+</li>
+<li>
+<p><strong>对于 Date 对象</strong> =&gt; 使用 Date 构造函数重新创建一个日期对象</p>
+</li>
+<li>
+<p><strong>对于 RegExp 对象</strong> =&gt; 使用 RegExp 构造函数重新创建一个正则对象</p>
+</li>
+<li>
+<p><strong>对于 Array 对象</strong> =&gt; 递归克隆</p>
+</li>
+<li>
+<p><strong>对于 Map 对象</strong> =&gt; 递归克隆</p>
+</li>
+<li>
+<p><strong>对于 Set 对象</strong> =&gt; 递归克隆</p>
+</li>
+<li>
+<p><strong>对于一般对象</strong> =&gt; 递归克隆</p>
+</li>
+<li>
+<p><strong>对于对象或数组</strong> =&gt; 递归克隆</p>
+<ul>
+<li>
+<p><strong>Symbol 作为键名的处理方式</strong> =&gt; 使用 Reflect.ownKeys()</p>
+<blockquote>
+<p><code>Reflect.ownKeys()</code> 可以获取对象的所有属性（可枚举、不可枚举、符号属性）</p>
+<p><code>Object.keys()</code> 只能获取对象的可枚举属性</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>对于 DOM 元素</strong> =&gt; 直接返回</p>
+</li>
+</ul>
+<h3 id="1-JSON-stringify-JSON-parse">1. JSON.stringify &amp; JSON.parse</h3>
+<ul>
+<li>
+<p><strong>深克隆的实现</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;chuanyitu&quot;</span>,</span><br><span class="line">    <span class="attr">gender</span>: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">    <span class="attr">info</span>: &#123;</span><br><span class="line">        <span class="attr">country</span>: <span class="string">&quot;China&quot;</span>,</span><br><span class="line">        <span class="attr">position</span>: <span class="string">&quot;North&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(source)); <span class="comment">// 实现了深克隆</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source.<span class="property">info</span> === target.<span class="property">info</span>); <span class="comment">// false 说明实现了深克隆</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>存在的问题</strong></p>
+<ul>
+<li>
+<p>序列化会<strong>自动忽略 <code>undefined</code>、<code>Symbol</code>、函数</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="literal">undefined</span>,</span><br><span class="line">    <span class="attr">b</span>: <span class="title class_">Symbol</span>(),</span><br><span class="line">    <span class="attr">c</span>: <span class="function">() =&gt;</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(source));</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source); <span class="comment">// &#123; a: undefined, b: Symbol(), c: [Function: c] &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target); <span class="comment">// &#123;&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>序列化会<strong>将 <code>NaN</code>、<code>Infinity</code>、<code>-Infinity</code> 转换为 <code>null</code></strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="title class_">NaN</span>,</span><br><span class="line">    <span class="attr">b</span>: <span class="title class_">Infinity</span>,</span><br><span class="line">    <span class="attr">c</span>: -<span class="title class_">Infinity</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> target = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(source));</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source === target); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(source); <span class="comment">// &#123; a: NaN, b: Infinity, c: -Infinity &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target); <span class="comment">// &#123; a: null, b: null, c: null &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>无法解决循环引用的问题</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> student = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;chuanyitu&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> school = &#123;</span><br><span class="line">    <span class="attr">title</span>:<span class="string">&quot;XDU&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">student.<span class="property">school</span> = school;</span><br><span class="line">school.<span class="property">student</span> = student;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> studentCopy = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(student));</span><br><span class="line"><span class="comment">/* TypeError: Converting circular structure to JSON */</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-手写一个深克隆">2. 手写一个深克隆</h3>
+<h4 id="2-1-原始类型逻辑">2.1 原始类型逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source === <span class="literal">null</span> || <span class="keyword">typeof</span> source !== <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-DOM-元素逻辑">2.2 DOM 元素逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Node</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-循环引用逻辑">2.3 循环引用逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (hash.<span class="title function_">get</span>(source)) &#123;</span><br><span class="line">    <span class="keyword">return</span> hash.<span class="title function_">get</span>(source);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-Date-对象逻辑">2.4 Date 对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Date</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Date</span>(source);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-RegExp-对象逻辑">2.5 RegExp 对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RegExp</span>(source);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-6-Function-对象逻辑">2.6 Function 对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Function</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-7-Map-对象逻辑">2.7 Map 对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Map</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> clonedMap = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">    source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">value, key</span>) =&gt;</span> &#123;</span><br><span class="line">        clonedMap.<span class="title function_">set</span>(<span class="title function_">deepClone</span>(key, hash), <span class="title function_">deepClone</span>(value, hash));</span><br><span class="line">    &#125;);</span><br><span class="line">    hash.<span class="title function_">set</span>(source, clonedMap);</span><br><span class="line">    <span class="keyword">return</span> clonedMap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-8-Set-对象逻辑">2.8 Set 对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Set</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> clonedSet = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line">    source.<span class="title function_">forEach</span>(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">        clonedSet.<span class="title function_">add</span>(<span class="title function_">deepClone</span>(value, hash));</span><br><span class="line">    &#125;);</span><br><span class="line">    hash.<span class="title function_">set</span>(source, clonedSet);</span><br><span class="line">    <span class="keyword">return</span> clonedSet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-9-一般对象逻辑">2.9 一般对象逻辑</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* source 是一般对象或数组 */</span></span><br><span class="line"><span class="keyword">const</span> clonedSource = <span class="keyword">new</span> source.<span class="title function_">constructor</span>(<span class="params"></span>); <span class="comment">// 创建一个新的对象或数组</span></span><br><span class="line"><span class="comment">// Reflect.ownKeys(obj) 相当于 Object.getOwnPropertyNames(obj).concat(Object.getOwnPropertySymbols(target))</span></span><br><span class="line"><span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(source).<span class="title function_">forEach</span>(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    clonedSource[key] = <span class="title function_">deepClone</span>(source[key], hash);</span><br><span class="line">&#125;)</span><br><span class="line">hash.<span class="title function_">set</span>(source, clonedSource);</span><br><span class="line"><span class="keyword">return</span> clonedSource;</span><br></pre></td></tr></table></figure>
+<h4 id="2-10-简单实现">2.10 简单实现</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">deepClone</span>(<span class="params">source, hash = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span>) &#123;</span><br><span class="line">    <span class="comment">/* hash 是额外开辟的一个存储空间，用来存储 “当前对象-拷贝对象” 的映射关系，用于解决循环引用问题。</span></span><br><span class="line"><span class="comment">    如果 hash.get(source) 查找到内容，说明当前对象已经被拷贝过了，直接返回拷贝结果即可，从而避免循环调用；</span></span><br><span class="line"><span class="comment">    如果 hash.get(source) 未查找到内容，说明当前对象没有被拷贝过，此时可以将拷贝结果添加到内存空间中去 */</span></span><br><span class="line">    <span class="comment">/* 这里使用 WeakMap 开辟内存空间，可以配合垃圾回收机制，防止内存泄漏。因为其键名所指向的对象，不计入</span></span><br><span class="line"><span class="comment">    一次引用，从而不影响垃圾回收机制 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是原始类型 */</span></span><br><span class="line">    <span class="keyword">if</span> (source === <span class="literal">null</span> || <span class="keyword">typeof</span> source !== <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 时 DOM 元素 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Node</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 处理循环引用情形 */</span></span><br><span class="line">    <span class="keyword">if</span> (hash.<span class="title function_">get</span>(source)) &#123;</span><br><span class="line">        <span class="keyword">return</span> hash.<span class="title function_">get</span>(source);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是 Date 对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Date</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Date</span>(source);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是 RegExp 对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RegExp</span>(source);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是 Function 对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Function</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是 Map 对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Map</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> clonedMap = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">        source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">value, key</span>) =&gt;</span> &#123;</span><br><span class="line">            clonedMap.<span class="title function_">set</span>(<span class="title function_">deepClone</span>(key, hash), <span class="title function_">deepClone</span>(value, hash));</span><br><span class="line">        &#125;);</span><br><span class="line">        hash.<span class="title function_">set</span>(source, clonedMap);</span><br><span class="line">        <span class="keyword">return</span> clonedMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是 Set 对象 */</span></span><br><span class="line">    <span class="keyword">if</span> (source <span class="keyword">instanceof</span> <span class="title class_">Set</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> clonedSet = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line">        source.<span class="title function_">forEach</span>(<span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">            clonedSet.<span class="title function_">add</span>(<span class="title function_">deepClone</span>(value, hash));</span><br><span class="line">        &#125;);</span><br><span class="line">        hash.<span class="title function_">set</span>(source, clonedSet);</span><br><span class="line">        <span class="keyword">return</span> clonedSet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* source 是一般对象或数组 */</span></span><br><span class="line">    <span class="keyword">const</span> clonedSource = <span class="keyword">new</span> source.<span class="title function_">constructor</span>(<span class="params"></span>); <span class="comment">// 创建一个新的对象或数组</span></span><br><span class="line">    <span class="comment">// Reflect.ownKeys(obj) 相当于 Object.getOwnPropertyNames(obj).concat(Object.getOwnPropertySymbols(target))</span></span><br><span class="line">    <span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(source).<span class="title function_">forEach</span>(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">        clonedSource[key] = <span class="title function_">deepClone</span>(source[key], hash);</span><br><span class="line">    &#125;)</span><br><span class="line">    hash.<span class="title function_">set</span>(source, clonedSource);</span><br><span class="line">    <span class="keyword">return</span> clonedSource;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-structuredClone">3. structuredClone</h3>
+<ul>
+<li>
+<p><strong>介绍</strong>：<code>structuredClone</code> 是一个用于实现<strong>深度克隆</strong>对象的 JS 内置 API，其可以<strong>克隆绝大多数 JS 对象</strong>。此外，该 API 还能<strong>处理循环引用</strong>问题。</p>
+<blockquote>
+<p>不足之处：<code>structuredClone</code> <strong>不能克隆函数、DOM 节点、Error 对象等</strong>；同时，<strong>浏览器支持有限</strong>，并不是所有浏览器环境都支持该 API。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>深克隆的实现</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> source = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;chuanyitu&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="attr">details</span>: &#123;</span><br><span class="line">        <span class="attr">hobbies</span>: [<span class="string">&quot;reading&quot;</span>, <span class="string">&quot;gaming&quot;</span>],</span><br><span class="line">        <span class="attr">address</span>: &#123; <span class="attr">country</span>: <span class="string">&quot;China&quot;</span> &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">date</span>: <span class="keyword">new</span> <span class="title class_">Date</span>(),</span><br><span class="line">    <span class="attr">regex</span>: <span class="regexp">/test/i</span>,</span><br><span class="line">    <span class="attr">map</span>: <span class="keyword">new</span> <span class="title class_">Map</span>([[<span class="string">&quot;key1&quot;</span>, <span class="string">&quot;value1&quot;</span>]]),</span><br><span class="line">    <span class="attr">set</span>: <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 structuredClone 进行深拷贝</span></span><br><span class="line"><span class="keyword">const</span> target = <span class="title function_">structuredClone</span>(source);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 验证深拷贝效果</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target.<span class="property">details</span> === source.<span class="property">details</span>); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target.<span class="property">date</span> === source.<span class="property">date</span>); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target.<span class="property">regex</span> === source.<span class="property">regex</span>); <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target.<span class="property">map</span> === source.<span class="property">map</span>); target <span class="comment">// false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(target.<span class="property">set</span> === source.<span class="property">set</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="REFERENCES">REFERENCES</h2>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7072528644739956773#heading-10">https://juejin.cn/post/7072528644739956773#heading-10</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/06/06/JS%E4%B8%AD%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%85%8B%E9%9A%86%E5%92%8C%E6%B5%85%E5%85%8B%E9%9A%86/">https://zhengzehua.top/2024/06/06/JS%E4%B8%AD%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%85%8B%E9%9A%86%E5%92%8C%E6%B5%85%E5%85%8B%E9%9A%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/24/Hexo%20+%20Butterfly%20%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/" title="📝Hexo + Butterfly 建站记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">📝Hexo + Butterfly 建站记录</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/06/Proxy%E7%9B%B8%E8%BE%83%E4%BA%8EObject.defineProperty%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8A%BF%EF%BC%9F/" title="📝Proxy 相较于 Object.defineProperty 有什么优势？"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">📝Proxy 相较于 Object.defineProperty 有什么优势？</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%B7%B1%E5%85%8B%E9%9A%86%E5%92%8C%E6%B5%85%E5%85%8B%E9%9A%86"><span class="toc-text">一、深克隆和浅克隆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%8B%E9%9A%86%E7%9A%84%E7%A0%94%E7%A9%B6%E5%AF%B9%E8%B1%A1"><span class="toc-text">1. 克隆的研究对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%A4%E7%A7%8D%E5%85%8B%E9%9A%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">2. 两种克隆的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B5%85%E5%85%8B%E9%9A%86%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-text">二、浅克隆的实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Object-assign%EF%BC%88%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-text">1. Object.assign（对象）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-array-slice%EF%BC%88%E6%95%B0%E7%BB%84%EF%BC%89"><span class="toc-text">2. array.slice（数组）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-array-concat%EF%BC%88%E6%95%B0%E7%BB%84%EF%BC%89"><span class="toc-text">3. array.concat（数组）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Array-from%EF%BC%88%E6%95%B0%E7%BB%84%EF%BC%89"><span class="toc-text">4. Array.from（数组）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%B1%95%E5%BC%80%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E5%AF%B9%E8%B1%A1%E6%88%96%E6%95%B0%E7%BB%84%EF%BC%89"><span class="toc-text">5. 展开运算符（对象或数组）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%B7%B1%E5%85%8B%E9%9A%86%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-text">三、深克隆的实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-%E6%B7%B1%E5%85%8B%E9%9A%86%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E9%80%BB%E8%BE%91%E7%BB%86%E8%8A%82"><span class="toc-text">0. 深克隆要考虑的逻辑细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-JSON-stringify-JSON-parse"><span class="toc-text">1. JSON.stringify &amp; JSON.parse</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E6%B7%B1%E5%85%8B%E9%9A%86"><span class="toc-text">2. 手写一个深克隆</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E9%80%BB%E8%BE%91"><span class="toc-text">2.1 原始类型逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-DOM-%E5%85%83%E7%B4%A0%E9%80%BB%E8%BE%91"><span class="toc-text">2.2 DOM 元素逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%80%BB%E8%BE%91"><span class="toc-text">2.3 循环引用逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-Date-%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.4 Date 对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-RegExp-%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.5 RegExp 对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-Function-%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.6 Function 对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-Map-%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.7 Map 对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8-Set-%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.8 Set 对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-%E4%B8%80%E8%88%AC%E5%AF%B9%E8%B1%A1%E9%80%BB%E8%BE%91"><span class="toc-text">2.9 一般对象逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-10-%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">2.10 简单实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-structuredClone"><span class="toc-text">3. structuredClone</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-text">REFERENCES</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs@6.3.0/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'Nasir1423/blog-comment')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

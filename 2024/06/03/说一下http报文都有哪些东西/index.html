@@ -1,0 +1,548 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝说一下 http 报文都有哪些东西？ | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="HTTP 是传输超文本（实际上除了 HTML，可以传输任何类型的文件，如视频、音频、文本等）的协议，是一组用于浏览器-服务器之间数据传输的规则。   HTTP 位于 OSI 七层模型的顶层（应用层），应用程序可以在其中交换数据。HTTP 是 TCP&#x2F;ICP 协议族的一部分。   HTTPS 是另一种传输协议，这里的 S 表示安全（Secure）。其与 HTTP 的区别在于，消息在传递前会被加密">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝说一下 http 报文都有哪些东西？">
+<meta property="og:url" content="https://zhengzehua.top/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="HTTP 是传输超文本（实际上除了 HTML，可以传输任何类型的文件，如视频、音频、文本等）的协议，是一组用于浏览器-服务器之间数据传输的规则。   HTTP 位于 OSI 七层模型的顶层（应用层），应用程序可以在其中交换数据。HTTP 是 TCP&#x2F;ICP 协议族的一部分。   HTTPS 是另一种传输协议，这里的 S 表示安全（Secure）。其与 HTTP 的区别在于，消息在传递前会被加密">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-06-03T10:59:00.000Z">
+<meta property="article:modified_time" content="2024-11-14T11:19:32.686Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JRLJPHP21V');
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝说一下 http 报文都有哪些东西？',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-14 19:19:32'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/butterfly_avatar_img.svg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);"><nav id="nav"><span id="blog-info"><a href="/" title="川一土的博客视界"><img class="site-icon" src="/images/butterfly_nav_logo.svg"/><span class="site-name">川一土的博客视界</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">📝说一下 http 报文都有哪些东西？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-03T10:59:00.000Z" title="发表于 2024-06-03 18:59:00">2024-06-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-14T11:19:32.686Z" title="更新于 2024-11-14 19:19:32">2024-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="📝说一下 http 报文都有哪些东西？"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li>
+<p>HTTP 是<strong>传输超文本</strong>（实际上除了 HTML，可以传输任何类型的文件，如视频、音频、文本等）的<strong>协议</strong>，是一组用于<strong>浏览器-服务器之间数据传输</strong>的<strong>规则</strong>。</p>
+</li>
+<li>
+<p>HTTP 位于 <strong>OSI 七层模型的顶层（应用层）</strong>，应用程序可以在其中交换数据。HTTP 是 <strong>TCP/ICP</strong> 协议族的一部分。</p>
+</li>
+<li>
+<p>HTTPS 是另一种传输协议，这里的 S 表示<strong>安全</strong>（Secure）。其与 HTTP 的区别在于，<strong>消息在传递前会被加密</strong>。</p>
+</li>
+<li>
+<p>浏览器和服务器之间通过 HTTP 报文进行<strong>通信</strong>。浏览器向服务器发送<strong>请求报文</strong>，服务器返回给浏览器<strong>响应报文</strong>。解释如下。</p>
+</li>
+</ul>
+<h2 id="一-请求报文">一. 请求报文</h2>
+<h3 id="报文结构">报文结构</h3>
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/20240603022824.png" style="zoom:50%;" />
+<p>请求报文（request）分为四部分：<strong>请求行（request line）、请求头（request headers）、空行（blank line）、请求体（request body）</strong></p>
+<ol>
+<li>
+<p><strong>请求行</strong>：任何一个 HTTP 请求的第一行都称之为请求行，包含三部分内容：<strong>请求方法（method）、请求路径（request url）、HTTP 版本（HTTP version）</strong></p>
+<ul>
+<li>
+<p><strong>请求方法</strong>：表示浏览器请求对<strong>资源</strong>要进行的<strong>操作</strong>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center">从服务器<strong>请求</strong>资源。由于传递的<strong>参数直接显示在地址栏</strong>中，而浏览器和服务器对 URL 长度有限制，因此 GET 请求<strong>不适合传递私密数据和大量数据</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center">POST</td>
+<td style="text-align:center">向服务器<strong>发送</strong>数据。将传递的<strong>数据封装在 HTTP 报文的请求体</strong>中，可以传输大量数据，同时不会显示在地址栏中。</td>
+</tr>
+<tr>
+<td style="text-align:center">PUT</td>
+<td style="text-align:center"><strong>更新</strong>服务器中的资源。与 POST 类似，但是 PUT 请求指定了资源的存放位置，而 POST 则没有。</td>
+</tr>
+<tr>
+<td style="text-align:center">DELETE</td>
+<td style="text-align:center"><strong>删除</strong>服务器中的资源</td>
+</tr>
+<tr>
+<td style="text-align:center">HEAD</td>
+<td style="text-align:center">与 GET 相同，但是响应报文<strong>不包含响应体</strong>。通常用于<strong>获取元数据</strong>、<strong>检查资源是否存在（验证 URL）</strong>、<strong>检查资源自上次请求以来是否更改</strong>等场景。HEAD 请求因为省去了传输请求体的时间，因此在对应的场景下更加高效。</td>
+</tr>
+<tr>
+<td style="text-align:center">OPTIONS</td>
+<td style="text-align:center">浏览器可以使用 OPTIONS 请求来<strong>查询服务器在特定资源上允许的 HTTP 方法</strong>（如 GET、POST、PUT、DELETE），此时服务端返回的响应报文中包含 <code>Allow</code> 请求头。发送 AJAX 跨域请求访问资源时，浏览器会发送一个 OPTIONS 请求，称之为<strong>预检请求，以确保服务器允许该跨域操作</strong>，此时服务端返回的响应报文中包含 <code>Access-Control-Allow-Origin</code>、<code>Access-Control-Allow-Methods</code>、<code>Access-Control-Allow-Headers</code>、<code>Access-Control-Max-Age</code> 请求头。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>请求路径</strong>：表示要请求的<strong>资源</strong>的 URL <strong>地址</strong>。请求资源的目标地址需要包含：<strong>协议、域名或 IP 地址、端口号、请求路径、请求参数（可选）</strong>。</p>
+</li>
+<li>
+<p><strong>HTTP 版本</strong>：当前正在使用的 HTTP 协议版本。常见版本为 HTTP/1.1 和 HTTP/2，默认使用 HTTP/2。</p>
+<ul>
+<li>HTTP/1.1 使用<strong>纯文本</strong>格式进行数据传输；而 HTTP/2 使用<strong>二进制</strong>格式进行数据传输，提高了传输和解析的效率。</li>
+<li>HTTP/1.1 和 HTTP/2 都是<strong>基于 TCP 协议</strong>；HTTP/1.1 存在<strong>队头阻塞</strong>问题，同一条 TCP 连接上，必须按顺序发送请求和处理响应；HTTP/2 <strong>消除了队头阻塞问题</strong>，允许在单个 TCP 连接上同时发送请求和处理响应，从而实现多路复用，提高了并发性。</li>
+<li>HTTP/2 使用 HPACK 算法对<strong>头部进行压缩</strong>，从而减小头部大小，提高传输效率。</li>
+<li>HTTP/2 支持服务端在客户端请求之前<strong>主动推送资源</strong>，减少延迟。</li>
+<li>HTTP/2 支持请求的<strong>优先级和流量控制</strong>，优化了资源的传输顺序和带宽利用率。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>请求头</strong>：请求行一结束紧接着就是请求头，提供本次<strong>请求的额外信息</strong>。可以通过请求头设置浏览器将接收的响应类型等信息。</p>
+<ul>
+<li>
+<p>请求头**类似键值对（name: value）**的形式。值的取值和结构由请求头决定。</p>
+</li>
+<li>
+<p>请求头<strong>不分大小写</strong>。</p>
+</li>
+<li>
+<p>每个请求头占据一行。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">常用请求头</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">User-Agent</td>
+<td style="text-align:center">发送请求的浏览器类型</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept</td>
+<td style="text-align:center">浏览器可识别的响应数据类型列表</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept-Language</td>
+<td style="text-align:center">浏览器可接受的自然语言</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept-Encoding</td>
+<td style="text-align:center">浏览器可接受的编码压缩格式</td>
+</tr>
+<tr>
+<td style="text-align:center">Accept-Charset</td>
+<td style="text-align:center">浏览器可接受的编码字符集</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Host</strong></td>
+<td style="text-align:center">接收请求的主机名</td>
+</tr>
+<tr>
+<td style="text-align:center">Connection</td>
+<td style="text-align:center">浏览器和服务器的连接方式（close 或 keepalive）</td>
+</tr>
+<tr>
+<td style="text-align:center">Cookie</td>
+<td style="text-align:center">存储于客户端的字段，通常向同一域名的服务端发送属于当前域名的 Cookie</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Content-Type</strong></td>
+<td style="text-align:center">浏览器发送的请求体的数据类型</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>空行</strong>：请求头后边是一个空行，用于标识请求头部分的结束。</p>
+</li>
+<li>
+<p><strong>请求体</strong>：<strong>可选的</strong>。一般来说，POST 和 PUT 请求的请求报文中才会包含请求体，其中包含要向服务器发送的数据（如表单输入或文件上传）。</p>
+</li>
+</ol>
+<blockquote>
+<p>服务器收到请求报文后，对其进行处理，然后向浏览器发送一个<strong>响应报文</strong>。与请求报文类似，响应报文包含<strong>响应行（可以用于标识请求是否成功等）、响应头（设置响应元信息）、空行和响应体（包含请求的资源或提示信息）。</strong></p>
+</blockquote>
+<h2 id="二-响应报文">二. 响应报文</h2>
+<h3 id="报文结构-2">报文结构</h3>
+<p>响应报文（response）也分为四部分：<strong>状态行（status line）、响应头（response headers）、空行（blank line）、响应体（response body）</strong></p>
+<ol>
+<li>
+<p><strong>状态行</strong>：任何一个 HTTP 响应的第一行都称之为状态行，包含三部分内容：<strong>HTTP 版本（HTTP version）、状态码（status code）、状态描述（status text）</strong></p>
+<ul>
+<li>
+<p><strong>HTTP 版本</strong>：当前正在使用的 HTTP 协议版本。</p>
+</li>
+<li>
+<p><strong>状态码</strong>：表示请求状态的 3 位数字。其中第一个数字表示响应类别。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">状态码</th>
+<th style="text-align:center">状态描述</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathsize="1.44em"><mrow><mn mathvariant="bold">1</mn><mi mathvariant="bold">x</mi><mi mathvariant="bold">x</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\bf{\Large{1xx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.928em;"></span><span class="mord"><span class="mord"><span class="mord sizing reset-size6 size8"><span class="mord mathbf">1xx</span></span></span></span></span></span></span></td>
+<td style="text-align:center"><strong>信息性状态码</strong>。</td>
+<td style="text-align:center">表示请求已接收，继续处理。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>100</code></td>
+<td style="text-align:center"><strong>Continue</strong></td>
+<td style="text-align:center">表示客户端应该继续请求或忽略此状态码。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>101</code></td>
+<td style="text-align:center"><strong>Switching Protocols</strong></td>
+<td style="text-align:center">表示服务端正在根据客户端的请求切换协议。</td>
+</tr>
+<tr>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathsize="1.44em"><mrow><mn mathvariant="bold">2</mn><mi mathvariant="bold">x</mi><mi mathvariant="bold">x</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\bf{\Large{2xx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.928em;"></span><span class="mord"><span class="mord"><span class="mord sizing reset-size6 size8"><span class="mord mathbf">2xx</span></span></span></span></span></span></span></td>
+<td style="text-align:center"><strong>成功状态码</strong>。</td>
+<td style="text-align:center">表示请求已接收、理解和处理。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>200</code></td>
+<td style="text-align:center"><strong>OK</strong></td>
+<td style="text-align:center">表示请求成功，服务器已返回所请求的资源。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>201</code></td>
+<td style="text-align:center"><strong>Created</strong></td>
+<td style="text-align:center">表示请求成功，并导致了一个新资源的创建。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>202</code></td>
+<td style="text-align:center"><strong>Accepted</strong></td>
+<td style="text-align:center">表示请求已接收，但是尚未处理完成。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>204</code></td>
+<td style="text-align:center"><strong>No Content</strong></td>
+<td style="text-align:center">表示请求成功，但没有内容返回。该状态码常用于 DELETE 操作。</td>
+</tr>
+<tr>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathsize="1.44em"><mrow><mn mathvariant="bold">3</mn><mi mathvariant="bold">x</mi><mi mathvariant="bold">x</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\bf{\Large{3xx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.928em;"></span><span class="mord"><span class="mord"><span class="mord sizing reset-size6 size8"><span class="mord mathbf">3xx</span></span></span></span></span></span></span></td>
+<td style="text-align:center"><strong>重定向状态码</strong>。</td>
+<td style="text-align:center">表示需要客户端采取进一步操作。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>301</code></td>
+<td style="text-align:center"><strong>Moved Permanently</strong></td>
+<td style="text-align:center">表示请求的资源已永久移动到新的位置，客户端需要使用新 URL 进行访问。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>302</code></td>
+<td style="text-align:center"><strong>Found</strong></td>
+<td style="text-align:center">表示请求的资源临时搬到新的位置，客户端应继续使用原 URL 进行请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>303</code></td>
+<td style="text-align:center"><strong>See Other</strong></td>
+<td style="text-align:center">表示请求的资源临时搬到新的位置，客户端应继续使用原 URL + GET 方法进行请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>304</code></td>
+<td style="text-align:center"><strong>Not Modified</strong></td>
+<td style="text-align:center">表示资源未修改，可以使用缓存版本。客户端在请求文件时，如果发现存在的缓存文件中有  Last Modified 时间标识，则向浏览器发送请求时在请求头中包含 If-Modified-Since。如果客户端发现自从 Last Modified 对应资源未改变，则返回 304，表示可以使用缓存文件，否则返回 200。</td>
+</tr>
+<tr>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathsize="1.44em"><mrow><mn mathvariant="bold">4</mn><mi mathvariant="bold">x</mi><mi mathvariant="bold">x</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\bf{\Large{4xx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.928em;"></span><span class="mord"><span class="mord"><span class="mord sizing reset-size6 size8"><span class="mord mathbf">4xx</span></span></span></span></span></span></span></td>
+<td style="text-align:center"><strong>客户端错误状态码</strong>。</td>
+<td style="text-align:center">表示客户端出现了错误。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>400</code></td>
+<td style="text-align:center"><strong>Bad Request</strong></td>
+<td style="text-align:center">表示客户端请求存在语法错误</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>401</code></td>
+<td style="text-align:center"><strong>Unauthorized</strong></td>
+<td style="text-align:center">表示请求未授权。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>403</code></td>
+<td style="text-align:center"><strong>Forbidden</strong></td>
+<td style="text-align:center">表示服务端拒绝请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>404</code></td>
+<td style="text-align:center"><strong>Not Found</strong></td>
+<td style="text-align:center">表示请求的资源不存在。这可能是因为客户端输入了错误的 URL。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>405</code></td>
+<td style="text-align:center"><strong>Methods Not Allowed</strong></td>
+<td style="text-align:center">表示请求方法对资源不适用。这可能是因为使用 GET 请求一个只能 POST 的资源。</td>
+</tr>
+<tr>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathsize="1.44em"><mrow><mn mathvariant="bold">5</mn><mi mathvariant="bold">x</mi><mi mathvariant="bold">x</mi></mrow></mstyle></mrow><annotation encoding="application/x-tex">\bf{\Large{5xx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.928em;"></span><span class="mord"><span class="mord"><span class="mord sizing reset-size6 size8"><span class="mord mathbf">5xx</span></span></span></span></span></span></span></td>
+<td style="text-align:center"><strong>服务器错误状态码</strong>。</td>
+<td style="text-align:center">表示服务器在处理请求时发生了内部错误。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>500</code></td>
+<td style="text-align:center"><strong>Internal Server Error</strong></td>
+<td style="text-align:center">表示服务器内部错误，无法完成请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>501</code></td>
+<td style="text-align:center"><strong>Not Implemented</strong></td>
+<td style="text-align:center">表示服务器不支持请求的方法。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>502</code></td>
+<td style="text-align:center"><strong>Bad Gateway</strong></td>
+<td style="text-align:center">表示网关或代理服务器从上游服务器中接受到无效响应。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>503</code></td>
+<td style="text-align:center"><strong>Service Unavailable</strong></td>
+<td style="text-align:center">表示服务器暂时过载或维护，无法处理请求。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>504</code></td>
+<td style="text-align:center"><strong>Gateway Timeout</strong></td>
+<td style="text-align:center">表示网关或代理服务器未及时从上游服务器中接受到响应。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>状态描述</strong>：对状态码简短、可读的描述。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>响应头</strong>：与请求头类似，提供本次响应的额外信息。</p>
+</li>
+<li>
+<p><strong>空行</strong>：与请求报文的空行类似，标识响应头的结束。</p>
+</li>
+<li>
+<p><strong>响应体</strong>：包含浏览器请求的资源（HTML、JSON、图片等）。</p>
+</li>
+</ol>
+<h2 id="REFERENCES">REFERENCES</h2>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@adilrk/http-request-and-response-e7da8eb3a00c">https://medium.com/@adilrk/http-request-and-response-e7da8eb3a00c</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6931636106710482958">https://juejin.cn/post/6931636106710482958</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45174221/article/details/135474539">https://blog.csdn.net/qq_45174221/article/details/135474539</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/">https://zhengzehua.top/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/03/%E8%AF%B4%E6%98%8E1px%E3%80%811em%E3%80%811rem%E3%80%811vw%E3%80%811vh%E7%9A%84%E5%8C%BA%E5%88%AB/" title="📝说明 1px、1em、1rem、1vw、1vh 的区别"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">📝说明 1px、1em、1rem、1vw、1vh 的区别</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/" title="📝谈谈你对观察者和订阅发布的理解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">📝谈谈你对观察者和订阅发布的理解</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87"><span class="toc-text">一. 请求报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84"><span class="toc-text">报文结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87"><span class="toc-text">二. 响应报文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84-2"><span class="toc-text">报文结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-text">REFERENCES</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs@6.3.0/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'Nasir1423/blog-comment')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

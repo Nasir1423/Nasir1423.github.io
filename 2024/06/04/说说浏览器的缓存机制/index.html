@@ -1,0 +1,436 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝说说浏览器的缓存机制 | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 缓存过程简要分析 浏览器使用缓存中的数据与将数据存入缓存中的大致流程为：  浏览器每次发起请求时，首先在浏览器缓存中查找是否存在要请求的资源及其缓存标识（浏览器缓存资源时，通常会附带相应的缓存标识）。 如果存在缓存资源及其缓存标识，则浏览器根据缓存控制策略（例如 Cache-Control 头信息）确定是否可以使用该缓存资源。 如果根据缓存控制策略不能使用缓存资源，浏览器会向服务器请求该资源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝说说浏览器的缓存机制">
+<meta property="og:url" content="https://zhengzehua.top/2024/06/04/%E8%AF%B4%E8%AF%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="1 缓存过程简要分析 浏览器使用缓存中的数据与将数据存入缓存中的大致流程为：  浏览器每次发起请求时，首先在浏览器缓存中查找是否存在要请求的资源及其缓存标识（浏览器缓存资源时，通常会附带相应的缓存标识）。 如果存在缓存资源及其缓存标识，则浏览器根据缓存控制策略（例如 Cache-Control 头信息）确定是否可以使用该缓存资源。 如果根据缓存控制策略不能使用缓存资源，浏览器会向服务器请求该资源。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-06-04T10:59:00.000Z">
+<meta property="article:modified_time" content="2024-11-14T11:17:36.468Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/06/04/%E8%AF%B4%E8%AF%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JRLJPHP21V');
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝说说浏览器的缓存机制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-14 19:17:36'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/images/butterfly_avatar_img.svg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);"><nav id="nav"><span id="blog-info"><a href="/" title="川一土的博客视界"><img class="site-icon" src="/images/butterfly_nav_logo.svg"/><span class="site-name">川一土的博客视界</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">📝说说浏览器的缓存机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-04T10:59:00.000Z" title="发表于 2024-06-04 18:59:00">2024-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-14T11:17:36.468Z" title="更新于 2024-11-14 19:17:36">2024-11-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="📝说说浏览器的缓存机制"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-缓存过程简要分析">1 缓存过程简要分析</h2>
+<p>浏览器<strong>使用缓存中的数据</strong>与<strong>将数据存入缓存中</strong>的大致流程为：</p>
+<ul>
+<li>浏览器每次发起请求时，首先在<strong>浏览器缓存</strong>中查找是否存在<strong>要请求的资源及其缓存标识</strong>（浏览器缓存资源时，通常会附带相应的缓存标识）。</li>
+<li>如果存在缓存资源及其缓存标识，则浏览器根据<strong>缓存控制策略</strong>（例如 Cache-Control 头信息）确定<strong>是否可以使用该缓存资源</strong>。</li>
+<li>如果根据缓存控制策略不能使用缓存资源，浏览器会向服务器请求该资源。同时，如果服务器在响应中指示<strong>可以缓存该资源</strong>，则浏览器会将响应资源及其缓存标识<strong>存入浏览器缓存中</strong>。</li>
+</ul>
+<h2 id="2-浏览器的缓存策略">2 浏览器的缓存策略</h2>
+<p>浏览器通过<strong>强制缓存</strong>和<strong>协商缓存</strong>这两种策略实现资源的缓存。</p>
+<h3 id="2-1-强制缓存">2.1 强制缓存</h3>
+<ul>
+<li>
+<p>解释：当浏览器向服务器发送请求时，服务器返回资源的同时，会使用 <code>Expires</code> 或 <code>Cache-Control</code> 响应头来控制是否缓存对应的资源。其中 <code>Expires</code> 的优先级 &lt; <code>Cache-Control</code>  的优先级。通过上述这种方式实现的缓存就称之为强制缓存。</p>
+</li>
+<li>
+<p>使用场景：所谓强制缓存的使用，就是指，浏览器发送请求时，先在浏览器缓存中查找缓存数据及其标识，并根据缓存规则来决定是否使用该缓存数据的过程。强制缓存分为以下三种使用场景。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">场景</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">图解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>不存在</strong>缓存数据及表示</td>
+<td style="text-align:center">强制缓存失效，浏览器<strong>直接向服务器发起请求</strong></td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240603235434460.png" alt="image-20240603235434460"></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>存在</strong>缓存结果及标识；但缓存结果<strong>已失效</strong>（由于过期等原因）</td>
+<td style="text-align:center">强制缓存失效，浏览器<strong>使用协商缓存</strong></td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240603235613430.png" alt="image-20240603235613430"></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>存在</strong>缓存结果及标识；且缓存结果<strong>未失效</strong></td>
+<td style="text-align:center">浏览器<strong>直接返回缓存结果</strong></td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240603235731516.png" alt="image-20240603235731516"></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>Expires</code> 响应头：该响应头在 HTTP/1.0 中用于控制缓存。</p>
+<ul>
+<li>
+<p>取值：对应资源缓存的到期时间。每次浏览器发送请求时，如果在浏览器缓存中找到了对应的缓存资源，则需要将客户端时间和过期时间进行对比。如果<strong>客户端时间 &lt; 过期时间</strong>，则直接使用缓存结果，否则直接向服务器发送 HTTP 请求，获取对应的资源。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires<span class="punctuation">:</span> Mon<span class="punctuation">,</span> <span class="number">16</span> Apr <span class="number">2018</span> <span class="number">01</span><span class="punctuation">:</span><span class="number">41</span><span class="punctuation">:</span><span class="number">50</span> GMT</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>缺点：该响应头被废弃的原因在于，<code>Expires</code> 控制缓存的原理为将客户端的时间与服务端的时间做对比，<strong>一旦二者时间不同步，此时缓存资源的过期时间将不再有意义</strong>。因为在 <code>Cache-Control</code> 中，将绝对的时间修改为相对的时间，避免客户端和服务端时间不同步带来的问题。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Cache-control</code> 响应头：该响应头在 HTTP/1.1（当前常用） 中用于控制缓存。</p>
+<ul>
+<li>
+<p>取值</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">取值</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>public</code></td>
+<td style="text-align:center">所有内容都被缓存；客户端和代理服务器都可以缓存</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>private</code></td>
+<td style="text-align:center">默认值：所有内容都被缓存；只有客户端才能缓存</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>no-cache</code></td>
+<td style="text-align:center">所有内容都被缓存；只有客户端才能缓存；是否使用缓存需要经过协商缓存来决定</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>no-store</code></td>
+<td style="text-align:center">所有内容都不会被缓存</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>max-age=xxx</code></td>
+<td style="text-align:center">所有缓存的内容将在 xxx 秒后失效</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p>对比：强制缓存的两种实现</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">区别</th>
+<th style="text-align:center">Expires</th>
+<th style="text-align:center">Cache-Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">时间值</td>
+<td style="text-align:center">绝对值</td>
+<td style="text-align:center">相对值</td>
+</tr>
+<tr>
+<td style="text-align:center">优先级</td>
+<td style="text-align:center">低</td>
+<td style="text-align:center">高</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>如果同时使用 <code>Expires</code> 和 <code>Cache-Control</code> 实现强制缓存，则只有 <code>Cache-Control</code> 生效。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-协商缓存">2.2 协商缓存</h3>
+<ul>
+<li>
+<p>解释：当浏览器请求强制缓存中的缓存数据时，如果存在缓存数据及其标识，但缓存结果失效，此时浏览器无法确定该缓存数据是否仍然有效。在这种情况下，浏览器会携带对应的资源标识发送 HTTP 请求，以确认缓存的数据是否与服务器上的数据一致。如果数据一致，服务器会返回 304 状态码，告诉浏览器可以继续使用缓存中的数据；如果数据不一致，服务器会返回 200 状态码，并提供最新的数据。通过这种方式访问缓存中的数据的方式称之为协商缓存。</p>
+</li>
+<li>
+<p>使用场景：所谓协商缓存的使用，指的是当浏览器在缓存中找到失效的缓存数据后，通过向服务器发送请求来确认缓存数据是否仍然有效的一种缓存机制。协商缓存分为以下两种适用场景。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">场景</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">图解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">协商缓存<strong>生效</strong></td>
+<td style="text-align:center">服务端返回 <strong>304 响应</strong>，通知客户端可以使用缓存中的对应数据</td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240604000748403.png" alt="image-20240604000748403"></td>
+</tr>
+<tr>
+<td style="text-align:center">协商缓存<strong>失效</strong></td>
+<td style="text-align:center">服务端返回 <strong>200 响应</strong>，返回给客户端最新的数据</td>
+<td style="text-align:center"><img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/20240604001020.png"/></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>Last-Modified</code> 响应头和 <code>If-Modified-Since</code> 请求头：用于控制协商缓存。</p>
+<ul>
+<li><strong>响应头 <code>Last-Modified</code></strong>：服务器在响应请求时，通过该响应头返回<strong>资源文件在服务器中最后被修改的时间</strong>。</li>
+<li><strong>请求头 <code>If-Modified-Since</code></strong>：客户端在发送请求时，携带此请求头，其内容为上次响应中返回的 <code>Last-Modified</code> 值，用于告诉服务器对应资源上次请求返回的最后修改时间。服务器收到请求后，会将 <code>If-Modified-Since</code> 的值与资源在服务器中最后的修改时间进行对比。如果服务器上的资源最后修改时间晚于该请求头的值，则重新返回资源，状态码为 200；否则返回 304，表示缓存资源没有更新，可以继续使用缓存文件。</li>
+</ul>
+</li>
+<li>
+<p><code>Etag</code> 响应头和 <code>If-None-Match</code> 请求头：用于控制协商缓存。</p>
+<ul>
+<li><strong>响应头 <code>Etag</code></strong>：服务器在响应请求时，通过该响应头返回<strong>资源文件的唯一标识</strong>。</li>
+<li><strong>请求头 <code>If-None-Match</code></strong>：客户端在发送请求时，携带此请求头，其内容为上次响应中返回的 <code>Etag</code> 值，用于告诉服务器对应资源上次请求返回的唯一标识值。服务器收到请求后，会将 <code>If-None-Match</code> 的值与资源在服务器中的 <code>Etag</code> 进行对比。不一致则重新返回资源，状态码为 200；一致则返回 304，表示缓存资源没有更新，可以继续使用缓存文件。</li>
+</ul>
+</li>
+<li>
+<p>对比：协商缓存的两种实现</p>
+<ul>
+<li><code>Etag/If-Not-Match</code> 优先级高于 <code>Last-Modified/If-Modified-Since</code>，同时存在则只有 <code>Etag/If-Not-Match</code> 生效。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-浏览器缓存的存放位置">3 浏览器缓存的存放位置</h2>
+<ul>
+<li>
+<p><strong>存放位置</strong>：浏览器可以将其缓存<strong>存放在内存中（memory cache）</strong>，也可以<strong>存放在硬盘中（disk cache）</strong>。</p>
+</li>
+<li>
+<p><strong>缓存分类</strong>：根据缓存的存放位置，可以将缓存分为<strong>内存缓存</strong>和<strong>硬盘缓存</strong>。</p>
+<blockquote>
+<p>一般来说，浏览器会根据资源的大小、使用频率等因素，将 JS、图片和 CSS 等资源存放在内存缓存或硬盘缓存中。频繁访问的小型资源通常存放在内存缓存中，而较大的资源则可能存放在硬盘缓存中。每次刷新页面时，浏览器会优先从内存缓存中读取资源，如果没有找到，则会从硬盘缓存中读取。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>缓存的读取顺序</strong>：<strong>内存缓存</strong> =&gt; <strong>硬盘缓存</strong>。</p>
+<blockquote>
+<p>举例理解：当我们首次访问一个 URL 时，浏览器会缓存响应中允许缓存的数据。关闭浏览器后，对应的缓存数据会被写入到硬盘中。下一次打开浏览器，加载对应网页时，浏览器会首先从硬盘缓存中读取缓存数据。如果此时刷新网页，浏览器则会从内存中读取缓存数据。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="4-第一次-HTTP-请求对于浏览器缓存的意义">4 第一次 HTTP 请求对于浏览器缓存的意义</h2>
+<p>当浏览器第一次请求资源时，服务器通常会在响应中返回一些与缓存相关的头部字段，这些字段用于指导浏览器如何缓存该资源。这些头部字段包括但不限于 <code>Last-Modified</code>、<code>Expires</code>、<code>Cache-Control</code> 和 <code>ETag</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">HTTP/1.1</span> <span class="number">200</span> <span class="string">OK</span></span><br><span class="line"><span class="attr">Date:</span> <span class="string">Mon,</span> <span class="number">03</span> <span class="string">Jun</span> <span class="number">2024 10:00:00 </span><span class="string">GMT</span></span><br><span class="line"><span class="attr">Last-Modified:</span> <span class="string">Mon,</span> <span class="number">01</span> <span class="string">Jun</span> <span class="number">2024 10:00:00 </span><span class="string">GMT</span></span><br><span class="line"><span class="attr">Expires:</span> <span class="string">Mon,</span> <span class="number">10</span> <span class="string">Jun</span> <span class="number">2024 10:00:00 </span><span class="string">GMT</span></span><br><span class="line"><span class="attr">Cache-Control:</span> <span class="string">max-age=604800</span></span><br><span class="line"><span class="attr">ETag:</span> <span class="string">&quot;abc123&quot;</span></span><br><span class="line"><span class="attr">Content-Type:</span> <span class="string">text/html</span></span><br><span class="line"><span class="attr">Content-Length:</span> <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-总结：浏览器的缓存机制">5 总结：浏览器的缓存机制</h2>
+<ul>
+<li>强制缓存优先于协商缓存。强制缓存生效则直接使用缓存数据，否则进行协商缓存。</li>
+<li>协商缓存由服务器决定是否使用缓存中的数据。协商缓存生效则服务器返回 304，使用缓存数据，否则重新请求结果，再存入浏览器缓存中。</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240604003331630.png" alt="image-20240604003331630" style="zoom:33%;" />
+<h2 id="REFERENCES">REFERENCES</h2>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903593275817998">https://juejin.cn/post/6844903593275817998</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/06/04/%E8%AF%B4%E8%AF%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">https://zhengzehua.top/2024/06/04/%E8%AF%B4%E8%AF%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="twitter,wechat,qq,weibo"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/04/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9JS%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E7%90%86%E8%A7%A3/" title="📝谈谈你对 JS 原型链的理解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">📝谈谈你对 JS 原型链的理解</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/03/%E8%AF%B4%E6%98%8E1px%E3%80%811em%E3%80%811rem%E3%80%811vw%E3%80%811vh%E7%9A%84%E5%8C%BA%E5%88%AB/" title="📝说明 1px、1em、1rem、1vw、1vh 的区别"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">📝说明 1px、1em、1rem、1vw、1vh 的区别</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%BC%93%E5%AD%98%E8%BF%87%E7%A8%8B%E7%AE%80%E8%A6%81%E5%88%86%E6%9E%90"><span class="toc-text">1 缓存过程简要分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E7%AD%96%E7%95%A5"><span class="toc-text">2 浏览器的缓存策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%BC%BA%E5%88%B6%E7%BC%93%E5%AD%98"><span class="toc-text">2.1 强制缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="toc-text">2.2 协商缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E7%9A%84%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE"><span class="toc-text">3 浏览器缓存的存放位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%AC%AC%E4%B8%80%E6%AC%A1-HTTP-%E8%AF%B7%E6%B1%82%E5%AF%B9%E4%BA%8E%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-text">4 第一次 HTTP 请求对于浏览器缓存的意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93%EF%BC%9A%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-text">5 总结：浏览器的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCES"><span class="toc-text">REFERENCES</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs@6.3.0/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'Nasir1423/blog-comment')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
