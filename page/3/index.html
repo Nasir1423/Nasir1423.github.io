@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>川一土的博客视界 - one week contributes 2% of a year</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="plant your tree, now!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="川一土的博客视界">
+<meta property="og:url" content="https://zhengzehua.top/page/3/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="plant your tree, now!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/page/3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=5.3.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-JRLJPHP21V')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-JRLJPHP21V', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '川一土的博客视界',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(images/Tartaglia/1219675.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/images/butterfly_nav_logo.svg" alt="Logo"><span class="site-name">川一土的博客视界</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">川一土的博客视界</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Nasir1423" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:wangjian1423@foxmail.com" target="_blank" title="邮箱"><i class="fas fa-envelope" style="color: ##1e3050;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/04/%E8%AF%B4%E8%AF%B4%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" title="📝说说浏览器的缓存机制">📝说说浏览器的缓存机制</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-04T10:59:00.000Z" title="发表于 2024-06-04 18:59:00">2024-06-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">1 缓存过程简要分析 浏览器使用缓存中的数据与将数据存入缓存中的大致流程为：  浏览器每次发起请求时，首先在浏览器缓存中查找是否存在要请求的资源及其缓存标识（浏览器缓存资源时，通常会附带相应的缓存标识）。 如果存在缓存资源及其缓存标识，则浏览器根据缓存控制策略（例如 Cache-Control 头信息）确定是否可以使用该缓存资源。 如果根据缓存控制策略不能使用缓存资源，浏览器会向服务器请求该资源。同时，如果服务器在响应中指示可以缓存该资源，则浏览器会将响应资源及其缓存标识存入浏览器缓存中。  2 浏览器的缓存策略 浏览器通过强制缓存和协商缓存这两种策略实现资源的缓存。 2.1 强制缓存   解释：当浏览器向服务器发送请求时，服务器返回资源的同时，会使用 Expires 或 Cache-Control 响应头来控制是否缓存对应的资源。其中 Expires 的优先级 &lt; Cache-Control ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/04/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9JS%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E7%90%86%E8%A7%A3/" title="📝谈谈你对 JS 原型链的理解">📝谈谈你对 JS 原型链的理解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-04T10:59:00.000Z" title="发表于 2024-06-04 18:59:00">2024-06-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">JavaScript 是一种基于原型的语言，即每个对象都拥有一个原型对象，对象通过其原型对象继承方法和属性。原型对象也有其原型对象，依次类推，就构成了原型链。当对象访问一个属性或方法后，首先需要在其本身上查找，查找不到才去其原型对象中查找，查找不到再去其原型对象的原型对象中查找，···，一直到顶层原型，即 Object 的原型对象身上去，Object 的原型对象的原型对象则为 null。这就是原型链实现继承的原理。 原型对象分为显式原型对象和隐式原型对象。函数的原型对象是显式原型对象，通过 .prototype 的方式可以访问到其原型对象。实例对象的原型对象是隐式原型对象，通过 [[Prototype]] 或 .__proto__ 的方式可以访问到其原型对象。  这里的函数指的是构造函数，class 语法的类名也可以作为这里的函数看待；这里的实例对象是由对应的函数通过 new 关键字创建的，其原型对象是一个私有属性，__proto__...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/03/%E8%AF%B4%E4%B8%80%E4%B8%8Bhttp%E6%8A%A5%E6%96%87%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%9C%E8%A5%BF/" title="📝说一下 http 报文都有哪些东西？">📝说一下 http 报文都有哪些东西？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-03T10:59:00.000Z" title="发表于 2024-06-03 18:59:00">2024-06-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">  HTTP 是传输超文本（实际上除了 HTML，可以传输任何类型的文件，如视频、音频、文本等）的协议，是一组用于浏览器-服务器之间数据传输的规则。   HTTP 位于 OSI 七层模型的顶层（应用层），应用程序可以在其中交换数据。HTTP 是 TCP/ICP 协议族的一部分。   HTTPS 是另一种传输协议，这里的 S 表示安全（Secure）。其与 HTTP 的区别在于，消息在传递前会被加密。   浏览器和服务器之间通过 HTTP 报文进行通信。浏览器向服务器发送请求报文，服务器返回给浏览器响应报文。解释如下。   一. 请求报文 报文结构  请求报文（request）分为四部分：请求行（request line）、请求头（request headers）、空行（blank line）、请求体（request body）   请求行：任何一个 HTTP 请求的第一行都称之为请求行，包含三部分内容：请求方法（method）、请求路径（request url）、HTTP 版本（HTTP...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/03/%E8%AF%B4%E6%98%8E1px%E3%80%811em%E3%80%811rem%E3%80%811vw%E3%80%811vh%E7%9A%84%E5%8C%BA%E5%88%AB/" title="📝说明 1px、1em、1rem、1vw、1vh 的区别">📝说明 1px、1em、1rem、1vw、1vh 的区别</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-03T10:59:00.000Z" title="发表于 2024-06-03 18:59:00">2024-06-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content"> px 是绝对单位，em、rem、vw、vh 是相对单位 1px 表示 1 像素；1em 相当于父元素字体大小；1rem 相当于根元素（html）字体大小；1vw 相当于视口宽度的 1%；1vh 相当于视口高度的 1%。     单位（units） px em rem vw vh     相对/绝对单位 绝对 相对 相对 相对 相对   含义 像素 相对于父元素字体大小（倍数） 相对于根元素字体大小（倍数） 相对于视口的宽度（百分之 1 的倍数） 相对于视口的高度（百分之 1 的倍数）   举例 - 父元素字体大小 16px，则子元素中 1em=16px 根元素字体大小 16px，则当前元素中 1rem=16px 视口宽度为 1000px，则 1vw=10px 视口高度为 500px，则 1vh=5px      通常来说，html 元素是根元素 1 vw 相当于视口宽度的 1%；1 vh 相当于视口高度的 1%   </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/03/%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E8%A7%82%E5%AF%9F%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E5%8F%91%E5%B8%83%E7%9A%84%E7%90%86%E8%A7%A3/" title="📝谈谈你对观察者和订阅发布的理解">📝谈谈你对观察者和订阅发布的理解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-03T10:59:00.000Z" title="发表于 2024-06-03 18:59:00">2024-06-03</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">1. 观察者设计模式   场景引入之杂志订阅：小王想要购买一本尚未出版的杂志，他向出版社预订该杂志并提供联系方式，一旦该杂志出版，出版社就会根据小王预留的联系方式通知他可以来购买了。这个简单的场景就是一个简单的观察者模式，可以将小王扩充到任意数量的消费者，一旦某个杂志出版了，出版社就可以根据维护的订阅该杂志的消费者列表进行逐一通知。   观察者模式的解释：观察者模式定义了一种一对多的依赖关系，使得当一个对象（主题，被观察者，Subject）的状态改变时，所有依赖它的对象（观察者，Observer）都会得到通知并自动更新。观察者模式中，观察者和被观察者的关系是通过被观察者建立的。  被观察者身上必须有三个方法：添加观察者（addObserver）、删除观察者（delObserver）、通知观察者（notifyObserver）。被观察者维护一个观察者列表，使用其自身的 addObserver 和 delObserver 方法添加或删除观察者。 观察者身上必须有一个方法：更新（update）。一旦被观察者的状态改变，就会调用 notifyObserver...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/06/02/%E8%AF%A6%E8%A7%A3%20Cookies%20%E5%92%8C%20WebStorage/" title="📝Cookies 和 WebStorage">📝Cookies 和 WebStorage</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-06-02T10:59:00.000Z" title="发表于 2024-06-02 18:59:00">2024-06-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">Cookies 和 WebStorage（包括 LocalStorage、SessionStorage）是三种常见的将数据存储在客户端的方式。在任意一个网页中打开开发者工具（F12），我们可以在 Application 选项卡的中看到 LocalStorage、SessionStorage、Cookies ——这些存储于当前域名（Current Domain）下的数据。下边我们对这三种数据存储方式进行介绍，并比较分析他们的共性与区别。  一、Cookies 1.1 简要介绍 Cookies 有一系列别名，如 HTTP Cookies、Internet Cookies、Browser Cookies、Web Cookies，这些名词指向的都是同一个含义。 Cookies 是服务器发送给浏览器的少量数据。同时，服务器端存储着该数据以及对应的用户 ID。通过 Cookie 请求头，每次浏览器发送 HTTP 请求时， Cookies 都会被自动发送给服务端。 Cookies 是以键值对（key-value）形式存储的数据。我们也可以设置 Cookies 的过期时间（expiry...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/31/CSS%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E5%8A%A8%E7%94%BB%EF%BC%9F/" title="📝CSS 怎样实现动画？">📝CSS 怎样实现动画？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-31T10:59:00.000Z" title="发表于 2024-05-31 18:59:00">2024-05-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">（有哪些）CSS 主要通过**过渡（transitions）和关键帧（keyframes）**实现动画。  （过渡是什么）过渡指的是元素**从一种状态（样式）转变为另一种状态（样式）**的动画效果。过渡经常配合 :hover 或 JS 事件使用（触发元素变为另一种状态）。 （过渡怎么实现）通过设置元素 transition 样式，从而设置元素的过渡效果。当元素某些样式变化后，这种变化会根据预先定义的 transition 样式中规定的过渡效果进行变换（核心！！！）。 （过渡的语法简单说明） 1234567.element&#123;    transition: property duration timing-function delay;    /* 过渡属性：none(默认)、all(最常用)、特定属性名(多个属性名以 , 分割) */    /* 持续时间：&lt;number&gt;s/ms(接收两种单位，默认值为 0)(如果给多个属性指定，则多个时间以 , 分割) */    /* 过渡速度曲线: ....... */    /*...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/" title="📝你怎么理解 HTML 语义化？语义化有什么优点？">📝你怎么理解 HTML 语义化？语义化有什么优点？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-31T10:59:00.000Z" title="发表于 2024-05-31 18:59:00">2024-05-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">你怎么理解 HTML 语义化？ （语义化是什么）HTML 语义化要求开发者尽量使用有意义的标签来组织网页，而不是像 div、span 等无意义的标签，这里的意义就是语义。 （语义化的作用）通过使用语义化标签，开发者在编写网页的同时，还传达了不同内容的特殊含义。 （语义化举例）如 header 常用于定义头部/顶部、nav 常用于定义网页导航、article 常用于定义一篇文章、section 常用于定义一节或一部分内容、aside 常用于定义侧边栏、footer 常用于定义底部、main 常用于定义主体等等。 语义化有什么优点？ （对于开发者）语义化可以使代码结构清晰，从而可以使人快速理解网页中每个部分的内容。既提高了可读性，又增强了可维护性。 （对于 SEO）语义化可以让搜索引擎更好地理解网页内容，从而有利于提高网页在搜索结果中的排名。比如，同样的一篇文章，组织在 article 标签中，可以让搜索引擎知道这是一篇文章；如果组织在 div 中，则不利于搜索引擎的判断。 （对于残障人士）与对 SEO...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E4%B8%83%E5%9B%9B%E4%BA%94%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" title="📝计算机网络中的七四五是什么？">📝计算机网络中的七四五是什么？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-31T10:59:00.000Z" title="发表于 2024-05-31 18:59:00">2024-05-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">计算机网络中说的七四五是指：OSI 七层模型、TCP/IP 四层模型、OSI 与 TCP/IP 的综合五层模型 OSI 七层模型 OSI 将计算机网络分为了七层，每一层抽象底层的内容，并遵守一定的规则。基于 OSI 模型，网络中的节点（物理设备）得以进行通信。    同一层中的各个节点层次结构和功能相同。   同一节点相邻层通过接口通信。   每一层使用底一层提供的服务，并向顶一层提供服务。   同一层中的不同节点按照协议实现对等层的通信。        层（从底层到顶层） 数据单元 作用 可能会出现的问题     物理层 比特 通过网线、电缆等方式将设备物理连接 电缆失效（电线损坏、连接器村换等）网络硬件设备故障（电路损坏）   数据链路层 帧，包括帧头（源节点和目的节点的 MAC...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/29/display=none%E5%92%8Cvisibility=hidden%E7%9A%84%E5%8C%BA%E5%88%AB%20/" title="📝display=none 和 visibility=hidden 的共性与区别">📝display=none 和 visibility=hidden 的共性与区别</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-29T10:59:00.000Z" title="发表于 2024-05-29 18:59:00">2024-05-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="content">  共性：display: none 和 visibility: hidden 都是用于设置元素可见性的样式   区别  display: none  使元素及其占位完全消失：元素及其所有子元素将从文档流和布局中完全消失，就像它们不存在一样。 触发回流：这种改变会触发页面上的布局重建，因为其他元素会填补被移除元素的空间。   display: hidden 修饰的元素不可见，但还在文档流中。元素的隐藏可以理解为加上了一层使元素不可见的遮罩，不会触发元\素回流，页面布局不变。  使元素不可见，但保留其占位：元素仍然占据文档流中的空间，但不会被显示。 不触发回流：这意味着其他元素会围绕隐藏的元素布局，不会发生重建布局的情况。      代码效果演示（对 Parent 元素上样式）   页面原始布局    display: none 之后的布局    visibility: hidden 之后的布局     </div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">yiTuChuan</div><div class="author-info-description">plant your tree, now!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Nasir1423"><i class="fab fa-github"></i><span>follow me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Nasir1423" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:wangjian1423@foxmail.com" target="_blank" title="邮箱"><i class="fas fa-envelope" style="color: ##1e3050;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/14/Git/" title="📖Git">📖Git</a><time datetime="2025-01-14T07:57:00.000Z" title="发表于 2025-01-14 15:57:00">2025-01-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/21/word%20%E8%AE%BA%E6%96%87%E6%8E%92%E7%89%88@%E5%86%B0%E5%86%B7%E7%9A%84%E5%B8%8C%E6%9C%9B123/" title="📖word 论文排版@冰冷的希望123">📖word 论文排版@冰冷的希望123</a><time datetime="2024-12-21T05:19:00.000Z" title="发表于 2024-12-21 13:19:00">2024-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/05/TypeScript%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/" title="📖TypeScript 教程 @阮一峰">📖TypeScript 教程 @阮一峰</a><time datetime="2024-12-05T11:37:00.000Z" title="发表于 2024-12-05 19:37:00">2024-12-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/30/TypeScript%E9%80%9F%E9%80%9A%E6%95%99%E7%A8%8B@%E5%B0%9A%E7%A1%85%E8%B0%B7/" title="📖TypeScript 速通教程 @尚硅谷">📖TypeScript 速通教程 @尚硅谷</a><time datetime="2024-11-30T13:56:00.000Z" title="发表于 2024-11-30 21:56:00">2024-11-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/14/%E9%81%B5%E5%BE%AA%20PromiseA+%20%E8%A7%84%E8%8C%83%E7%9A%84%20Promise%20%E6%89%8B%E6%92%95/" title="📖遵循 Promise/A+ 规范的 Promise 手撕">📖遵循 Promise/A+ 规范的 Promise 手撕</a><time datetime="2024-11-14T10:59:00.000Z" title="发表于 2024-11-14 18:59:00">2024-11-14</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">前端知识</span><span class="card-category-list-count">4</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/Promise/"><span class="card-category-list-name">Promise</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/TypeScript/"><span class="card-category-list-name">TypeScript</span><span class="card-category-list-count">2</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/"><span class="card-category-list-name">前端面试</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E4%BB%A3%E7%A0%81%E6%89%8B%E6%92%95/"><span class="card-category-list-name">代码手撕</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/"><span class="card-category-list-name">八股文</span><span class="card-category-list-count">20</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1/"><span class="card-category-list-name">毕业设计</span><span class="card-category-list-count">1</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 1.1em; color: #999">网络安全</a> <a href="/tags/xhs/" style="font-size: 1.5em; color: #99a9bf">xhs</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.1em; color: #999">个人博客</a> <a href="/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/tags/baidu/" style="font-size: 1.3em; color: #99a1ac">baidu</a> <a href="/tags/leetCode/" style="font-size: 1.1em; color: #999">leetCode</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/10/">
+            <span class="card-archive-list-date">
+              十月 2024
+            </span>
+            <span class="card-archive-list-count">7</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/09/">
+            <span class="card-archive-list-date">
+              九月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/06/">
+            <span class="card-archive-list-date">
+              六月 2024
+            </span>
+            <span class="card-archive-list-count">11</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/05/">
+            <span class="card-archive-list-date">
+              五月 2024
+            </span>
+            <span class="card-archive-list-count">6</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">32</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">110.5k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-01-15T12:23:32.066Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.3.1"></script><script src="/js/main.js?v=5.3.1"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["弓，其实是我最不擅长的武器。正因如此，我才要征服它。","I am the least adept with a bow. And that is precisely why I must master it."])
+  } else {
+    document.getElementById("subtitle").textContent = "弓，其实是我最不擅长的武器。正因如此，我才要征服它。"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝你怎么理解 HTML 语义化？语义化有什么优点？ | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="你怎么理解 HTML 语义化？ （语义化是什么）HTML 语义化要求开发者尽量使用有意义的标签来组织网页，而不是像 div、span 等无意义的标签，这里的意义就是语义。 （语义化的作用）通过使用语义化标签，开发者在编写网页的同时，还传达了不同内容的特殊含义。 （语义化举例）如 header 常用于定义头部&#x2F;顶部、nav 常用于定义网页导航、article 常用于定义一篇文章、section 常用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝你怎么理解 HTML 语义化？语义化有什么优点？">
+<meta property="og:url" content="https://zhengzehua.top/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="你怎么理解 HTML 语义化？ （语义化是什么）HTML 语义化要求开发者尽量使用有意义的标签来组织网页，而不是像 div、span 等无意义的标签，这里的意义就是语义。 （语义化的作用）通过使用语义化标签，开发者在编写网页的同时，还传达了不同内容的特殊含义。 （语义化举例）如 header 常用于定义头部&#x2F;顶部、nav 常用于定义网页导航、article 常用于定义一篇文章、section 常用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-05-31T10:59:00.000Z">
+<meta property="article:modified_time" content="2025-01-14T07:42:44.215Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "📝你怎么理解 HTML 语义化？语义化有什么优点？",
+  "url": "https://zhengzehua.top/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/",
+  "image": "https://zhengzehua.top/images/butterfly_avatar_img.svg",
+  "datePublished": "2024-05-31T10:59:00.000Z",
+  "dateModified": "2025-01-14T07:42:44.215Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yiTuChuan",
+      "url": "https://github.com/Nasir1423"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=5.3.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-JRLJPHP21V')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-JRLJPHP21V', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝你怎么理解 HTML 语义化？语义化有什么优点？',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/images/butterfly_nav_logo.svg" alt="Logo"><span class="site-name">川一土的博客视界</span></a><a class="nav-page-title" href="/"><span class="site-name">📝你怎么理解 HTML 语义化？语义化有什么优点？</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">📝你怎么理解 HTML 语义化？语义化有什么优点？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-31T10:59:00.000Z" title="发表于 2024-05-31 18:59:00">2024-05-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-14T07:42:44.215Z" title="更新于 2025-01-14 15:42:44">2025-01-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">742</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="你怎么理解-HTML-语义化？">你怎么理解 HTML 语义化？</h2>
+<p>（语义化是什么）HTML 语义化要求开发者<strong>尽量使用有意义的标签来组织网页</strong>，而不是像 <code>div</code>、<code>span</code> 等无意义的标签，这里的意义就是语义。</p>
+<p>（语义化的作用）通过使用语义化标签，开发者<strong>在编写网页的同时，还传达了不同内容的特殊含义</strong>。</p>
+<p>（语义化举例）如 <code>header</code> 常用于定义<strong>头部/顶部</strong>、<code>nav</code> 常用于定义<strong>网页导航</strong>、<code>article</code> 常用于定义一篇<strong>文章</strong>、<code>section</code> 常用于定义<strong>一节或一部分内容</strong>、<code>aside</code> 常用于定义<strong>侧边栏</strong>、<code>footer</code> 常用于定义<strong>底部</strong>、<code>main</code> 常用于定义<strong>主体</strong>等等。</p>
+<h2 id="语义化有什么优点？">语义化有什么优点？</h2>
+<p>（对于开发者）语义化可以<strong>使代码结构清晰</strong>，从而可以使人快速理解网页中每个部分的内容。既提高了可读性，又增强了可维护性。</p>
+<p>（对于 SEO）语义化可以<strong>让搜索引擎更好地理解网页内容</strong>，从而有利于提高网页在搜索结果中的排名。比如，同样的一篇文章，组织在 <code>article</code> 标签中，可以让搜索引擎知道这是一篇文章；如果组织在 <code>div</code> 中，则不利于搜索引擎的判断。</p>
+<p>（对于残障人士）与对 SEO 的作用类似，语义化<strong>有助于让屏幕阅读器更好地解释网页内容</strong>，从而增强残障用户的使用体验。以苹果的 VoiceOver 举例，<code>header</code>、<code>nav</code>、<code>main</code>、<code>footer</code> 这样的语义化标签可以让 VoiceOver 快速定位到网页的不同部分；<code>article</code>、<code>sections</code>、<code>aside</code> 可以让 VoiceOver 更准确地解释和展示网页各部分的内容。语义化的标签既能提供结构上的信息（比如 <code>header</code> 表明是头部），也能提供功能上的信息（比如 <code>nav</code> 表明是导航栏）。</p>
+<blockquote>
+<p>扩展：语义化标签还可以和 ARIA 规范（Accessible Rich Internet Application，丰富的互联网应用程序访问） 相结合，从而进一步<strong>提高网页的可访问性</strong>（意思是对残障人士更加友好）！</p>
+<p>简单说说 ARIA：一组规范，旨在增强网页内容的可访问性，特别是对使用辅助技术（如屏幕阅读器）的用户。ARIA 的原理可以解释为：<strong>添加特定属性，从而提供额外的语义信息</strong>，从而使得辅助技术能更好理解和解释网页内容及其状态。ARIA 主要包括三个主要组件：<strong>角色</strong>（Roles）表明元素类型及其作用、<strong>属性</strong>（property）描述元素状态（数据）、<strong>状态</strong>（state）描述元素的动态变化的状态（布尔值）。此外，所有属性、状态都需要使用 <code>aria-xxx</code> 的形式。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span> <span class="attr">aria-pressed</span>=<span class="string">&quot;false&quot;</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上信息使得 div 有了角色、状态信息。即按钮（角色）、没有被按下（状态）。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/">https://zhengzehua.top/2024/05/31/%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3HTML%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3-HTML-%E8%AF%AD%E4%B9%89%E5%8C%96%EF%BC%9F"><span class="toc-text">你怎么理解 HTML 语义化？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E4%B9%89%E5%8C%96%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F"><span class="toc-text">语义化有什么优点？</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.3.1"></script><script src="/js/main.js?v=5.3.1"></script><div class="js-pjax"><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => setTimeout(() => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        if (ele.children.length > 0) return
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }, 100)
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : btf.getScript('https://cdn.jsdelivr.net/npm/abcjs@6.4.4/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+  btf.addGlobalFn('encrypt', abcjsInit, 'abcjs')
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Nasir1423/blog-comment',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

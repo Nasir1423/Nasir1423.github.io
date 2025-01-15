@@ -1,0 +1,652 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝前端秋招八股-I | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="常见的网络协议，ISO 七层模型，KMP 算法，银行家算法（特点），文件合并，window.history API 的使用，ES6 类定义，函数和变量提升，浏览器原生拖放的实现，正则表达式，死锁...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝前端秋招八股-I">
+<meta property="og:url" content="https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="常见的网络协议，ISO 七层模型，KMP 算法，银行家算法（特点），文件合并，window.history API 的使用，ES6 类定义，函数和变量提升，浏览器原生拖放的实现，正则表达式，死锁...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-10-11T10:05:00.000Z">
+<meta property="article:modified_time" content="2025-01-14T07:42:44.216Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "📝前端秋招八股-I",
+  "url": "https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/",
+  "image": "https://zhengzehua.top/images/butterfly_avatar_img.svg",
+  "datePublished": "2024-10-11T10:05:00.000Z",
+  "dateModified": "2025-01-14T07:42:44.216Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yiTuChuan",
+      "url": "https://github.com/Nasir1423"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=5.3.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-JRLJPHP21V')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-JRLJPHP21V', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝前端秋招八股-I',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/images/butterfly_nav_logo.svg" alt="Logo"><span class="site-name">川一土的博客视界</span></a><a class="nav-page-title" href="/"><span class="site-name">📝前端秋招八股-I</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">📝前端秋招八股-I</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-11T10:05:00.000Z" title="发表于 2024-10-11 18:05:00">2024-10-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-14T07:42:44.216Z" title="更新于 2025-01-14 15:42:44">2025-01-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/">前端面试</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%85%AB%E8%82%A1%E6%96%87/">八股文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="网络知识">网络知识</h2>
+<h3 id="常见协议">常见协议</h3>
+<p>在访问 <a target="_blank" rel="noopener" href="http://xiaohongshu.com">xiaohongshu.com</a> 网站，下面哪个协议<strong>最不可能</strong>被使用？【单选】<mark class="hl-label default">ARP</mark> <mark class="hl-label default">DNS</mark> <mark class="hl-label green">FTP</mark> <mark class="hl-label default">TCP</mark> <mark class="hl-label default">HTTP</mark></p>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p><strong>Reference</strong>：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/TCP/IP%E5%8D%8F%E8%AE%AE%E6%97%8F">互联网协议套件</a>、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wj-1314/p/7588252.html">TCP/IP协议各层详解</a></p>
+<p><strong>ARP</strong>（Address Resolution Protocol，地址解析协议）：位于<strong>数据链路层</strong>，用于将<strong>网络层的 IP 地址</strong>映射为<strong>物理层的 MAC 地址</strong>。</p>
+<p><strong>DNS</strong>（Domain Name System，域名系统）：位于<strong>应用层</strong>，用于将<strong>域名</strong>解析为 <strong>IP 地址</strong>。</p>
+<p><strong>FTP</strong>（File Transfer Protocol，文件传输协议）：位于<strong>应用层</strong>，用于<strong>文件传输</strong>，如<strong>上传</strong>或<strong>下载</strong>文件到服务器，通常与网站访问无关。</p>
+<p><strong>TCP</strong>（Transmission Control Protocol，传输控制协议）：位于<strong>传输层</strong>，用于确保<strong>可靠</strong>的数据传输。</p>
+<p><strong>HTTP</strong>（Hypertext Transfer Protocol）：位于<strong>应用层</strong>，是<strong>访问网站</strong>的核心协议，浏览器通过 <strong>HTTP 请求</strong>来获取网页的内容。</p>
+</div></details>
+<h3 id="ISO-七层模型（数据链路层）">ISO 七层模型（数据链路层）</h3>
+<p>以下叙述中，哪些是数据链路层<strong>应该解决</strong>的问题？【多选】<br>
+A. 避免一个快速发送方用数据“淹没”一个慢速接收方 ✅<br>
+B. 在两个相邻系统之间唯一地标识数据电路<br>
+C. 在共享网络中，需要解决信道共享问题 ✅<br>
+D. 解决数据报的路由问题</p>
+<details class="toggle" ><summary class="toggle-button" style="">OSI 七层网络模型职责简述即题目解析</summary><div class="toggle-content"><ol>
+<li><strong>物理层</strong>：负责<strong>原始比特流的传输</strong>，定义硬件层面的电气、光学、机械和功能接口标准。它只关心比特如何从一端传输到另一端。B 选项对应物理层的任务。</li>
+<li><strong>数据链路层</strong>：主要负责<strong>相邻节点之间的可靠数据传输</strong>，解决<strong>数据帧</strong>的<strong>错误检测</strong>、<strong>纠正</strong>、<strong>流量控制</strong>、以及<strong>在共享信道中协调多设备的访问</strong>。数据链路层还提供<strong>物理地址</strong>（MAC地址），用于在本地网络中标识设备。A、C 选项对应数据链路层的任务。</li>
+<li><strong>网络层</strong>：负责<strong>端到端的路由与寻址</strong>，决定<strong>数据报</strong>如何从源节点到达目标节点。网络层通过IP地址确定目标设备所在的网络，并选择最佳路由。D 选项对应网络层的任务。</li>
+<li><strong>传输层</strong>：负责<strong>端到端的可靠数据传输</strong>，包括流量控制、错误检测与恢复、数据分段及重组，确保数据从源设备正确送达目标设备。</li>
+<li><strong>会话层</strong>：负责<strong>建立、管理和终止通信会话</strong>。</li>
+<li><strong>表示层</strong>：负责<strong>数据的格式转换和加密解密</strong>，以确保不同系统之间的兼容性。</li>
+<li><strong>应用层</strong>：直接面向用户，提供<strong>网络服务的接口</strong>，比如文件传输、邮件等。</li>
+</ol>
+</div></details>
+<h2 id="常见算法">常见算法</h2>
+<h3 id="KMP">KMP</h3>
+<p>已知字符串 <code>S='hhhhpppgphghhhgphphh'</code>，模式串 <code>t='hghhhg'</code>， 当第一次出现“失配”（<code>s[i]≠t[j]</code>）时，<code>i=j=1</code>。下次开始匹配时，<code>i</code> 和 <code>j</code> 的值分别是？【单选】<mark class="hl-label green">i=1, j=0</mark> <mark class="hl-label default">i=10, j=1</mark> <mark class="hl-label default">i=2, j=1</mark> <mark class="hl-label default">i=6, j=0</mark></p>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>基于下述对 KMP 算法的介绍，现对问题进行求解如下，</p>
+<ul>
+<li>构建模式串 <code>t</code> 的部分匹配表为 <code>next = [0,0,1,1,1,2]</code>，同时令 <code>i</code> 指向字符串 <code>s</code>，<code>j</code> 指向模式串 <code>t</code>，初始情况下 <code>i = j = 0</code>。</li>
+<li><code>(s[0] = &quot;h&quot;) === (t[0] = &quot;h&quot;) </code> <strong>匹配</strong>，则继续 <code>i++, j++</code></li>
+<li><code>(s[1] = &quot;h&quot;) ≠ (t[1] = &quot;g&quot;)</code> <strong>失配</strong>，则 <code>i</code> 指向不变，模板串前进 <code>1 - next[0] = 1</code> 位，即 <code>j = next[0] = 0</code>，此时 <code>i = 1, j = 0</code>，对应答案 A</li>
+</ul>
+</div></details>
+<details class="toggle" ><summary class="toggle-button" style="">KMP 算法</summary><div class="toggle-content"><p><strong>Reference</strong>：<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html">字符串匹配的 KMP 算法</a></p>
+<p>KMP（Knuth-Morris-Pratt）算法是一种<strong>高效的字符串匹配算法</strong>，用于在一个字符串中查找另一个子串。它的核心思想是通过构建一个<strong>部分匹配表</strong>（又称<strong>前缀表</strong>或 <strong>next 数组</strong>），来确定当发生<strong>不匹配</strong>时，模式串应该<strong>跳转到哪里继续匹配</strong>，而不是从头开始。</p>
+<p>KMP 算法步骤如下，</p>
+<ul>
+<li>
+<p><strong>构建部分匹配表（next 数组）</strong>：对于模式串 <code>t</code>，部分匹配表记录了每个字符（包含）之前的子串中，<strong>前缀和后缀的最长共有元素的长度</strong>。构建该表的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>，其中 <code>m</code> 是模式串 <code>t</code> 的长度。举例：对于 <code>&quot;abcdab&quot;</code>，前缀为 <code>[&quot;a&quot;, &quot;ab&quot;, &quot;abc&quot;, &quot;abcd&quot;, &quot;abcda&quot;]</code>，后缀为 <code>[&quot;bcdab&quot;, &quot;cdab&quot;, &quot;dab&quot;, &quot;ab&quot;, &quot;b&quot;]</code>，前后缀的共有元素为 <code>&quot;ab&quot;</code>，所以 <code>&quot;abcdab&quot;</code> 的匹配值为 <code>2</code>。</p>
+</li>
+<li>
+<p><strong>利用部分匹配表进行匹配</strong>：在匹配过程中，① 如果字符匹配，继续前进（指向字符串的指针 <code>i++</code>，指向模模式串的指针 <code>j++</code>）；② 如果失配且 <code>j &gt; 0</code>，则根据部分匹配表决定模式串需要跳到的位置（指向字符串的指针 <code>i</code> 不变，指向模式串的指针 <code>j = next[j-1]</code>）；③ 如果失配且 <code>j = 0</code>，则仅需移动字符串的指针 <code>i++</code>，指向模式串的指针 <code>j</code> 不变。假设在模式串的第 <code>k</code> 个字符处（<code>0-based</code>）失配，则使用以下公式确定模式串的移动位数：</p>
+<div style="text-align: center">移动位数 = <code>k</code> - <code>next[k - 1]</code></div>
+<p>其中，<code>j</code> 表示已匹配的字符数，<code>next[k-1]</code> 是模式串第 <code>k-1</code> 位的部分匹配值。这样可以避免从头重新匹配。</p>
+</li>
+</ul>
+</div></details>
+<h2 id="性能优化">性能优化</h2>
+<h3 id="文件合并">文件合并</h3>
+<p>文件合并是前端性能优化常见的手段，请问下列关于前端文件合并说法<strong>正确</strong>的是？【多选】<br>
+A. 为避免缓存失效的问题，一般会将不经常更新的公共库与业务分开合并 ✅<br>
+B. 文件合并容易导致 JS 等文件过大，从而使网页首屏展示延迟 ✅<br>
+C. 文件合并有利于减少 HTTP 请求数，提高传输效率 ✅<br>
+D. 文件合并后更加容易产生丢包</p>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>A. <strong>浏览器会缓存静态资源</strong>，为减少缓存失效导致的重复加载，通常将<strong>不常更新的第三方库</strong>（如 React、Vue 等）与<strong>更新频繁的业务代码</strong>分开打包。这样可以：① <strong>公共库长期缓存</strong>，不因业务代码更新而重新加载，提高用户体验；② <strong>业务代码更新时只加载变化部分</strong>，避免重复加载所有代码。因此，分开打包能更好地<strong>控制缓存和资源加载频率</strong>，优化性能。</p>
+<p>B. 文件合并旨在减少 HTTP 请求数，但<strong>合并后的文件过大会增加加载时间</strong>，特别是在低速网络下，可能导致首屏展示延迟，影响用户体验。为解决此问题，通常采用以下方法：① <strong>合理拆分代码</strong>，避免过度合并（如代码分割、懒加载）；② <strong>压缩合并后的文件</strong>，减小体积；③ 使用<strong>关键路径资源加载策略</strong>，优先加载首屏所需资源。</p>
+<p>C. 在 HTTP/1.x 协议下，<strong>每个 HTTP 请求都会产生开销</strong>，特别是请求多个小文件时。开销包括连接建立、服务器处理和数据传输时间。将多个小文件合并可以减少请求数量，从而降低开销、提高效率。这在 HTTP/1.x 中尤为重要，虽然 HTTP/2 引入了<strong>多路复用</strong>，缓解了这个问题，但减少请求数量在某些场景下仍有助于提升性能。</p>
+<p>D. 文件合并不会直接导致网络传输中丢包率的增加。<strong>丢包</strong>问题通常与<strong>网络质量、信号强度、服务器性能</strong>等网络环境因素有关，而不是因为文件的大小或合并所引起的。</p>
+</div></details>
+<h2 id="前端代码">前端代码</h2>
+<h3 id="window-history">window.history</h3>
+<p>假设在 <a target="_blank" rel="noopener" href="https://www.xiaohongshu.com/">https://www.xiaohongshu.com/</a> 页面的控制台中输入以下 JS 代码，那么以下有关说法<strong>错误</strong>的是？【多选】</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">history.<span class="title function_">pushState</span>(&#123;<span class="attr">flag</span>: <span class="string">&#x27;another&#x27;</span>&#125;, <span class="string">&quot;page2&quot;</span>, <span class="string">&quot;another.html&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>A. 此时修改 URL 访问之后，点击浏览器的后退按钮将加载 another.html 页面 ✅</p>
+<p>B. 浏览器立即加载 another.html 页面 ✅</p>
+<p>C. 此时页面的 URL 显示为 <a target="_blank" rel="noopener" href="https://www.xiaohongshu.com/another.html">https://www.xiaohongshu.com/another.html</a></p>
+<p>D. 如果 another.html 页面不存在会抛出异常 ✅</p>
+<details class="toggle" ><summary class="toggle-button" style="">window.history 的使用</summary><div class="toggle-content"><p><strong>Reference</strong>：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/History">History - Web API | MDN</a></p>
+<p><code>history</code> 是浏览器提供的基于<strong>栈</strong>（stack）的，用于管理<strong>会话历史记录</strong>（session history）的 API。</p>
+<p>属性</p>
+<ol>
+<li>
+<p><code>window.history.length</code> 【只读】<strong>当前会话</strong>中的<strong>历史记录数量</strong>（包含当前页面）</p>
+</li>
+<li>
+<p><code>window.history.scrollRestoration</code> 用户<strong>导航</strong>时是否应该<strong>自动恢复</strong>到<strong>页面的滚动位置</strong></p>
+<ul>
+<li>
+<p><code>auto</code> 默认行为，表示恢复到用户离开页面时的滚动位置</p>
+</li>
+<li>
+<p><code>manual</code> 表示恢复到当前页面顶部</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>window.history.state</code> 【只读】与<strong>当前的历史记录</strong>（栈顶记录）关联的<strong>状态信息</strong>（state）。该属性是在 HTML5 中引入的，当使用 <code>pushState</code> 或 <code>replaceState</code> 更改或添加新的<strong>历史记录</strong>时，可以附加一些<strong>状态信息</strong>，即传递一个对象作为状态对象，其可以包含任何类型的数据（除循环引用对象或 DOM 节点）。需要注意的是，如果没有使用 <code>pushState</code> 或 <code>replaceState</code> 更改或添加历史记录，则当前的历史记录对应的状态信息 <code>state</code> 的取值将会是 <code>null</code>。</p>
+</li>
+</ol>
+<p>方法</p>
+<ol>
+<li>
+<p><code>window.history.back()</code> 导航到<strong>当前会话</strong>的<strong>上一个</strong>历史记录。相当于点击浏览器的”<strong>后退</strong>“按钮，等价于调用 <code>window.history.go(-1)</code>。如果没有上一页，则该方法调用不执行任何操作。</p>
+</li>
+<li>
+<p><code>window.history.forward() </code> 导航到<strong>当前会话</strong>的<strong>下一个</strong>历史记录。相当于点击浏览器的”<strong>前进</strong>“按钮，等价于调用 <code>window.history.go(1)</code>。如果没有下一页，则该方法调用不执行任何操作。</p>
+</li>
+<li>
+<p><code>window.history.go([delta])</code> 导航到<strong>当前会话</strong>的<strong>指定</strong>历史记录。<code>delta &gt; 0</code>，表示导航到前 <code>n</code> 个历史记录；<code>delta &lt; 0</code>，表示导航到后 <code>n</code> 个历史记录；<code>delta = 0</code> 或不指定 <code>delta</code>，表示重载当前页面，即等价于调用 <code>location.reload()</code>。</p>
+</li>
+<li>
+<p><code>window.history.pushState(state, unused[, url])</code> 向<strong>当前会话</strong>中<strong>添加一条历史记录</strong>，同时会<strong>更改 URL</strong> 但<strong>不刷新页面</strong>。注意：当用户导航到<strong>带有状态信息的历史记录</strong>时，会触发 <code>popstate</code> 事件，此时可以通过 <code>event.state</code> 访问到与该历史记录相关联的状态信息的<strong>副本</strong>。</p>
+<ul>
+<li>
+<p><code>state</code>：与新添加的历史记录相关联的<strong>状态信息</strong>，是一个 JavaScript 对象。注意：<code>state</code> 对象可以是任何<strong>可序列化的对象</strong>，FireFox 将其保存在<strong>用户磁盘</strong>，并限制<strong>其序列化后的大小不超过</strong> 16MB。</p>
+</li>
+<li>
+<p><code>unused</code>：因历史原因而存在的参数，已不推荐使用，可以传递一个<strong>空字符串</strong>以确保安全。</p>
+</li>
+<li>
+<p><code>url</code>：<strong>新添加的历史记录对应的 URL</strong>，如不提供，则默认为当前 URL。<code>url</code> 可以是<strong>相对路径或绝对路径</strong>，当 <code>url</code> 是相对路径时，其将相对于当前 URL 进行解析，同时，新 URL 与旧 URL 必须<strong>同源</strong>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>window.history.replace(state, unused[, url])</code> <strong>更新当前会话中最新的历史记录</strong>，其他与 <code>pushState</code> 方法类似。</p>
+</li>
+</ol>
+</div></details>
+<h3 id="ES6-类定义">ES6 类定义</h3>
+<p>以下关于 ES6 中类说法<strong>不正确</strong>的是？【单选】</p>
+<p>A. 类可以重复声明 ✅</p>
+<p>B. 必须在访问前对类进行定义，否则就会报错</p>
+<p>C. 类让对象原型的写法更加清晰、更像面向对象编程的语法</p>
+<p>D. ES6 中通过 class 关键字定义类，本质是 function</p>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>A. ES6 中，类的声明与 <code>let</code> 和 <code>const</code> 类似，<strong>不能重复声明</strong>。</p>
+<p>B. 在 ES6 中，类不存在变量提升（hoisting），<strong>必须在使用之前定义类</strong>。</p>
+<p>C. ES6 类的语法让原型继承的写法更加直观，符合面向对象编程的习惯。</p>
+<p>D. ES6 中的类实际上是语法糖，<strong>本质上依然是函数</strong>，类的构造器函数会作为对象的构造函数。</p>
+</div></details>
+<h3 id="代码输出推测（提升）">代码输出推测（提升）</h3>
+<p>下面代码执行后的结果为：<mark class="hl-label green">undefined</mark></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">inner</span>();</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">outer</span>();</span><br></pre></td></tr></table></figure>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>此题考察的是 JavaScript 中的<strong>变量提升和函数提升</strong>，基于下述对提升的介绍，可以分析本题代码的等价形式为，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">outer</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> a; <span class="comment">// 变量声明提升，var 声明的变量自动初始化为 undefined</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">inner</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">inner</span>(); <span class="comment">// 由于此时 a 没有被赋值，a = undefined</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    a = <span class="number">1</span>; <span class="comment">// 变量赋值操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></details>
+<details class="toggle" ><summary class="toggle-button" style="">变量提升和函数提升</summary><div class="toggle-content"><ol>
+<li>
+<p><strong>变量提升</strong>：在 JavaScript 中，变量声明会被提升到当前作用域的顶部，但<strong>仅仅是声明被提升，赋值操作不会被提升</strong>。</p>
+<ul>
+<li>
+<p>对于 <code>var</code> 声明的变量，在提升时<strong>会</strong>初始化为 <code>undefined</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x; <span class="comment">// 声明提升</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// undefined</span></span><br><span class="line">x = <span class="number">5</span>; <span class="comment">// 赋值操作在原位置</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>对于 <code>let</code> 和 <code>const</code> 声明的变量，在提升时<strong>不会</strong>初始化。直接访问未赋值的变量会导致 <code>ReferenceError</code>，称之为暂<strong>时性死区</strong>（Temporal Dead Zone）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(y); <span class="comment">// ReferenceError: Cannot access &#x27;y&#x27; before initialization</span></span><br><span class="line"><span class="keyword">let</span> y = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>函数提升</strong>：在 JavaScript 中，函数声明也会被提升到当前作用域的顶部，但与变量提升不同的是，函数的**整个定义（包括函数体）**都会被提升。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">greet</span>();  <span class="comment">// 输出: Hello!</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params"></span>) &#123;  <span class="comment">// 声明和定义都提升到顶部</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">greet</span>();  <span class="comment">// 输出: Hello!</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</div></details>
+<h3 id="浏览器拖放">浏览器拖放</h3>
+<p>当用户开始拖拽一个元素时，会触发该元素的哪个事件？【单选】<mark class="hl-label default">ondrop</mark> <mark class="hl-label default">ondragover</mark> <mark class="hl-label green">ondragstart</mark> <mark class="hl-label default">ondrag</mark></p>
+<details class="toggle" ><summary class="toggle-button" style="">浏览器的原生拖放实现</summary><div class="toggle-content"><p>HTML 的拖放（Drag and Drop）接口使得应用程序能够在浏览器中实现拖放功能。通常情况下，用户可以选中一个<strong>可拖拽</strong>（draggable）的元素，将其拖动到一个<strong>可放置</strong>（droppable）的目标元素上，然后释放鼠标。对于支持该功能的浏览器，DOM 元素有一个 <code>draggable</code> 布尔属性，用于标识该元素是否可以被拖拽。常见的 <code>&lt;a&gt;</code>、<code>&lt;img&gt;</code> 等元素的 <code>draggable</code> 属性默认为 <code>true</code>，而 <code>&lt;div&gt;</code>、<code>&lt;p&gt;</code> 等元素的 <code>draggable</code> 属性默认是 <code>false</code>，但可以通过将其设置为 <code>true</code> 来实现拖拽功能。</p>
+<p>拖放过程中可能涉及到的<strong>事件</strong>（<code>DragEvent</code>）如下，</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">事件名</th>
+<th style="text-align:center">触发对象</th>
+<th style="text-align:center">触发时机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>dragstart</code></td>
+<td style="text-align:center">可拖拽元素</td>
+<td style="text-align:center"><strong>开始</strong>拖拽元素时</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>drag</code></td>
+<td style="text-align:center">可拖拽元素</td>
+<td style="text-align:center">拖拽元素时（频繁触发）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>dragend</code></td>
+<td style="text-align:center">可拖拽元素</td>
+<td style="text-align:center"><strong>结束</strong>拖拽元素时</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>dragenter</code></td>
+<td style="text-align:center">可放置元素</td>
+<td style="text-align:center">拖拽元素<strong>进入</strong>指定元素上时</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>dragover</code></td>
+<td style="text-align:center">可放置元素</td>
+<td style="text-align:center">拖拽元素在指定元素上时（频繁触发）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>dragleave</code></td>
+<td style="text-align:center">可放置元素</td>
+<td style="text-align:center">拖拽元素<strong>离开</strong>指定元素上时</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>drop</code></td>
+<td style="text-align:center">可放置元素</td>
+<td style="text-align:center">拖拽元素<strong>放置</strong>指定元素上时</td>
+</tr>
+</tbody>
+</table>
+<p><code>DragEvent</code> 事件对象包含一个 <code>dataTransfer</code> 属性，它是一个 <code>DataTransfer</code> 对象，用于存储和传递拖放操作中的数据。</p>
+</div></details>
+<h3 id="正则表达式">正则表达式</h3>
+<p>下面代码执行后的输出结果为：<mark class="hl-label green">['12abcd2024eg']</mark></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str=<span class="string">&quot;12abcd2024eg&quot;</span>.<span class="title function_">match</span>(<span class="regexp">/\d+\w*/g</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(str);</span><br></pre></td></tr></table></figure>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>本题考查的是<strong>正则表达式</strong>以及 <strong>JavaScript 中使用正则表达式的常见 API</strong>，基于下述分析可知</p>
+<ul>
+<li><code>str.match(regex)</code> 表示从字符串 <code>str</code> 中<strong>提取出</strong>匹配正则表达式 <code>regex</code> 的<strong>所有</strong>（这里正则表达式是全局匹配）内容。</li>
+<li><code>/\d+\w*/g</code> 表示匹配<strong>至少一个数字</strong>和<strong>任意数量的字母、数字或下划线</strong>，即 <code>\d</code> 匹配 <code>12</code>，<code>\w*</code> 匹配 <code>abcd2024eg</code>。</li>
+</ul>
+</div></details>
+<details class="toggle" ><summary class="toggle-button" style="">JavaScript 中的正则表达式</summary><div class="toggle-content"><ol>
+<li>
+<p><strong>正则表达式</strong>（Regular Expression）是一种针对字符串定义的<strong>模式规则</strong>，用于<strong>检查</strong>字符串是否符合特定的规则，或从字符串中<strong>提取</strong>符合该规则的内容。</p>
+</li>
+<li>
+<p><strong>JavaScript 创建正则表达式</strong></p>
+<ul>
+<li>通过<strong>构造函数</strong>：<code>const regex = new RegExp(pattern, flags);</code></li>
+<li>通过<strong>字面量</strong>：<code>const regex = /pattern/flags;</code></li>
+</ul>
+</li>
+<li>
+<p><code>pattern</code> 参数的语法</p>
+<ul>
+<li>
+<p><strong>普通字符</strong>：匹配字符串中<strong>是否存在</strong>对应字符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="regexp">/ab/</span>.<span class="title function_">test</span>(<span class="string">&quot;bbabaaa&quot;</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="regexp">/ab/</span>.<span class="title function_">test</span>(<span class="string">&quot;bbaaaaa&quot;</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>特殊字符</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特殊字符</th>
+<th style="text-align:center">匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>.</code></td>
+<td style="text-align:center">任一<strong>字符</strong>（除了空白字符）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\d</code></td>
+<td style="text-align:center">任一<strong>数字</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\w</code></td>
+<td style="text-align:center">任一<strong>字母、数字、下划线</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\s</code></td>
+<td style="text-align:center">任一<strong>空白字符</strong>（如空格、制表符等）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>^</code></td>
+<td style="text-align:center"><strong>字符串的开始</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>$</code></td>
+<td style="text-align:center"><strong>字符串的结束</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center">前面的字符 <strong>0 次或多次</strong>（任意次数）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center">前面的字符 <strong>1 次或多次</strong>（至少一次）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>?</code></td>
+<td style="text-align:center">前面的字符 <strong>0 次或 1 次</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>{n}</code></td>
+<td style="text-align:center">前面的字符 <strong>正好n 次</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>{n,}</code></td>
+<td style="text-align:center">前面的字符<strong>至少 n 次</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>{n,m}</code></td>
+<td style="text-align:center">前面的字符<strong>至少 n 次，至多 m 次</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[]</code></td>
+<td style="text-align:center">定义<strong>或字符集</strong>，如<br /><code>[a-z]</code> 表示匹配任意小写字母<br /><code>[A-Z]</code> 表示匹配任意大写字母<br /><code>[a-zA-Z]</code> 表示匹配任意字母<br /><code>[0-9]</code> 表示匹配任意数字<br /><code>[aeiou]</code> 表示匹配任意元音字母</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[^]</code></td>
+<td style="text-align:center">定义<strong>非字符集</strong>，如<br /><code>[^a-z]</code> 表示匹配除了小写字母以外的字符<br /><code>[^x]</code> 表示匹配除了 <code>x</code> 以外的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">`</td>
+<td style="text-align:center">`</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>()</code></td>
+<td style="text-align:center">定义<strong>捕获组</strong>，用于将括号中的部分匹配<strong>单独提取</strong>出来，以供后续使用或引用</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><code>flags</code> 参数的语法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数值</th>
+<th style="text-align:center">匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>g</code></td>
+<td style="text-align:center">全局匹配，即找到所有匹配而非第一个</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>i</code></td>
+<td style="text-align:center">忽略大小写</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>m</code></td>
+<td style="text-align:center">多行模式，即使用 <code>^</code> 和 <code>$</code> 匹配每行的开头和结尾</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>正则表达式的常用 API</strong></p>
+<ul>
+<li>
+<p><code>regex.test(str): boolean</code> 测试字符串 <code>str</code> 是否匹配正则 <code>regex</code>。</p>
+</li>
+<li>
+<p><code>regex.exec(str): array</code> 从字符串 <code>str</code> 中提取出匹配正则表达式 <code>regex</code> 的结果数组。数组的第一个元素是整个匹配的字符串，后续元素是各个捕获组的内容。数组还包括两个属性：<code>index</code> 表示匹配结果在原始字符串中的起始位置，<code>input</code> 表示被匹配的原始字符串。如果没有匹配项，返回 <code>null</code>。通常 <code>exec</code> 只匹配一个结果，若正则有全局标志 <code>g</code>，可以通过 <code>while</code> 循环多次调用来获取所有匹配项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> regex = <span class="regexp">/\d+/g</span>;</span><br><span class="line"><span class="keyword">const</span> str = <span class="string">&quot;The numbers are 123, 456, and 789&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> result;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> ((result = regex.<span class="title function_">exec</span>(str)) !== <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Found <span class="subst">$&#123;result[<span class="number">0</span>]&#125;</span> at index <span class="subst">$&#123;result.index&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>字符串中使用到正则表达式的 API</strong></p>
+<ul>
+<li><code>str.split(regex): array</code> 使用正则表达式 <code>regex</code> 分割字符串 <code>str</code>。</li>
+<li><code>str.search(regex): number</code> 返回正则表达式 <code>regex</code> 在字符串 <code>str</code> 中首次匹配的位置，未找到则返回 <code>-1</code>。</li>
+<li><code>str.replace(regex, alternateStr): string</code> 使用 <code>alternateStr</code> 替换 <code>regex</code> 在字符串 <code>str</code> 中首次匹配的内容。若 <code>regex</code> 是全局匹配，则替换所有匹配项。</li>
+<li><code>str.match(regex): array</code> 提取 <code>regex</code> 在字符串 <code>str</code> 中首次匹配的内容为数组，未找到返回 <code>null</code>。若 <code>regex</code> 是全局匹配，返回所有匹配项数组。</li>
+<li><code>str.matchAll(regex): iterator</code> 返回正则表达式 <code>regex</code> 匹配字符串 <code>str</code> 所有结果的迭代器，内容类似于每次调用 <code>regex.exec()</code> 返回的结果。正则表达式需为全局匹配。</li>
+</ul>
+</li>
+</ol>
+</div></details>
+<h2 id="操作系统">操作系统</h2>
+<h3 id="死锁">死锁</h3>
+<p>下列关于死锁避免的叙述<strong>错误</strong>的是？【单选】<br>
+A. 当一个进程难以确切知道它所需要的最大资源需求量时，很难采用银行家算法避免死锁<br>
+B. 死锁避免并不会严格限制死锁产生的必要条件的存在<br>
+C. 银行家算法可以避免死锁，算法需要考虑每个进程对各类资源的申请情况，采用这种算法分配资源时，资源的利用率较高  ✅<br>
+D. 死锁产生的四个必要条件成立，系统未必会出现死锁</p>
+<details class="toggle" ><summary class="toggle-button" style="">题目解析</summary><div class="toggle-content"><p>A. <strong>银行家算法</strong>要求每个进程在运行前<strong>声明其最大资源需求</strong>。如果进程无法准确估计其最大资源需求，就很难使用银行家算法避免死锁。</p>
+<p>B. 死锁避免策略不严格要求破坏死锁的四个必要条件，而是通过<strong>动态检测资源分配是否会导致死锁</strong>，来避免进入死锁状态。</p>
+<p>C. 虽然银行家算法能够避免死锁，但它的<strong>资源利用率通常较低</strong>。因为银行家算法需要确保系统始终处于“安全状态”，所以会预留更多的资源，导致资源利用率不高。</p>
+<p>D. <strong>死锁产生的四个必要条件成立是死锁发生的前提，但并不意味着死锁一定发生</strong>。只有在系统进入不安全状态时，才可能出现死锁。</p>
+</div></details>
+<details class="toggle" ><summary class="toggle-button" style="">死锁及死锁产生的四个必要条件</summary><div class="toggle-content"><p><strong>死锁</strong>（deadlock）是指<strong>多个进程</strong>因互相持有<strong>彼此所需的资源</strong>而无法继续运行，陷入<strong>永远等待</strong>的状态。</p>
+<p><strong>死锁产生的四个必要条件</strong>为，</p>
+<ul>
+<li><strong>互斥条件</strong>（Mutual Exclusion）：进程对资源的独占使用，某个资源一次只能被一个进程占用。如果其他进程请求该资源，则必须等待直到该资源被释放。</li>
+<li><strong>请求与保持条件</strong>（Hold and Wait）：进程已经获得了一部分资源，在等待其他资源时继续持有已经获得的资源。</li>
+<li><strong>不剥夺条件</strong>（No Preemption）：资源不能被强制从一个进程中剥夺，只有当进程自愿释放资源时，资源才会被释放。</li>
+<li><strong>循环等待条件</strong>（Circular Wait）：存在一个进程链，进程 A 等待进程 B 持有的资源，进程 B 等待进程 C 持有的资源，直到某个进程等待链中的最后一个进程又等待进程 A 的资源，形成了一个循环等待。</li>
+</ul>
+</div></details>
+<details class="toggle" ><summary class="toggle-button" style="">银行家算法</summary><div class="toggle-content"><p><strong>银行家算法</strong>是一种用于<strong>避免死锁</strong>的资源分配算法。它的核心思想是：在进行资源分配时，系统通过模拟判断是否能够保证在未来的一定时刻，所有进程都能完成资源申请和释放。如果可以保证系统的安全状态，资源才会被分配；否则，系统会拒绝当前资源申请，避免进入不安全状态。</p>
+<p>银行家算法的基本步骤为，</p>
+<ul>
+<li><strong>声明最大需求</strong>：每个进程在开始时必须声明自己可能需要的最大资源数量。</li>
+<li><strong>资源分配检查</strong>：每当一个进程请求资源时，系统会检查当前资源的分配状态，并预测在分配资源之后，系统是否仍然处于安全状态。如果分配资源后仍然安全，资源将被分配；如果分配资源后进入不安全状态，则暂时拒绝该请求。</li>
+<li><strong>安全状态判断</strong>：系统通过“安全状态”的概念判断是否可以分配资源。安全状态指的是，即使当前资源分配给某个进程，系统仍然能保证满足所有进程的资源需求，不会进入死锁。</li>
+</ul>
+<p>银行家算法的特点为，</p>
+<ul>
+<li><strong>资源利用率较低</strong>：为了保证系统的安全，银行家算法会保留一些资源，避免进入不安全状态，这可能导致系统资源的利用率不高。</li>
+<li><strong>需要最大需求声明</strong>：每个进程在执行前必须声明最大资源需求，如果进程无法准确估计其需求，银行家算法无法生效。</li>
+</ul>
+</div></details>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/">https://zhengzehua.top/2024/10/11/%E5%89%8D%E7%AB%AF%E7%A7%8B%E6%8B%9B%E5%85%AB%E8%82%A1-Part1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86"><span class="toc-text">网络知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%8D%8F%E8%AE%AE"><span class="toc-text">常见协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISO-%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%EF%BC%88%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%89"><span class="toc-text">ISO 七层模型（数据链路层）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95"><span class="toc-text">常见算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#KMP"><span class="toc-text">KMP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6"><span class="toc-text">文件合并</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-text">前端代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#window-history"><span class="toc-text">window.history</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6-%E7%B1%BB%E5%AE%9A%E4%B9%89"><span class="toc-text">ES6 类定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%BE%93%E5%87%BA%E6%8E%A8%E6%B5%8B%EF%BC%88%E6%8F%90%E5%8D%87%EF%BC%89"><span class="toc-text">代码输出推测（提升）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8B%96%E6%94%BE"><span class="toc-text">浏览器拖放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-text">死锁</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.3.1"></script><script src="/js/main.js?v=5.3.1"></script><div class="js-pjax"><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => setTimeout(() => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        if (ele.children.length > 0) return
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }, 100)
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : btf.getScript('https://cdn.jsdelivr.net/npm/abcjs@6.4.4/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+  btf.addGlobalFn('encrypt', abcjsInit, 'abcjs')
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Nasir1423/blog-comment',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
