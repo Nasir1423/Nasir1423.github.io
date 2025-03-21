@@ -1,0 +1,1001 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📖ES6 教程 @阮一峰 | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Set &amp; Map Proxy Reflect Promise Iterator  核心理解：ITERATOR 为数据结构提供了一个统一的访问机制的接口。  1. 简要概述   解释：Iterator（遍历器）是一种为各种不同的数据结构提供统一的访问机制的接口。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。   Iterator 的作用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📖ES6 教程 @阮一峰">
+<meta property="og:url" content="https://zhengzehua.top/2025/02/08/ES6%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="Set &amp; Map Proxy Reflect Promise Iterator  核心理解：ITERATOR 为数据结构提供了一个统一的访问机制的接口。  1. 简要概述   解释：Iterator（遍历器）是一种为各种不同的数据结构提供统一的访问机制的接口。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。   Iterator 的作用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2025-02-08T10:21:02.000Z">
+<meta property="article:modified_time" content="2025-03-17T01:36:31.750Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="前端学习,前端开发,Web开发,技术分享,学习感悟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "📖ES6 教程 @阮一峰",
+  "url": "https://zhengzehua.top/2025/02/08/ES6%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/",
+  "image": "https://zhengzehua.top/images/butterfly_avatar_img.svg",
+  "datePublished": "2025-02-08T10:21:02.000Z",
+  "dateModified": "2025-03-17T01:36:31.750Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yiTuChuan",
+      "url": "https://github.com/Nasir1423"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2025/02/08/ES6%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=5.3.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-JRLJPHP21V')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-JRLJPHP21V', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📖ES6 教程 @阮一峰',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/images/butterfly_nav_logo.svg" alt="Logo"><span class="site-name">川一土的博客视界</span></a><a class="nav-page-title" href="/"><span class="site-name">📖ES6 教程 @阮一峰</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">📖ES6 教程 @阮一峰</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-08T10:21:02.000Z" title="发表于 2025-02-08 18:21:02">2025-02-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-17T01:36:31.750Z" title="更新于 2025-03-17 09:36:31">2025-03-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/">前端知识</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/ES6/">ES6</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>29分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="Set-Map">Set &amp; Map</h2>
+<h2 id="Proxy">Proxy</h2>
+<h2 id="Reflect">Reflect</h2>
+<h2 id="Promise">Promise</h2>
+<h2 id="Iterator">Iterator</h2>
+<blockquote>
+<p>核心理解：ITERATOR 为数据结构提供了一个统一的访问机制的接口。</p>
+</blockquote>
+<h3 id="1-简要概述">1. 简要概述</h3>
+<ol>
+<li>
+<p>解释：Iterator（遍历器）是一种为各种不同的数据结构提供<strong>统一的访问机制</strong>的接口。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。</p>
+</li>
+<li>
+<p>Iterator 的作用</p>
+<ul>
+<li>为各种数据结构，提供一个统一的、简便的<strong>访问接口</strong></li>
+<li>使得数据结构的成员能够按<strong>某种次序排列</strong></li>
+<li>为 <code>for...of</code> 循环提供支持</li>
+</ul>
+</li>
+<li>
+<p>Iterator 的遍历原理：Iterator 是一个<strong>指针对象</strong>，最初指向数据结构的起始位置。它具有一个 <code>next</code> 方法。每次调用 <code>next</code> 方法时，指针会移动到下一个成员，并返回一个对象，其中包含两个属性：<code>value</code> 表示当前成员的值，<code>done</code> 是一个布尔值，用于指示遍历是否已结束。</p>
+</li>
+<li>
+<p>Iterator 接口的类型定义</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Iterable</span>&lt;T&gt; &#123;</span><br><span class="line">  [<span class="title class_">Symbol</span>.<span class="property">iterator</span>](): <span class="title class_">Iterator</span>&lt;T&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Iterator</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="title function_">next</span>(value?: <span class="built_in">any</span>): <span class="title class_">IterationResult</span>&lt;T&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IterationResult</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">value</span>: T;</span><br><span class="line">  <span class="attr">done</span>: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="2-Iterator-接口">2. Iterator 接口</h3>
+<h4 id="2-1-Symbol-iterator">2.1 Symbol.iterator</h4>
+<ol>
+<li>
+<p>解释：只要一个数据结构具有 <code>Symbol.iterator</code> 属性，就可以被视为“<strong>可遍历的</strong>”（iterable），这意味着该数据结构<strong>部署了 Iterator 接口</strong>。<code>Symbol.iterator</code> 属性是一个函数，它是该数据结构默认的<strong>迭代器生成函数</strong>。调用这个函数会返回一个迭代器。</p>
+</li>
+<li>
+<p>遍历方式：对于一个可遍历的数据结构 ITERABLE，有以下两种方式遍历其中的数据成员，</p>
+<ul>
+<li>
+<p><code>for...of</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> x <span class="keyword">of</span> <span class="variable constant_">ITERABLE</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>while</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $iterator = <span class="variable constant_">ITERABLE</span>[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]();</span><br><span class="line"><span class="keyword">var</span> $result = $iterator.<span class="title function_">next</span>();</span><br><span class="line"><span class="keyword">while</span> (!$result.<span class="property">done</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> x = $result.<span class="property">value</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(x);</span><br><span class="line">  $result = $iterator.<span class="title function_">next</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>原生部署 Iterator 接口的数据结构：Array、Map、Set、String、TypedArray、函数的 arguments 对象、NodeList 对象</p>
+<blockquote>
+<p>对象没有原生部署 Iterator 接口，因为对象的数据是无序的。因此，给对象部署遍历器接口，就相当于部署一种<strong>线性变换</strong>。</p>
+<p><code>for...of</code> 遍历字符串时，甚至会正确识别 32 位的 UTF-16 字符。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> x <span class="keyword">of</span> <span class="string">&#x27;a\uD83D\uDC0A\u9CC4\u9C7C&#x27;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(x); <span class="comment">// &quot;a&quot;，&quot;🐊&quot;，&quot;鳄&quot;，&quot;鱼&quot; </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">const</span> iterator = arr[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 1, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 2, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 3, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: undefined, &quot;done&quot;: true &#125; </span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="2-2-接口部署">2.2 接口部署</h4>
+<ol>
+<li>
+<p>解释：为了让数据结构是可遍历的，就要为其部署 Iterator 接口，即在数据结构的 <code>Symbol.iterator</code> 属性上添加<strong>遍历器生成方法</strong>（原型链上添加也奏效）。</p>
+</li>
+<li>
+<p>Iterator 接口部署示例</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong>对象</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">data</span>: [ <span class="string">&#x27;hello&#x27;</span>, <span class="string">&#x27;world&#x27;</span> ],</span><br><span class="line">  [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123;</span><br><span class="line">    <span class="keyword">const</span> self = <span class="variable language_">this</span>;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="title function_">next</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; self.<span class="property">data</span>.<span class="property">length</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">value</span>: self.<span class="property">data</span>[index++],</span><br><span class="line">            <span class="attr">done</span>: <span class="literal">false</span></span><br><span class="line">          &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>类</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RangeIterator</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">start, stop</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">value</span> = start;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">stop</span> = stop;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123; <span class="keyword">return</span> <span class="variable language_">this</span>; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">next</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="variable language_">this</span>.<span class="property">value</span>;</span><br><span class="line">    <span class="keyword">if</span> (value &lt; <span class="variable language_">this</span>.<span class="property">stop</span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">value</span>++;</span><br><span class="line">      <span class="keyword">return</span> &#123;<span class="attr">done</span>: <span class="literal">false</span>, <span class="attr">value</span>: value&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">done</span>: <span class="literal">true</span>, <span class="attr">value</span>: <span class="literal">undefined</span>&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>类数组对象</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> iterable = &#123;</span><br><span class="line">  <span class="number">0</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">  <span class="number">1</span>: <span class="string">&#x27;b&#x27;</span>,</span><br><span class="line">  <span class="number">2</span>: <span class="string">&#x27;c&#x27;</span>,</span><br><span class="line">  <span class="attr">length</span>: <span class="number">3</span>,</span><br><span class="line">  [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]: <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果一个对象存在数值键名和 <code>length</code> 属性，就称之为类数组对象，此时部署 Iterator 接口时可以<strong>直接引用数组的 Iterator 接口</strong>。</p>
+</blockquote>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>使用说明</p>
+<ul>
+<li>普通对象部署数组的 <code>Symbol.iterator</code> 方法，并无效果。</li>
+<li>如果 <code>Symbol.iterator</code> 方法对应的不是遍历器生成函数（即会返回一个遍历器对象），解释引擎将会报错。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-调用场合">2.3 调用场合</h4>
+<ol>
+<li>
+<p><strong>数组和 Set 的解构赋值</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">2</span>];</span><br><span class="line"><span class="keyword">const</span> [x, y] = arr; <span class="comment">// x = 1,  y = 2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="title class_">Set</span>([<span class="string">&#x27;hello&#x27;</span>, <span class="string">&#x27;world&#x27;</span>]);</span><br><span class="line"><span class="keyword">const</span> [a, b] = set; <span class="comment">// a = &quot;hello&quot;,  b = &quot;world&quot; </span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>扩展运算符 <code>...</code></strong>（只要某个数据结构部署了 Iterator 接口，就可以对它使用扩展运算符，将其转为数组）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> str = <span class="string">&#x27;hello world&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>([...str]); <span class="comment">// [&quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot;, &quot; &quot;, &quot;w&quot;, &quot;o&quot;, &quot;r&quot;, &quot;l&quot;, &quot;d&quot;] </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>([<span class="number">0</span>, ...arr, <span class="number">4</span>]); <span class="comment">// [0, 1, 2, 3, 4] </span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>yield*</code></strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> generator = <span class="keyword">function</span>* () &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span>* [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">5</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator = <span class="title function_">generator</span>();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 1, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 2, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 3, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 4, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: 5, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: undefined, &quot;done&quot;: true &#125; </span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>数组的遍历</strong>（包括以数组作为参数的场合）</p>
+<ul>
+<li>
+<p><code>for ... of</code> 循环</p>
+</li>
+<li>
+<p><code>Array.from()</code></p>
+</li>
+<li>
+<p><code>Map()</code>, <code>Set()</code>, <code>WeakMap()</code>, <code>WeakSet()</code></p>
+</li>
+<li>
+<p><code>Promise.all()</code>、<code>Promise.race()</code></p>
+</li>
+<li>
+<p>······</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-4-几个概念">2.4 几个概念</h4>
+<p><code>Symbol.iterator</code>、Iterator 接口、可遍历的、<code>for...of</code></p>
+<ul>
+<li>数据结构具有 <code>Symbol.iterator</code> 属性，亦即数据结构部署了 Iterator 接口，亦即数据结构是可遍历的，亦即数据结构可以使用 <code>for...of</code> 遍历其数据成员。</li>
+<li><code>for...of</code> 循环内部调用的是数据结构的 Symbol.iterator 方法。</li>
+</ul>
+<h3 id="3-Iterator-结构">3. Iterator 结构</h3>
+<ol>
+<li>
+<p>解释：Iterator 本质上是一个对象，<strong>必须</strong>包含 <code>next()</code> 方法，<strong>可选</strong>包含 <code>return()</code> 和 <code>throw()</code> 方法。</p>
+<ul>
+<li><code>next()</code>：用于遍历数据结构中的所有数据成员，返回值是一个对象，其结构为 <code>&#123;value: any, done: boolean&#125;</code>，其中 <code>value</code> 表示当前遍历的数据成员，<code>done</code> 表示数据结构是否遍历完毕。</li>
+<li><code>return()</code>：当 <code>for...of</code> 循环因为 <code>break</code> 或 <code>throw</code> 语句提前退出时，就会调用该方法。</li>
+<li><code>throw()</code>：主要配合 Generator 函数使用，详见下述关于 Generator 函数的笔记。</li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> iterableObj = &#123;</span><br><span class="line">    <span class="attr">data</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123;</span><br><span class="line">        <span class="keyword">const</span> self = <span class="variable language_">this</span>;</span><br><span class="line">        <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="attr">value</span>: number;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="title function_">next</span>(<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (index &lt; self.<span class="property">data</span>.<span class="property">length</span>) &#123;</span><br><span class="line">                    value = self.<span class="property">data</span>[index++];</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`正在遍历数据 <span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">                    <span class="keyword">return</span> &#123; value, <span class="attr">done</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;数据结构遍历结束&#x27;</span>);</span><br><span class="line">                    <span class="keyword">return</span> &#123; <span class="attr">value</span>: <span class="literal">undefined</span>, <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="keyword">return</span>() &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`return 方法在遍历 <span class="subst">$&#123;value&#125;</span> 时被调用了`</span>);</span><br><span class="line">                <span class="keyword">return</span> &#123; value &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> iterableObj) &#123;</span><br><span class="line">    <span class="comment">// &quot;正在遍历数据 1&quot; </span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value); <span class="comment">// 1</span></span><br><span class="line">    <span class="keyword">break</span>; <span class="comment">// &quot;return 方法在遍历 1 时被调用了&quot; </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> iterableObj) &#123;</span><br><span class="line">        <span class="comment">// &quot;正在遍历数据 1&quot; </span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(value); <span class="comment">// 1 </span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;error in for...of&#x27;</span>); <span class="comment">// &quot;return 方法在遍历 1 时被调用了&quot; </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="attr">e</span>:any) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">message</span>); <span class="comment">// &quot;error in for...of&quot; </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：如果在 <code>for...of</code> 循环中，由于 <code>throw</code> 语句导致调用了可迭代对象的 Iterator 的 <code>return()</code> 方法，那么会先执行 <code>return()</code> 方法，然后再抛出错误。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="4-生成数据结构">4. 生成数据结构</h3>
+<p>数组、Set、Map 都具有以下方法，调用后返回一个遍历器，用于遍历生成数据结构的数据成员。</p>
+<ul>
+<li><code>entries()</code>：返回一个遍历器对象，用于遍历形如 <code>[键名，键值]</code> 的数组。对于数组，每次遍历的是 <code>[索引值，元素值]</code>；对于 Set，每次遍历的是 <code>[元素值，元素值]</code>；对于 Map，每次遍历的是 <code>[键名，键值]</code>。</li>
+<li><code>keys()</code>：返回一个遍历器对象，用于遍历所有的键名。</li>
+<li><code>values()</code>：返回一个遍历器对象，用于遍历所有的键值。</li>
+</ul>
+<h3 id="5-遍历语法比较">5. 遍历语法比较</h3>
+<p>这里展示其他循环的缺点，与 <code>for...of</code> 循环的优点。</p>
+<ol>
+<li>
+<p><code>for</code> 循环</p>
+<ul>
+<li>写法比较麻烦</li>
+</ul>
+</li>
+<li>
+<p>数组的 <code>forEach</code> 方法</p>
+<ul>
+<li>无法中途跳出 <code>forEach</code> 循环</li>
+</ul>
+</li>
+<li>
+<p><code>for...in</code> 循环（用于遍历键名）</p>
+<ul>
+<li>
+<p>遍历数组时，遍历的键名是索引数字对应的字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="string">&#x27;boo&#x27;</span>, <span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;zoo&#x27;</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> idx <span class="keyword">in</span> arr)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(idx); <span class="comment">// &#x27;0&#x27;, &#x27;1&#x27;, &#x27;2&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>会遍历原型上的键名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj1 = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;Jack&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="number">19</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj2 = <span class="title class_">Object</span>.<span class="title function_">create</span>(obj1);</span><br><span class="line">obj2.<span class="property">gender</span> = <span class="string">&#x27;Male&#x27;</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj2)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(key); <span class="comment">// &quot;gender&quot;, &quot;name&quot;, &quot;age&quot; </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>会以任意顺序遍历键名</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>for...of</code> 循环（用于遍历可遍历对象的数据成员）</p>
+<ul>
+<li>简洁的语法</li>
+<li>有序遍历</li>
+<li>可中途跳出循环（与 <code>break</code>、<code>continue</code> 配合使用）</li>
+<li>遍历所有数据结构的统一接口</li>
+</ul>
+</li>
+</ol>
+<h2 id="Generator-函数">Generator 函数</h2>
+<blockquote>
+<p>核心理解：GENERATOR 的执行结果是 ITERATOR，同时这个 ITERATOR 可以看作是 GENERATOR 的实例。</p>
+</blockquote>
+<h3 id="1-简要概述-2">1. 简要概述</h3>
+<ol>
+<li>
+<p>解释：Generator 函数是 ES6 提供的一种<strong>异步编程解决方案</strong>，可以从以下两种角度来理解，</p>
+<ul>
+<li>语法上
+<ul>
+<li>Generator 函数是一个<strong>状态机</strong>，封装了多个内部状态。</li>
+<li>Generator 函数是一个<strong>遍历器生成函数</strong>，执行后返回一个遍历器，可以依次遍历 Generator 函数内部的每一个状态。</li>
+</ul>
+</li>
+<li>形式上
+<ul>
+<li>Generator 函数使用 <code>function*</code> 来定义，即 <code>function</code> 关键字和函数名之间有一个星号 <code>*</code>。</li>
+<li>Generator 函数内部使用 <code>yield</code> 表达式定义不同的内部状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Generator 函数的执行流程</p>
+<ul>
+<li>
+<p>调用 Generator 函数时，该函数不会立即执行，而是返回一个<strong>遍历器对象</strong>，该对象是指向函数内部的指针。</p>
+</li>
+<li>
+<p>每次调用遍历器对象的 <code>next()</code> 方法时，Generator 函数会<strong>从上次暂停的地方继续执行</strong>，直到遇到 <code>yield</code> 表达式或 <code>return</code> 语句。<code>next()</code> 方法返回一个对象，其结构为 <code>&#123;value: any, done: boolean&#125;</code>。其中，<code>value</code> 表示 Generator 函数当前执行位置的值（即 <code>yield</code> 或 <code>return</code> 后的表达式的值），而 <code>done</code> 是一个布尔值，指示遍历是否已完成。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">helloWorldGenerator</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">&#x27;world&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;ending&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hw = <span class="title function_">helloWorldGenerator</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(hw.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: &quot;hello&quot;, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(hw.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: &quot;world&quot;, &quot;done&quot;: false &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(hw.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: &quot;ending&quot;, &quot;done&quot;: true &#125; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(hw.<span class="title function_">next</span>()); <span class="comment">// &#123; &quot;value&quot;: undefined, &quot;done&quot;: true &#125; </span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>yield</code> 表达式：基于上述内容可知，Generator 函数是一种可以<strong>暂停执行的函数</strong>，而 <code>yield</code> 表达式就是<strong>暂停标志</strong>。</p>
+<ul>
+<li>
+<p><strong>惰性求值</strong>（Lazy Evaluation）：<code>yield</code> 表达式后的表达式只有当调用 <code>next()</code> 方法、内部指针指向该语句时才会执行。</p>
+</li>
+<li>
+<p><strong>暂缓执行函数</strong>：如果 Generator 函数中不使用 <code>yield</code> 表达式，那么只有调用该函数返回的遍历器对象的 <code>next()</code> 方法后，该函数的内部代码才会执行。</p>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>
+<p><code>yield</code> 表达式只能用在 Generator 函数里面。</p>
+</li>
+<li>
+<p><code>yield</code> 表达式如果用在另一个表达式之中，必须放在圆括号里面。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">demo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Hello&#x27;</span> + (<span class="keyword">yield</span> <span class="number">123</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>yield</code> 表达式用作函数参数或放在赋值表达式的右边，可以不加括号。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">demo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">foo</span>(<span class="keyword">yield</span> <span class="string">&#x27;a&#x27;</span>, <span class="keyword">yield</span> <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line">  <span class="keyword">let</span> input = <span class="keyword">yield</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>
+<p>可以把 Generator 函数赋值给对象的 <code>Symbol.iterator</code> 属性，从而使得该对象具有 Iterator 接口，使其成为可遍历对象。</p>
+</li>
+<li>
+<p>Generator 函数执行后，返回一个遍历器对象。该对象本身也具有<code>Symbol.iterator</code> 属性，执行后返回自身。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">numbers</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> iterator = <span class="title function_">numbers</span>();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(iterator[<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() === iterator); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在使用 <code>for...of</code> 循环遍历 Generator 函数返回的遍历器时，遍历结果不包括 Generator 函数中 <code>return</code> 语句返回的值。<strong><code>return</code> 语句仅用于标识迭代的结束</strong>，而其返回的值不会被 <code>for...of</code> 循环捕获。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">numbers</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>([...<span class="title function_">numbers</span>()]); <span class="comment">// [1, 2] </span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Array</span>.<span class="title function_">from</span>(<span class="title function_">numbers</span>())); <span class="comment">// [1, 2] </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [x, y] = <span class="title function_">numbers</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(x, y); <span class="comment">// 1, 2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> x <span class="keyword">of</span> <span class="title function_">numbers</span>()) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(x) <span class="comment">// 1, 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>所有与 <code>for...of</code> 遍历原理相同的语法，都会得到相同的结果。</p>
+</blockquote>
+</li>
+<li>
+<p>如果一个对象的属性是 Generator 函数，可以<strong>简写</strong>成下面的形式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  * <span class="title function_">myGeneratorMethod</span>(<span class="params"></span>) &#123;</span><br><span class="line">    ···</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Generator 函数执行返回的遍历器是 Generator 函数的实例</strong>，继承了 Generator 函数的 <code>prototype</code> 对象上的方法。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-next-方法的参数">2. next 方法的参数</h3>
+<ol>
+<li>
+<p>解释：<code>yield</code> 表达式本身没有返回值，或者说总是返回 <code>undefined</code>。<code>next</code> 方法可以带一个参数，该参数就会被当作<strong>上一个 <code>yield</code> 表达式的返回值</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">foo</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">2</span> * (<span class="title function_">yield</span> (x + <span class="number">1</span>));</span><br><span class="line">  <span class="keyword">var</span> z = <span class="title function_">yield</span> (y / <span class="number">3</span>);</span><br><span class="line">  <span class="keyword">return</span> (x + y + z);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="title function_">foo</span>(<span class="number">5</span>);</span><br><span class="line">b.<span class="title function_">next</span>() <span class="comment">// &#123; value:6, done:false &#125;</span></span><br><span class="line">b.<span class="title function_">next</span>(<span class="number">12</span>) <span class="comment">// &#123; value:8, done:false &#125;</span></span><br><span class="line">b.<span class="title function_">next</span>(<span class="number">13</span>) <span class="comment">// &#123; value:42, done:true &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>通过 <code>next()</code> 方法的参数，可以在 Generator 函数运行的不同阶段，从外部向内部注入不同的值，从而调整函数行为。</li>
+<li>第一次调用 <code>next()</code> 方法时，传递参数是无效的。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-Generator-函数的原型方法">3. Generator 函数的原型方法</h3>
+<p>Generator 函数的执行结果是一个遍历器，可以被视为 Generator 函数的实例对象。因此，下述的 <code>throw()</code>、<code>return()</code> 方法都是遍历器对象所调用的方法。</p>
+<h4 id="3-1-Generator-prototype-throw">3.1 Generator.prototype.throw()</h4>
+<ol>
+<li>
+<p>解释：在 Generator 函数体外<strong>抛出错误</strong>，该错误可以在 Generator 函数体内被捕获。</p>
+</li>
+<li>
+<p>语法：<code>integrator.throw(e)</code></p>
+<ul>
+<li><code>e</code>：被抛出的错误，建议为 <code>Error</code> 对象的实例。</li>
+</ul>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>
+<p><code>throw</code> 方法抛出的错误要被内部捕获，前提是必须<strong>至少执行过一次 <code>next</code> 方法</strong>，否则，由于 Generator 函数还没有开始执行，<code>throw</code> 方法抛出的错误只能抛出在函数外部。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gen = <span class="keyword">function</span>* <span class="title function_">gen</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = <span class="title function_">gen</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="keyword">throw</span>(<span class="keyword">new</span> <span class="title class_">Error</span>()))<span class="comment">// &quot;执行 JavaScript 失败:&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>throw</code> 方法被内部捕获以后，会附带执行到下一条 <code>yield</code> 表达式，这种情况下<strong>等同于执行一次 <code>next</code> 方法</strong>。也就是说，<code>throw</code> 方法执行后，也会返回一个结构为 <code>&#123;value: any, done: boolean&#125;</code> 的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gen = <span class="keyword">function</span>* <span class="title function_">gen</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = <span class="title function_">gen</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>())<span class="comment">// &#123; value:1, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="keyword">throw</span>(<span class="keyword">new</span> <span class="title class_">Error</span>())) <span class="comment">// &#123; value:3, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:4, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:undefined, done:true &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:undefined, done:true &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>一旦 Generator 执行过程中抛出错误，且没有被内部捕获，就<strong>不会再执行下去</strong>了。如果此后还调用 <code>next</code> 方法，将返回一个 <code>value</code> 属性等于 <code>undefined</code>、<code>done</code> 属性等于 <code>true</code> 的对象，即 JavaScript 引擎认为这个 Generator 已经运行结束了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gen = <span class="keyword">function</span>* <span class="title function_">gen</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = <span class="title function_">gen</span>();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:1, done:false &#125;</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="keyword">throw</span>(<span class="keyword">new</span> <span class="title class_">Error</span>()))</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:undefined, done:true &#125;</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:undefined, done:true &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-2-Generator-prototype-return">3.2 Generator.prototype.return()</h4>
+<ol>
+<li>
+<p>解释：在 Generator 函数体外返回给定的值，并且终结遍历 Generator 函数。</p>
+</li>
+<li>
+<p>语法：<code>integrator.return(value)</code></p>
+<ul>
+<li><code>value</code>：返回的值。如果不提供该参数，则默认 <code>value = undefined</code>。</li>
+</ul>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>
+<p>如果 Generator 函数内部有 <code>try...finally</code> 代码块，且正在执行 <code>try</code> 代码块，那么 <code>return</code> 方法会导致立刻进入 <code>finally</code> 代码块，执行完以后，再返回 <code>return</code> 方法指定的返回值，此时整个函数才会结束。</p>
+</li>
+<li>
+<p>与 <code>throw</code> 方法类似，<code>return</code> 方法执行后，也会返回一个结构为 <code>&#123;value: any, done: boolean&#125;</code> 的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gen = <span class="keyword">function</span>* <span class="title function_">gen</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">yield</span> <span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = <span class="title function_">gen</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>())<span class="comment">// &#123; value:1, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="keyword">throw</span>(<span class="keyword">new</span> <span class="title class_">Error</span>())) <span class="comment">// &#123; value:3, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="keyword">return</span>(<span class="number">100</span>)) <span class="comment">// &#123; value:5, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:6, done:false &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:100, done:true &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(g.<span class="title function_">next</span>()) <span class="comment">// &#123; value:undefined, done:true &#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="next-、throw-、return-对比">next()、throw()、return() 对比</h4>
+<p><code>next()</code>、<code>throw()</code>、<code>return()</code> 本质上都是让 Generator 函数<strong>恢复执行</strong>，并且使用不同的语句替换 <code>yield</code> 表达式。假设遍历器对象当前指向 <code>let result = yield x + y</code>，那么以下方法的执行相当于将 <code>yield</code> 表达式替换为，</p>
+<ul>
+<li><code>next(para)</code>：<code>let result = para</code></li>
+<li><code>throw(e)</code>：<code>let result = throw(e)</code></li>
+<li><code>return(value)</code>：<code>let result = return value</code></li>
+</ul>
+<h3 id="4-yield-表达式">4. yield* 表达式</h3>
+<ol>
+<li>
+<p>解释：在 Generator 函数中使用 <code>yield*</code> 表达式，相当于<strong>委托执行</strong>另一个遍历器对象或可遍历对象的所有元素。<code>yield*</code> 会自动遍历该对象的所有元素，并对每个元素<strong>单独使用 <code>yield</code> 表达式进行产出</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>* <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span>* <span class="title function_">bar</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;x&#x27;</span>;</span><br><span class="line">  <span class="keyword">const</span> value = <span class="keyword">yield</span>* <span class="title function_">foo</span>();</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(value);</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;y&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> i = <span class="title function_">bar</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="title function_">next</span>().<span class="property">value</span>) <span class="comment">// &quot;x&quot; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="title function_">next</span>().<span class="property">value</span>) <span class="comment">// &quot;a&quot; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="title function_">next</span>().<span class="property">value</span>) <span class="comment">// &quot;b&quot;</span></span><br><span class="line"><span class="comment">// &quot;hello&quot;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="title function_">next</span>().<span class="property">value</span>) <span class="comment">// &quot;y&quot; </span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="title function_">next</span>().<span class="property">value</span>) <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>语法</p>
+<ul>
+<li><code>yield* 遍历器对象</code></li>
+<li><code>yield* 可遍历对象</code></li>
+</ul>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>如果 <code>yield*</code> 后面跟随的是一个 Generator 函数的遍历器，并且该 Generator 函数包含 <code>return</code> 语句，那么可以使用 <code>var value = yield* iterator</code> 的形式来<strong>获取 <code>return</code> 语句返回的值</strong>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-Generator-与协程">5. Generator 与协程</h3>
+<ol>
+<li>协程（coroutine）：一种程序运行的方式，可以理解成 “协作的线程” 或 “协作的函数”。</li>
+<li>协程的实现方式
+<ul>
+<li>单线程实现：特殊的子例程（subroutine）</li>
+<li>多线程实现：特殊的线程</li>
+</ul>
+</li>
+<li>协程 Vs 子例程
+<ul>
+<li>子例程
+<ul>
+<li>一个调用栈。</li>
+<li>堆栈式“后进先出”的执行方式，只有当调用的子函数完全执行完毕，才会结束执行父函数。</li>
+</ul>
+</li>
+<li>协程
+<ul>
+<li>多个调用栈。</li>
+<li>多个线程（单线程情况下，即多个函数）可以并行执行，但是只有一个线程（或函数）处于正在运行的状态，其他线程（或函数）都处于暂停态（suspended），线程（或函数）之间可以交换执行权。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>协程 Vs 普通线程
+<ul>
+<li>普通线程：同一时间可以有多个线程处于运行状态。</li>
+<li>协程：同一时间运行的协程只能有一个，其他协程都处于暂停状态。</li>
+</ul>
+</li>
+<li>Generator 函数 - 半协程：Generator 函数被称为“半协程”（semi-coroutine），意思是只有 Generator 函数的调用者，才能将程序的执行权还给 Generator 函数。此外，Generator 使用 <code>yield</code> 表达式交换控制权。</li>
+<li>Generator 函数 - 上下文：Generator 函数执行产生的上下文环境，一旦遇到 <code>yield</code> 命令，就会暂时退出堆栈，但是并不消失，里面的所有变量和对象会冻结在当前状态。等到对它执行 <code>next</code> 命令时，这个上下文环境又会重新加入调用栈，冻结的变量和对象恢复执行。</li>
+</ol>
+<h2 id="Generator-函数的异步应用">Generator 函数的异步应用</h2>
+<h2 id="async-函数">async 函数</h2>
+<h2 id="ArrayBuffer">ArrayBuffer</h2>
+<h3 id="1-简要概述-3">1. 简要概述</h3>
+<ol>
+<li>
+<p>解释：<code>ArrayBuffer</code> 对象代表<strong>内存之中的一段二进制数据</strong>，开发者可以通过<strong>视图</strong>（<code>TypedArray</code> 或 <code>DataView</code>）进行操作。由于视图部署了数组接口，因此可以<strong>使用数组的方法操作内存</strong>。<code>ArrayBuffer</code> 对象、<code>TypedArray</code> 视图和 <code>DataView</code> 视图统称为<strong>二进制数组</strong>。</p>
+</li>
+<li>
+<p>视图：<code>TypedArray</code> 视图用于读写<strong>简单类型</strong>的二进制数据；<code>DataView</code> 视图支持自定义复合格式的视图，因此用于读写<strong>复杂类型</strong>的二进制数据。</p>
+<ul>
+<li>
+<p><code>TypedArray</code> 视图：9 种类型，如 Uint8Array 数组视图、Int16Array 数组视图、Float32Array 数组视图等，对应 9 种数据类型。</p>
+</li>
+<li>
+<p><code>DataView</code> 视图：可以自定义每个字节对应的数据类型，如第一个字节是 Uint8，第二、三个字节是 Int16，第四个字节开始是 Float32等，支持 8 种数据类型（与 <code>TypedView</code> 视图相比，不支持 Uint8C 数据类型）。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">字节长度</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">对应的 C 语言类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Int8</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">8 位带符号整数</td>
+<td style="text-align:center">signed char</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint8</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">8 位不带符号整数</td>
+<td style="text-align:center">unsigned char</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint8C</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">8 位不带符号整数（自动过滤溢出）</td>
+<td style="text-align:center">unsigned char</td>
+</tr>
+<tr>
+<td style="text-align:center">Int16</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">16 位带符号整数</td>
+<td style="text-align:center">short</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint16</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">16 位不带符号整数</td>
+<td style="text-align:center">unsigned short</td>
+</tr>
+<tr>
+<td style="text-align:center">Int32</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">32 位带符号整数</td>
+<td style="text-align:center">int</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint32</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">32 位不带符号的整数</td>
+<td style="text-align:center">unsigned int</td>
+</tr>
+<tr>
+<td style="text-align:center">Float32</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">32 位浮点数</td>
+<td style="text-align:center">float</td>
+</tr>
+<tr>
+<td style="text-align:center">Float64</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">64 位浮点数</td>
+<td style="text-align:center">double</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-ArrayBuffer">2. ArrayBuffer</h3>
+<ol>
+<li>
+<p>解释：<code>ArrayBuffer</code> 对象代表<strong>内存之中的一段二进制数据</strong>，仅支持通过<strong>视图</strong>进行读写操作。</p>
+</li>
+<li>
+<p>基本使用</p>
+<ul>
+<li>
+<p><strong><code>ArrayBuffer</code> 的创建</strong>：指定<strong>连续的</strong>内存区域大小为 <code>byteLength</code>，同时每个字节的默认值为 0。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(byteLength)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>ArrayBuffer</code> 的操作</strong>（通过视图）</p>
+<ul>
+<li>
+<p><code>DataView</code> 视图：指定 <code>ArrayBuffer</code> 实例为参数创建视图实例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dataView = <span class="keyword">new</span> <span class="title class_">DataView</span>(buffer);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(dataView.<span class="title function_">getInt8</span>(<span class="number">0</span>));</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>TypedArray</code> 视图：指定 <code>ArrayBuffer</code> 实例为参数创建视图实例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> int8Array = <span class="keyword">new</span> <span class="title class_">Int8Array</span>(buffer);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(int8Array.<span class="property">length</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：与 DataView 视图不同，TypedArray 视图是一组构造函数，代表不同的数据格式</p>
+</blockquote>
+</li>
+<li>
+<p><code>TypedArray</code> 视图：指定 <code>Array</code> 实例为参数创建视图实例，此时会隐含地创建一个 <code>ArrayBuffer</code> 对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> int8Array2 = <span class="keyword">new</span> <span class="title class_">Int8Array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(int8Array2.<span class="property">length</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>ArrayBuffer</code> 的属性和方法</p>
+<ul>
+<li>
+<p><code>ArrayBuffer.prototype.byteLength: number</code> 返回 ArrayBuffer 所分配的<strong>内存区域的字节长度</strong>。内存区域要求<strong>连续</strong>，因此大内存区域可能会分配失败，因此可以通过如下方法<strong>检测内存是否分配成功</strong>，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (buffer.<span class="property">byteLength</span> === n) &#123;</span><br><span class="line">  <span class="comment">// 成功</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>ArrayBuffer.prototype.slice(start[, end]): ArrayBuffer</code> <strong>创建一个新的 <code>ArrayBuffer</code> 对象，其内存区域数据拷贝自原 <code>ArrayBuffer</code> 内存区域 <code>[start end)</code> 部分的字节数据</strong>。这里的 <code>start</code>、<code>end</code> 是字节序号，如果不指定 <code>end</code>，则拷贝原 <code>ArrayBuffer</code> 从 <code>start</code> 字节开始的所有字节数据。</p>
+</li>
+<li>
+<p><code>ArrayBuffer.isView(obj): boolean</code> 表示参数 <code>obj</code> <strong>是否为 <code>ArrayBuffer</code> 的视图实例</strong>，即是否为 <code>TypedArray</code> 实例或 <code>DataView </code>实例。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Conversion：<code>ArrayBuffer</code> 及对应的 <code>TypedArray</code> &lt;–&gt; <code>string</code></p>
+<ul>
+<li>
+<p><code>ArrayBuffer</code> 及其对应的 <code>TypedArray</code> --&gt; <code>string</code>：<code>TextDeocder</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step1. </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">decoder</span>: <span class="title class_">TextDecoder</span> = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>(outputEncoding); <span class="comment">// outputEncoding 指定解码的编码格式，默认为 &#x27;utf-8&#x27;</span></span><br><span class="line"><span class="comment">// Step2. </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">output</span>: string = decoder.<span class="title function_">decode</span>(input); <span class="comment">// input 的类型为 ArrayBuffer | Uint8Array | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>string</code> --&gt; <code>ArrayBuffer</code> 及其对应的 <code>TypedArray</code>：<code>TextEncoder</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Step1. </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">encoder</span>: <span class="title class_">TextEncoder</span> = <span class="keyword">new</span> <span class="title class_">TextEncoder</span>();</span><br><span class="line"><span class="comment">// Step2. </span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">view</span>: <span class="title class_">Uint8Array</span> = <span class="title function_">encoder</span>(input); <span class="comment">// input 的类型为 string</span></span><br><span class="line"><span class="comment">// Step3.</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">buffer</span>: <span class="title class_">ArrayBuffer</span> = view.<span class="property">buffer</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-TypedArray">3. TypedArray</h3>
+<h4 id="3-1-概念理解">3.1 概念理解</h4>
+<ol>
+<li>
+<p>视图（view）：即对 <code>ArrayBuffer</code> 对象对应<strong>内存区域的字节数据的解读方式</strong>，分为 <code>TypedArray</code> 视图（将所有数组成员都解读为<strong>同一种</strong>数据类型）、<code>DataView</code> 视图（将所有数组成员都解读为<strong>不同的</strong>数据类型）。</p>
+</li>
+<li>
+<p>TypedArray 视图：共计 9 种，对应 9 种<strong>构造函数</strong>，9 种数组成员的<strong>数据类型</strong>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">构造函数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Int8Array</td>
+<td style="text-align:center">8 位有符号整数，长度 1 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint8Array</td>
+<td style="text-align:center">8 位无符号整数，长度 1 个字节</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint8ClampedArray</td>
+<td style="text-align:center">8 位无符号整数，长度 1 个字节，溢出处理不同。</td>
+</tr>
+<tr>
+<td style="text-align:center">Int16Array</td>
+<td style="text-align:center">16 位有符号整数，长度 2 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint16Array</td>
+<td style="text-align:center">16 位无符号整数，长度 2 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Int32Array</td>
+<td style="text-align:center">32 位有符号整数，长度 4 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Uint32Array</td>
+<td style="text-align:center">32 位无符号整数，长度 4 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Float32Array</td>
+<td style="text-align:center">32 位浮点数，长度 4 个字节。</td>
+</tr>
+<tr>
+<td style="text-align:center">Float64Array</td>
+<td style="text-align:center">64 位浮点数，长度 8 个字节。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>TypedArray Vs. Array</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">差异点</th>
+<th style="text-align:center">TypedArray</th>
+<th style="text-align:center">Array</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>数组成员类型是否相同</strong></td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">否</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>数组成员在内存空间是否连续</strong></td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">不一定（密集数组连续，稀疏数组不连续）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>数组成员的默认值</strong></td>
+<td style="text-align:center">0</td>
+<td style="text-align:center"><code>undefined</code>（空位）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>数据存储位置</strong></td>
+<td style="text-align:center"><code>TypedArray</code> 视图对应的 <code>ArrayBuffer</code> 对象（可通过视图的 <code>buffer</code> 属性获取）</td>
+<td style="text-align:center"><code>Array</code> 对象自身</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h4 id="3-2-构造函数">3.2 构造函数</h4>
+<blockquote>
+<p>注：JavaScript <strong>允许基于同一 <code>ArrayBuffer</code> 对象建立多个视图</strong>，此时每个视图可以根据自己的理解去修改相应内存区域的数据，同时一个视图对内存的更改会在其他视图上反映出来。</p>
+</blockquote>
+<ol>
+<li>
+<p><code>TypedArray(buffer: ArrayBuffer, byteOffset: number=0[, length: number])</code> 表示从 <code>buffer</code> 的第 <code>byteOffset</code> 个字节开始创建视图，同时确保视图的成员数量为 <code>length</code>。其中 <code>byteOffset</code> 是 <code>0-based</code> 表示，表示视图开始的字节序号，默认值为 0；<code>length</code> 表示视图的成员数量，因此视图对应<strong>内存区域的长度 = <code>length</code> * 每个成员字节数</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>(<span class="number">8</span>); <span class="comment">// 对应 8 个字节的内存区域（第 0 ～ 7 个字节）</span></span><br><span class="line"><span class="keyword">const</span> v1 = <span class="keyword">new</span> <span class="title class_">Int32Array</span>(buf); <span class="comment">// 可操作第 0 ~ 7 个字节，每 4 个字节被解析为一个 int32 类型的数组成员，因此视图数组长度为 2</span></span><br><span class="line"><span class="keyword">const</span> v2 = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(buf, <span class="number">2</span>); <span class="comment">// 可操作第 2 ~ 7 个字节，每 1 个字节被解析为一个 uint8 类型的数组成员，因此视图数组长度为 6</span></span><br><span class="line"><span class="keyword">const</span> v3 = <span class="keyword">new</span> <span class="title class_">Int16Array</span>(buf, <span class="number">2</span>, <span class="number">2</span>); <span class="comment">// 可操作第 2 ~ 5（2 + 2 * 2 - 1） 个字节，每 2 个字节被解析为一个 int16 类型的数组成员，此时视图数组长度被指定为 2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`v1.length=<span class="subst">$&#123;v1.length&#125;</span>, v2.length=<span class="subst">$&#123;v2.length&#125;</span>, v3.length=<span class="subst">$&#123;v3.length&#125;</span>`</span>); <span class="comment">// 2, 6, 2</span></span><br><span class="line">v1[<span class="number">0</span>] = <span class="number">0x12345678</span>; <span class="comment">// 修改第 0 ～ 3 个字节的值为 0x12345678，此时 v2[0] 表示第 2 个字节的值为 0x34, 表示第 2 ～ 3 个字节的值为 0x1234</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(buf); <span class="comment">// [Uint8Contents]: &lt;78 56 34 12 00 00 00 00&gt;（ArrayBuffer 十六进制表示的每个字节的值）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`v1[0]=0x<span class="subst">$&#123;v1[<span class="number">0</span>].toString(<span class="number">16</span>)&#125;</span>, v2[0]=0x<span class="subst">$&#123;v2[<span class="number">0</span>].toString(<span class="number">16</span>)&#125;</span>, v3[0]=0x<span class="subst">$&#123;v3[<span class="number">0</span>].toString(<span class="number">16</span>)&#125;</span>`</span>); <span class="comment">// 0x12345678, 0x34, 0x1234</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：创建视图时，byteOffset 必须与所建立的数据类型一致，即 byteOffset 必须是数组成员的字节数的整数倍，否则会报错。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> v4 = <span class="keyword">new</span> <span class="title class_">Int16Array</span>(buf, <span class="number">1</span>, <span class="number">2</span>); <span class="comment">// RangeError: start offset of Int16Array should be a multiple of 2</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li>
+<p><code>TypedArray(length)</code> 表示创建一个成员数量为 <code>length</code> 的视图，此时视图实际上创建了一个大小为 <strong><code>length</code> * 视图成员字节数</strong> 的 <code>ArrayBuffer</code>。其中 <code>length</code> 表示视图成员数量；视图创建的 <code>ArrayBuffer</code> 可以通过视图的 <code>buffer</code> 属性获取。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> f64a = <span class="keyword">new</span> <span class="title class_">Float64Array</span>(<span class="number">8</span>); <span class="comment">// 视图成员数量为 8，对应的内存区域大小为 8 * 8 = 64 字节</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`f64a.length=<span class="subst">$&#123;f64a.length&#125;</span>, f64a.buffer.byteLength=<span class="subst">$&#123;f64a.buffer.byteLength&#125;</span>`</span>); <span class="comment">// 8, 64</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(f64a.<span class="property">buffer</span>); <span class="comment">// [Uint8Contents]: &lt;00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00&gt;（ArrayBuffer 十六进制表示的每个字节的值）</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>TypedArray(typedArray)</code> 表示基于给定视图创建一个新的视图，此时新视图对应的 <code>ArrayBuffer</code> 与给定视图的 <code>ArrayBuffer</code> 不是同一个，可以理解为两个 <code>ArrayBuffer</code> 内存区域不同，但是数据相同，即数据发生了拷贝。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> view1 = <span class="keyword">new</span> <span class="title class_">Int16Array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);</span><br><span class="line"><span class="keyword">const</span> view2 = <span class="keyword">new</span> <span class="title class_">Int16Array</span>(view1);</span><br><span class="line">view1[<span class="number">0</span>] = <span class="number">123</span>; <span class="comment">// 此时 view1 对应的内存区域数据为 123 2 3 4，view2 对应的内存区域的数据为 1 2 3 4，即两个视图的内存区域相互独立互不干扰</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`view1[0]=<span class="subst">$&#123;view1[<span class="number">0</span>]&#125;</span>, view2[0]=<span class="subst">$&#123;view2[<span class="number">0</span>]&#125;</span>`</span>); <span class="comment">// 123, 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>TypedArray(arrayLikeObject)</code> 表示基于给定类数组对象创建一个视图，此时视图实际上开辟了一个新的 <code>ArrayBuffer</code>，与给定类数组对象无关，即数据发生了拷贝。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> view = <span class="keyword">new</span> <span class="title class_">Int16Array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]); <span class="comment">// 视图的成员数量为给定的类数组对象的成员数量。</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`view.length=<span class="subst">$&#123;view.length&#125;</span>`</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：TypedArray 视图可以通过以下三种方法转换为普通数组：<code>[...typedArray]</code>, <code>Array.from(typedArray)</code>, <code>Array.prototype.slice.call(typedArray)</code>。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="3-3-数组方法">3.3 数组方法</h4>
+<ol>
+<li>
+<p>TypedArray 可用的数组方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">copyWithin</span>(target, start[, end=<span class="variable language_">this</span>.<span class="property">length</span>])</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">entries</span>()</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">every</span>(callbackfn, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">fill</span>(value, start=<span class="number">0</span>, end=<span class="variable language_">this</span>.<span class="property">length</span>)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">filter</span>(callbackfn, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">find</span>(predicate, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">findIndex</span>(predicate, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">forEach</span>(callbackfn, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">indexOf</span>(searchElement, fromIndex=<span class="number">0</span>)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">join</span>(separator)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">keys</span>()</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">lastIndexOf</span>(searchElement, fromIndex?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">map</span>(callbackfn, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">reduce</span>(callbackfn, initialValue?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">reduceRight</span>(callbackfn, initialValue?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">reverse</span>()</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">slice</span>(start=<span class="number">0</span>, end=<span class="variable language_">this</span>.<span class="property">length</span>)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">some</span>(callbackfn, thisArg?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">sort</span>(comparefn)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">toLocaleString</span>(reserved1?, reserved2?)</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">toString</span>()</span><br><span class="line"><span class="title class_">TypedArray</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="title function_">values</span>()</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用说明</p>
+<ul>
+<li>
+<p><code>TypedArray</code> 数组没有 <code>concat</code> 方法，可以通过以下函数实现多个 <code>TypedArray</code> 数组的<strong>合并</strong>操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">concatenate</span>(<span class="params">resultConstructor, ...arrays</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> totalLength = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> arr <span class="keyword">of</span> arrays) &#123;</span><br><span class="line">    totalLength += arr.<span class="property">length</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="keyword">new</span> <span class="title function_">resultConstructor</span>(totalLength);</span><br><span class="line">  <span class="keyword">let</span> offset = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> arr <span class="keyword">of</span> arrays) &#123;</span><br><span class="line">    result.<span class="title function_">set</span>(arr, offset);</span><br><span class="line">    offset += arr.<span class="property">length</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">concatenate</span>(<span class="title class_">Uint8Array</span>, <span class="title class_">Uint8Array</span>.<span class="title function_">of</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="title class_">Uint8Array</span>.<span class="title function_">of</span>(<span class="number">3</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：<code>TypedArray</code> 可以称之为<strong>数组</strong>，因为其实现了数组接口；也可称之为<strong>视图</strong>，因为其可以对 <code>ArrayBuffer</code> 对应的内存区域进行操作。</p>
+</blockquote>
+</li>
+<li>
+<p><code>TypedArray</code> 数组部署了 <code>Iterator</code> 接口，即 <code>TypedArray</code> 数组是可迭代对象，可以通过 <code>for...of</code> 遍历。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ui8 = <span class="title class_">Uint8Array</span>.<span class="title function_">of</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> byte <span class="keyword">of</span> ui8) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(byte);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-4-字节序">3.4 字节序</h4>
+<ol>
+<li>
+<p><strong>大端字节序</strong>（Big-Endian）：重要的字节排在前边，不重要的字节排在后边。换句话说，高位字节排在内存低位，低位字节排在内存高位。</p>
+<ul>
+<li>示例：<code>0x12345678</code> 的大端字节序的存储为 <code>12</code> <code>34</code> <code>56</code> <code>78</code>（内存地址从低到高）。</li>
+<li>场景：网络传输（TCP/IP 协议等）。</li>
+</ul>
+</li>
+<li>
+<p><strong>小端字节序</strong>（Little-Endian，默认）：不重要的字节排在前边，重要的字节排在后边。换句话说，低位字节在内存低位，高位字节在内存高位。</p>
+<blockquote>
+<p>注：<code>TypedArray</code> 视图采取<strong>小端字节序</strong>读写数据，不支持修改字节序。但是，<code>DataView</code> 视图支持以指定的字节序读写数据。</p>
+</blockquote>
+<ul>
+<li>示例：<code>0x12345678</code> 的小端字节序的存储为 <code>78</code> <code>56</code> <code>34</code> <code>12</code>（内存地址从低到高）。</li>
+<li>场景：x86 处理器、Windows 系统。</li>
+</ul>
+</li>
+<li>
+<p>字节序判断</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">BIG_ENDIAN</span> = <span class="title class_">Symbol</span>(<span class="string">&#x27;BIG_ENDIAN&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">LITTLE_ENDIAN</span> = <span class="title class_">Symbol</span>(<span class="string">&#x27;LITTLE_ENDIAN&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getPlatformEndianness</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> arr32 = <span class="title class_">Uint32Array</span>.<span class="title function_">of</span>(<span class="number">0x12345678</span>);</span><br><span class="line">  <span class="keyword">let</span> arr8 = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(arr32.<span class="property">buffer</span>);</span><br><span class="line">  <span class="keyword">switch</span> ((arr8[<span class="number">0</span>]*<span class="number">0x1000000</span>) + (arr8[<span class="number">1</span>]*<span class="number">0x10000</span>) + (arr8[<span class="number">2</span>]*<span class="number">0x100</span>) + (arr8[<span class="number">3</span>])) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0x12345678</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="variable constant_">BIG_ENDIAN</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0x78563412</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="variable constant_">LITTLE_ENDIAN</span>;</span><br><span class="line">    <span class="attr">default</span>:</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Unknown endianness&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="3-5-属性和方法">3.5 属性和方法</h4>
+<ol>
+<li>
+<p>静态属性</p>
+<ul>
+<li>
+<p><code>TypedArray.BYTES_PER_ELEMENT</code> 获取指定视图的数组成员所占据的字节数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Int8Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 1</span></span><br><span class="line"><span class="title class_">Uint8Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 1</span></span><br><span class="line"><span class="title class_">Uint8ClampedArray</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 1</span></span><br><span class="line"><span class="title class_">Int16Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 2</span></span><br><span class="line"><span class="title class_">Uint16Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 2</span></span><br><span class="line"><span class="title class_">Int32Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 4</span></span><br><span class="line"><span class="title class_">Uint32Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 4</span></span><br><span class="line"><span class="title class_">Float32Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 4</span></span><br><span class="line"><span class="title class_">Float64Array</span>.<span class="property">BYTES_PER_ELEMENT</span> <span class="comment">// 8</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>实例属性</p>
+<ul>
+<li><code>TypedArray.prototype.BYTES_PER_ELEMENT</code> 与 <code>TypedArray.BYTES_PER_ELEMENT</code> 相同。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-DataView">4. DataView</h3>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2025/02/08/ES6%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/">https://zhengzehua.top/2025/02/08/ES6%E6%95%99%E7%A8%8B@%E9%98%AE%E4%B8%80%E5%B3%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-Map"><span class="toc-text">Set &amp; Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proxy"><span class="toc-text">Proxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reflect"><span class="toc-text">Reflect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise"><span class="toc-text">Promise</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iterator"><span class="toc-text">Iterator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0"><span class="toc-text">1. 简要概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Iterator-%E6%8E%A5%E5%8F%A3"><span class="toc-text">2. Iterator 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-Symbol-iterator"><span class="toc-text">2.1 Symbol.iterator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E6%8E%A5%E5%8F%A3%E9%83%A8%E7%BD%B2"><span class="toc-text">2.2 接口部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E8%B0%83%E7%94%A8%E5%9C%BA%E5%90%88"><span class="toc-text">2.3 调用场合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-text">2.4 几个概念</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Iterator-%E7%BB%93%E6%9E%84"><span class="toc-text">3. Iterator 结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">4. 生成数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%81%8D%E5%8E%86%E8%AF%AD%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-text">5. 遍历语法比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-%E5%87%BD%E6%95%B0"><span class="toc-text">Generator 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0-2"><span class="toc-text">1. 简要概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-next-%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">2. next 方法的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Generator-%E5%87%BD%E6%95%B0%E7%9A%84%E5%8E%9F%E5%9E%8B%E6%96%B9%E6%B3%95"><span class="toc-text">3. Generator 函数的原型方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-Generator-prototype-throw"><span class="toc-text">3.1 Generator.prototype.throw()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-Generator-prototype-return"><span class="toc-text">3.2 Generator.prototype.return()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#next-%E3%80%81throw-%E3%80%81return-%E5%AF%B9%E6%AF%94"><span class="toc-text">next()、throw()、return() 对比</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-yield-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">4. yield* 表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Generator-%E4%B8%8E%E5%8D%8F%E7%A8%8B"><span class="toc-text">5. Generator 与协程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generator-%E5%87%BD%E6%95%B0%E7%9A%84%E5%BC%82%E6%AD%A5%E5%BA%94%E7%94%A8"><span class="toc-text">Generator 函数的异步应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-%E5%87%BD%E6%95%B0"><span class="toc-text">async 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayBuffer"><span class="toc-text">ArrayBuffer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0-3"><span class="toc-text">1. 简要概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ArrayBuffer"><span class="toc-text">2. ArrayBuffer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-TypedArray"><span class="toc-text">3. TypedArray</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3"><span class="toc-text">3.1 概念理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-text">3.2 构造函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95"><span class="toc-text">3.3 数组方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-text">3.4 字节序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-text">3.5 属性和方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-DataView"><span class="toc-text">4. DataView</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By yiTuChuan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.3.1"></script><script src="/js/main.js?v=5.3.1"></script><div class="js-pjax"><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => setTimeout(() => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        if (ele.children.length > 0) return
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }, 100)
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : btf.getScript('https://cdn.jsdelivr.net/npm/abcjs@6.4.4/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+  btf.addGlobalFn('encrypt', abcjsInit, 'abcjs')
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Nasir1423/blog-comment',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
