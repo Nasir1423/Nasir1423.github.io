@@ -1,0 +1,606 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>📝XSS 和 CSRF 攻击 | 川一土的博客视界</title><meta name="author" content="yiTuChuan"><meta name="copyright" content="yiTuChuan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="详细介绍 XSS（跨站脚本攻击）和 CSRF（跨站请求伪造）的攻击原理、分类特点、防御措施，以及两种网络攻击方式的异同对比，帮助开发者构建更安全的 Web 应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📝XSS 和 CSRF 攻击">
+<meta property="og:url" content="https://zhengzehua.top/2024/09/25/XSS-%E5%92%8C-CSRF-%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="川一土的博客视界">
+<meta property="og:description" content="详细介绍 XSS（跨站脚本攻击）和 CSRF（跨站请求伪造）的攻击原理、分类特点、防御措施，以及两种网络攻击方式的异同对比，帮助开发者构建更安全的 Web 应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg">
+<meta property="article:published_time" content="2024-09-25T06:38:15.000Z">
+<meta property="article:modified_time" content="2025-06-05T07:26:25.802Z">
+<meta property="article:author" content="yiTuChuan">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengzehua.top/images/butterfly_avatar_img.svg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "📝XSS 和 CSRF 攻击",
+  "url": "https://zhengzehua.top/2024/09/25/XSS-%E5%92%8C-CSRF-%E6%94%BB%E5%87%BB/",
+  "image": "https://zhengzehua.top/images/butterfly_avatar_img.svg",
+  "datePublished": "2024-09-25T06:38:15.000Z",
+  "dateModified": "2025-06-05T07:26:25.802Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yiTuChuan",
+      "url": "https://github.com/Nasir1423"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/butterfly_favicon.svg"><link rel="canonical" href="https://zhengzehua.top/2024/09/25/XSS-%E5%92%8C-CSRF-%E6%94%BB%E5%87%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="VS0CYuuxqYH1AjmSVIi39UiBz0ubcCCtUtHMiSsRQXA"/><meta name="msvalidate.01" content="3C21ED06CE83FA63D0A6E0ADE00F1DEE"/><link rel="stylesheet" href="/css/index.css?v=5.4.0-b2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-JRLJPHP21V"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-JRLJPHP21V')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-JRLJPHP21V', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: false,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '📝XSS 和 CSRF 攻击',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="/styles/minimal.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/butterfly_avatar_img.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/images/butterfly_nav_logo.svg" alt="Logo"><span class="site-name">川一土的博客视界</span></a><a class="nav-page-title" href="/"><span class="site-name">📝XSS 和 CSRF 攻击</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 实用站点</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">📝XSS 和 CSRF 攻击</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-25T06:38:15.000Z" title="发表于 2024-09-25 14:38:15">2024-09-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-05T07:26:25.802Z" title="更新于 2025-06-05 15:26:25">2025-06-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>一、XSS</h1>
+<h2 id="1-概述">1. 概述</h2>
+<p>XSS（Cross Site Script）<strong>跨站脚本攻击</strong>，指的是<strong>攻击者</strong>向网站<strong>嵌入恶意脚本</strong>，使得用户在<strong>浏览该页面时执行这些脚本</strong>，从而达到<strong>窃取用户数据</strong>（如 cookie）的目的。</p>
+<h2 id="2-分类">2. 分类</h2>
+<p>XSS 攻击可分为三种：<strong>存储型</strong>（持久型）、<strong>反射型</strong>（非持久型）、<strong>基于 DOM</strong>。</p>
+<h3 id="2-1-存储型">2.1 存储型</h3>
+<ol>
+<li>概述：<strong>存储型 XSS</strong>，也称为<strong>持久型 XSS</strong>，指的是：① 攻击者将恶意脚本提交到网站<strong>服务器</strong>的数据库中；② 当用户通过浏览器请求包含该恶意脚本的页面时；③ 恶意脚本会被执行，并将用户的 cookie 等敏感信息上传到攻击者的服务器。</li>
+<li>示例：2015 年，喜马拉雅出现存储型 XSS 漏洞。黑客将恶意 JavaScript 代码作为专辑名称提交，因服务器未严格过滤，这段代码被存储在数据库中。当其他用户访问该专辑时，恶意脚本执行，窃取用户的 Cookie 信息，并上传到黑客的服务器。黑客因此可以非法访问用户账号。</li>
+</ol>
+<h3 id="2-2-反射型">2.2 反射型</h3>
+<ol>
+<li>
+<p>概述：<strong>反射型 XSS</strong>，也称为<strong>非持久型 XSS</strong>，指的是：① 攻击者<strong>诱导</strong>用户点击一个恶意链接、提交表单或访问恶意网站；② 用户实际发送了一段<strong>包含恶意脚本的请求</strong>（即 <strong>XSS 代码出现在请求 URL 中</strong>）给网页服务器；③ 服务器解析请求并响应，响应内容中包含注入的恶意脚本；④ 浏览器在解析服务器响应时执行了恶意脚本，从而导致用户的 cookie 等敏感信息被窃取。</p>
+</li>
+<li>
+<p>示例：假设服务端的路由和视图如下，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.<span class="title class_">Router</span>();</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">/* GET home page. */</span></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="keyword">function</span>(<span class="params">req, res, next</span>) &#123;</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>, &#123; <span class="attr">title</span>: <span class="string">&#x27;Express&#x27;</span>,<span class="attr">xss</span>:req.<span class="property">query</span>.<span class="property">xss</span> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;!-- index.ejs --&gt;</span><br><span class="line">&lt;!-- 该视图将 URL 中的 xss 参数显示在页面 --&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">      &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;</span><br><span class="line">      &lt;link rel=&#x27;stylesheet&#x27; href=&#x27;/stylesheets/style.css&#x27; /&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">      &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;</span><br><span class="line">      &lt;p&gt;Welcome to &lt;%= title %&gt;&lt;/p&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">          &lt;%- xss %&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>当用户访问 <code>http://localhost:3000/?xss=123</code> 时，页面正常显示，但当用户访问 <code>http://localhost:3000/?xss=alert('你被xss攻击了')</code> 时，页面会跳出一个弹窗，即恶意脚本被执行。</p>
+</li>
+</ol>
+<h3 id="2-3-基于-DOM">2.3 基于 DOM</h3>
+<ol>
+<li>
+<p>概述：<strong>基于 DOM 的 XSS 攻击</strong>，指的是：① 攻击者通过各种手段（如网络劫持、在传输过程中修改 HTML 页面内容或诱导用户点击恶意链接等）<strong>将恶意脚本注入</strong>用户访问的页面中；② 这些恶意脚本在浏览器中执行，窃取用户的敏感信息。</p>
+</li>
+<li>
+<p>示例：当用户访问以下链接，</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/?name=&lt;script&gt;alert(&#x27;XSS攻击&#x27;);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>如果网页的 JavaScript 直接将 <code>name</code> 参数插入到页面中而未进行过滤，恶意脚本会被执行，触发警报，显示“XSS攻击”，从而窃取用户的敏感信息。</p>
+</li>
+</ol>
+<h2 id="3-防御">3. 防御</h2>
+<ol>
+<li>
+<p>根据恶意脚本<strong>是否要经过网页服务器处理</strong>，可以进一步将 XSS 攻击分为以下两种</p>
+<ul>
+<li>
+<p><strong>服务端安全漏洞</strong>：存储型 XSS 攻击、反射型 XSS 攻击</p>
+</li>
+<li>
+<p><strong>前端的安全漏洞</strong>：基于 DOM 的 XSS 攻击</p>
+</li>
+</ul>
+</li>
+<li>
+<p>XSS 攻击的共性：① 向浏览器中<strong>嵌入</strong>恶意脚本 ② 再通过恶意脚本<strong>窃取</strong>用户信息发送给攻击者部署的恶意服务器上</p>
+</li>
+</ol>
+<h3 id="3-1-服务端：用户输入-编码、解码和过滤">3.1 服务端：用户输入 - 编码、解码和过滤</h3>
+<blockquote>
+<p>适用于存储型 &amp; 反射型 XSS 攻击</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>编码</strong>：即将用户输入中的<strong>特殊字符</strong>（如 <code>&lt;</code>、<code>&gt;</code> 等）进行字符实体编码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户输入</span></span><br><span class="line"><span class="attr">code</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="string">&#x27;你被 xss 攻击了&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line"><span class="comment">// 用户输入的过滤结果</span></span><br><span class="line"><span class="attr">code</span>: &amp;lt;script&amp;gt;<span class="title function_">alert</span>(&amp;#<span class="number">39</span>; 你被 xss 攻击了 &amp;#<span class="number">39</span>;)&amp;lt;/script&amp;gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>解码</strong>：为了确保某些内容可以按原样显示，需要对用户编码的内容进行解码。</p>
+</li>
+<li>
+<p><strong>过滤</strong>：即将用户输入中的<strong>不合法的内容</strong>（如 script、iframe 节点等）过滤掉。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用户输入</span></span><br><span class="line"><span class="attr">code</span>: <span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="string">&#x27;你被 xss 攻击了&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span> </span><br><span class="line"><span class="comment">// 用户输入的过滤结果</span></span><br><span class="line"><span class="attr">code</span>: </span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-2-前端：内容安全策略（CSP）">3.2 前端：内容安全策略（CSP）</h3>
+<blockquote>
+<p>适用于所有 XSS 攻击；这里对于 CSP 的介绍有些详细，可以只看<a href="#%E6%A6%82%E5%BF%B5">概念</a>、<a href="#%E5%AE%9E%E7%8E%B0">实现</a>和<a href="#%E7%94%A8%E4%BE%8B">用例</a></p>
+</blockquote>
+<h4 id="概念">概念</h4>
+<p>CSP（Content Security Policy）<strong>内容安全策略</strong>，指的是一个额外的安全层，用于<strong>检测并削弱</strong>某些特定类型的攻击，包括<strong>跨站脚本攻击</strong>（XSS 攻击）和<strong>数据注入攻击</strong>等。通过 CSP 你可以为浏览器配置<strong>一组安全策略</strong>，如 ① 指定<strong>有效域</strong>，即浏览器可以执行哪些来源的可执行脚本；② 指定<strong>有效资源</strong>，即浏览器可以加载哪些资源；等等。</p>
+<blockquote>
+<p>兼容性：浏览器对 CSP 是<strong>向后兼容</strong>的，即：不支持 CSP 的浏览器会<strong>忽略</strong> CSP 策略，而使用<strong>标准同源策略</strong>；对于支持 CSP 的浏览器，如果网页没有指定 CSP 策略，则也会使用<strong>标准的同源策略</strong>。</p>
+</blockquote>
+<h4 id="实现">实现</h4>
+<p>CSP 可以 ① 通过配置<strong>服务器</strong>返回的 <code>Content-Security-Policy</code> HTTP 标头；② 通过 <code>&lt;meta&gt;</code> 元素来进行配置并启用。</p>
+<ul>
+<li>
+<p><code>Content-Security-Policy</code> HTTP 标头的适用语法为：<code>Content-Security-Policy: policy</code></p>
+</li>
+<li>
+<p><code>&lt;meta&gt;</code> 元素的使用语法为：<code>&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=policy /&gt;</code></p>
+</li>
+</ul>
+<blockquote>
+<p><code>policy</code> 参数是一个表示 <strong>CSP 策略</strong>的<strong>字符串</strong>，其包含<strong>一组 CSP 策略指令</strong>。</p>
+</blockquote>
+<blockquote>
+<p>注-1：CSP 的某些功能（如发送 CSP 违规报告）<strong>仅在使用 HTTP 标头时可用</strong>。</p>
+<p>注-2：<code>X-Content-Security-Policy</code> 是旧版本的用于配置 CSP 策略的 HTTP 标头。</p>
+</blockquote>
+<h4 id="策略指令">策略指令</h4>
+<p>CSP 策略由一系列策略指令所组成，每个策略指令都描述了<strong>针对某个特定资源的类型以及生效的范围</strong>。常见的策略指令为，</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">策略指令</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>default-src</code></td>
+<td style="text-align:center"><strong>备选</strong>的源策略，适用于所有资源类型。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>script-src</code></td>
+<td style="text-align:center">允许执行的 <strong>JavaScript 脚本</strong>的源策略。<br />支持 <code>&lt;script&gt;</code> 这种通过 URL 加载的脚本，也支持通过 <code>onclick</code> 事件触发的<strong>内联脚本</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>img-src</code></td>
+<td style="text-align:center">允许加载的<strong>图片</strong>的源策略。<br />这里的所说的图片也包括<strong>网站图标</strong> <code>favicon</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>connect-src</code></td>
+<td style="text-align:center">允许<strong>使用脚本请求</strong>的源策略。<br />这里的使用脚本请求的方式涵盖 <code>WebSocket</code>、<code>&lt;a&gt;</code>、<code>fetch</code>、<code>XMLHttpRequest</code> 等</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>frame-src</code></td>
+<td style="text-align:center">允许嵌套的 <code>&lt;iframe&gt;</code> 的源策略。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>style-src</code></td>
+<td style="text-align:center">允许加载的<strong>样式表</strong>的源策略。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>object-src</code></td>
+<td style="text-align:center">允许加载的 <code>&lt;object&gt;</code> 的源策略</td>
+</tr>
+</tbody>
+</table>
+<p>每个策略指令允许指定<strong>一个或多个源</strong>，格式为 <code>directive: &lt;source&gt;[ &lt;source&gt;]</code></p>
+<p>常见的源的可选值为，</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">源值</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>&lt;host-source&gt;</code></td>
+<td style="text-align:center"><strong>站点地址</strong>，由主机名（域名或 IP 地址） + 可选的协议名 + 可选的端口号组成，如 <code>https://store.example.com</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;scheme-source&gt;</code></td>
+<td style="text-align:center"><strong>协议名</strong>，可选 <code>'http:'</code>  或者  <code>'https:'</code> 等。<strong>必须带有冒号，不要有单引号</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>'self'</code></td>
+<td style="text-align:center"><strong>当前站点对应的源</strong>。这意味着，任何请求都必须发送到与当前站点相同的 URL（必须协议、域名、端口号都相同）。<strong>该取值必须有单引号</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>'unsafe-inline'</code></td>
+<td style="text-align:center"><strong>允许使用内联资源</strong>。包括内联脚本 <code>javascript: URLs</code>、内联事件句柄、内联样式 <code>style</code>。<strong>该取值必须有单引号</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>'unsafe-inline'</code></td>
+<td style="text-align:center">允许使用 <code>eval()</code> 或其他不安全的方法<strong>根据字符串创建代码</strong>。<strong>该取值必须有单引号</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>'none'</code></td>
+<td style="text-align:center">空集，表示<strong>没有任何源应该被匹配</strong>。<strong>该取值必须有单引号</strong>。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="用例">用例</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">所有内容均需来自<strong>当前站点对应的源</strong>，不涵盖其子域名</td>
+<td style="text-align:center"><code>Content-Security-Policy: default-src 'self'</code></td>
+</tr>
+<tr>
+<td style="text-align:center">所有内容均需来自<strong>受信任的域名及其子域名</strong>，域名不必须与当前站点相同</td>
+<td style="text-align:center"><code>Content-Security-Policy: default-src 'self' *.trusted.com</code></td>
+</tr>
+<tr>
+<td style="text-align:center">所有内容均默认来自<strong>当前站点对应的源</strong>，除了 <br />① <strong>图片可以从任意地方加载</strong> <br />② <strong>多媒体文件（音视频）仅允许从 <code>media1.com</code> 和 <code>media2.com</code> 加载</strong>（不包括子域名）<br />③ <strong>可执行脚本仅允许从 <code>userscripts.example.com</code> 加载</strong>（不包括子域名）</td>
+<td style="text-align:center"><code>Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="更多用法">更多用法</h4>
+<p>CSP 可以通过 <code>Content-Security-Policy-Report-Only</code> HTTP 标头部署为<strong>仅报告模式</strong>，此时 CSP 的策略并<strong>不是强制性的</strong>，但是任何违规行为将会<strong>报告</strong>给一个指定的 URL 地址，该 URL 地址通过策略指令 <code>report-to</code> 指定。更多：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP#%E5%AF%B9%E7%AD%96%E7%95%A5%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95">对策略进行测试</a>。</p>
+<blockquote>
+<p>注意：截止 2024-09-26，MDN 关于 CSP 的解释中，中英文版本略有差异，请以英文版本为准。</p>
+</blockquote>
+<h3 id="3-3-服务端：-Cookie-设置-HttpOnly-标志">3.3 服务端： Cookie 设置 HttpOnly 标志</h3>
+<blockquote>
+<p>适用于所有 XSS 攻击</p>
+</blockquote>
+<p>由于 XSS 攻击多用于窃取用户的 cookie 数据，为了阻止恶意脚本 <code>document.cookie</code> 获取 cookie 值，服务端可以给其返回的 cookie 携带 <code>HttpOnly</code> 标志。浏览器会禁止页面的 JavaScript 访问带有 HttpOnly 标志的 cookie。</p>
+<blockquote>
+<p>服务端通过 <code>Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; HttpOnly</code> 响应一个携带 HttpOnly 标志的 cookie</p>
+</blockquote>
+<img src="https://cdn.jsdelivr.net/gh/Nasir1423/blog-img@main/image-20240926210026819.png" alt="image-20240926210026819" style="zoom:50%;" />
+<h1>二、CSRF</h1>
+<h2 id="1-概述-2">1. 概述</h2>
+<p>CSRF（Cross Site Request Forgery）<strong>跨站请求伪造</strong>，指的是攻击者<strong>冒充受信任的用户</strong>，向被攻击网站的服务器发送<strong>非预期请求</strong>。CSRF 会导致用户的<strong>登录态</strong>被盗用，攻击者甚至会<strong>冒充</strong>用户操作或修改用户数据。</p>
+<h2 id="2-分类-2">2. 分类</h2>
+<p>CSRF 攻击可分为三种：<strong>Get 类型</strong>、<strong>Post 类型</strong>、<strong>链接类型</strong>。</p>
+<h3 id="2-1-Get-类型">2.1 Get 类型</h3>
+<ol>
+<li>
+<p>概述：<strong>Get 类型的 CSRF</strong>，指的是：① 攻击者引诱用户进入<strong>恶意网站</strong>；② 恶意网站中自动向<strong>用户已登录的网站服务器</strong>发起 <code>Get</code> 请求，进行一些恶意操作。</p>
+<blockquote>
+<p>Get 请求是<strong>跨域</strong>的，因此攻击者常通过 <code>&lt;img&gt;</code>、<code>&lt;script&gt;</code> 等标签绕过该限制</p>
+</blockquote>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 当前页面是 attacker.com --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>黑客的站点: CSRF攻击演示<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://example.com/sendcoin?user=hacker&amp;number=100&quot;</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>假设用户已登录 <code>example.com</code>，攻击者引诱其打开 <code>attacker.com</code>。在该页面，攻击者将一个恶意链接（如转账请求接口）隐藏在 <code>&lt;img&gt;</code> 标签中，欺骗浏览器认为这是图片资源。当页面加载时，浏览器会自动发起一个 <code>GET</code> 请求。由于请求发送给 <code>example.com</code> 时携带了用户的登录态（如 Cookies），服务器会将其视为合法的转账请求，导致用户财产遭受损失。</p>
+</li>
+</ol>
+<h3 id="2-2-Post-类型">2.2 Post 类型</h3>
+<ol>
+<li>
+<p>概述：<strong>Post 类型的 CSRF</strong>，指的是：① 攻击者引诱用户进入<strong>恶意网站</strong>；② 恶意网站中自动向<strong>用户已登录的网站服务器</strong>发起 <code>Post</code> 请求，进行一些恶意操作。</p>
+<blockquote>
+<p>Post 请求是<strong>跨域</strong>的，因此攻击者常通过 <code>&lt;form&gt;</code> 等标签绕过该限制，其中 <code>&lt;form&gt;</code> 标签需要配合 JavaScript 自动提交</p>
+</blockquote>
+</li>
+<li>
+<p>示例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 当前页面是 attacker.com --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>黑客的站点: CSRF攻击演示<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>= <span class="string">&#x27;hacker-form&#x27;</span> <span class="attr">action</span>=<span class="string">&quot;https://example.com/sendcoin&quot;</span> <span class="attr">method</span>=<span class="string">POST</span>&gt;</span></span><br><span class="line">	  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;userll&quot;</span> <span class="attr">value</span>=<span class="string">&quot;hacker&quot;</span> /&gt;</span></span><br><span class="line">	  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;numberll&quot;</span> <span class="attr">value</span>=<span class="string">&quot;100&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"> <span class="variable language_">document</span>.<span class="property">getElementById</span> (<span class="string">&#x27;hacker-form&#x27;</span>).<span class="title function_">submit</span>(); </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>假设用户已登录 <code>example.com</code>，攻击者引诱其打开 <code>attacker.com</code>。在该页面，攻击者将一个恶意链接（如转账请求接口）隐藏在 <code>&lt;form&gt;</code> 标签的 <code>action</code> 属性中。该表单是一个隐藏的表单，当页面加载时，表单自动提交，浏览器会自动发起一个 <code>Post</code> 请求。由于请求发送给 <code>example.com</code> 时携带了用户的登录态（如 Cookies），服务器会将其视为合法的转账请求，导致用户财产遭受损失。</p>
+</li>
+</ol>
+<h3 id="2-3-链接类型">2.3 链接类型</h3>
+<ol>
+<li>
+<p>概述：<strong>链接类型的 CSRF</strong>，指的是：① 用户点击攻击者提供的<strong>恶意链接</strong>；② 用户向<strong>已登录的网站</strong>发起了一个<strong>意料之外</strong>的 <code>Get</code> 请求，从而可能会涉及到一些恶意操作。</p>
+</li>
+<li>
+<p>示例：链接类型的 CSRF 常见于<strong>邮件、图片、广告</strong>等形式。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">width</span>=<span class="string">150</span> <span class="attr">src</span>=<span class="string">http://images.xuejuzi.cn/1612/1-161230185104_1.jpg/</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://time.geekbang.org/sendcoin?user=hacker&amp;number=100&quot;</span> <span class="attr">taget</span>=<span class="string">&quot;_bla点击下载美女照片&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="3-防御-2">3. 防御</h2>
+<p>因为 CSRF 是针对用户的请求伪造攻击，因此需要通过提高服务器的安全性来防护 CSRF 攻击。</p>
+<h3 id="3-1-服务端：Cookie-设置-SameSite-属性">3.1 服务端：Cookie 设置 SameSite 属性</h3>
+<p>我们知道，CSRF 攻击需要窃取用户的<strong>登录状态</strong>（通常为 cookie），然后冒充用户进行恶意操作。为了防止 cookie 在跨站请求中被发送，服务端可以为 cookie 配置 <code>SameSite</code> 属性，其取值及解释如下：</p>
+<ul>
+<li>
+<p><strong><code>Strict</code></strong>：浏览器仅在<strong>同一站点</strong>的请求中发送 cookie；如果请求来自不同的域名或协议，带有 <code>SameSite=Strict</code> 属性的 cookie 将不会被发送。</p>
+</li>
+<li>
+<p><strong><code>Lax</code></strong>：cookie <strong>不会在跨站请求中</strong>发送，如加载图像或框架的请求；但当用户<strong>从外部站点导航到源站</strong>时（如点击链接），cookie 会被发送。这是未设置 <code>SameSite</code> 属性时的默认行为。</p>
+</li>
+<li>
+<p><strong><code>None</code></strong>：浏览器在<strong>跨站和同站请求中均会</strong>发送 cookie。设置该属性时，必须同时设置 <code>Secure</code>，如 <code>SameSite=None; Secure</code>。</p>
+<blockquote>
+<p>有 <code>Secure</code> 标识的 cookie 仅在使用 HTTPS 协议发送加密请求时才会被发送到服务器，这也就意味着：非安全站点（<code>http:</code>）无法为 cookie 设置 <code>Secure</code> 指令，因此也无法使用 <code>SameSite=None</code>。</p>
+</blockquote>
+</li>
+</ul>
+<p>一般的，为了防范 CSRF 攻击，需要设置 cookie 的 <code>SameSite</code> 属性的值为 <code>Strict</code> 或 <code>Lax</code>。</p>
+<blockquote>
+<p>服务端通过 <code>Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; SameSite=Strict 或 Lax 或 None</code> 响应一个设置了 SameSite 属性的 cookie</p>
+</blockquote>
+<h3 id="3-2-服务端：验证-Referer-或-Origin-请求头">3.2 服务端：验证 Referer 或 Origin 请求头</h3>
+<p>由于 CSRF 攻击多来自于<strong>第三方站点</strong>，从这个角度出发，可以在服务端进行<strong>某些</strong>操作<strong>禁止来自第三方站点的请求</strong>。一个可行的方式为，在服务端设置对请求报文中 <code>Referer</code> 或 <code>Origin</code> HTTP 的请求头的<strong>检验</strong>，从而判断请求是否合法。这里对这两个请求头进行介绍，</p>
+<ol>
+<li>
+<p><code>Referer</code>：记录当前 HTTP 请求的来源地址（协议 + 主机 + 端口 + 路径）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript <span class="comment"># 请求来源的协议 + 主机 + 端口号 + 路径</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注-1：由于 <code>Referer</code> 请求头记录的请求来源地址包括<strong>请求路径</strong>（path），因此可能会<strong>泄露用户隐私</strong>。</p>
+<p>注-2：当 ① 请求来源地址采用的<strong>协议</strong>为本地的 <code>file</code> 或 <code>data</code> ② 当前请求的页面采用非安全协议，请求来源页面采用安全协议时，<code>Referer</code> 请求头不会被发送。</p>
+</blockquote>
+</li>
+<li>
+<p><code>Origin</code>：记录当前 HTTP 请求的来源地址（协议 + 主机[ + 端口] or null）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Origin: null <span class="comment"># 表示请求来源是隐私敏感的</span></span><br><span class="line">Origin: https://developer.mozilla.org <span class="comment"># 请求来源的协议 + 主机</span></span><br><span class="line">Origin: https://developer.mozilla.org:80 <span class="comment"># 请求来源的协议 + 主机 + 端口号</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注-1：当请求是 ① <strong>跨站请求</strong> ② 除 <code>Get</code> 和 <code>Head</code> 以外的同源请求时，<code>Origin</code> 请求头会被发送。</p>
+<p>注-2：相较于 <code>Referer</code> 请求头，由于不包含<strong>请求路径</strong>，<code>Origin</code> 请求头更加安全。</p>
+</blockquote>
+</li>
+<li>
+<p>服务端校验逻辑：<a target="_blank" rel="noopener" href="http://1.st">1.st</a> 优先基于 <code>Origin</code> 字段进行请求合法性校验；2nd. 如果没有 <code>Origin</code> 字段，则根据实际情况改为使用 <code>Referer</code> 字段进行请求合法性校验。</p>
+</li>
+</ol>
+<h3 id="3-3-前端：CSRF-Token-验证">3.3 前端：CSRF Token 验证</h3>
+<p>CSRF Token 的生成与验证过程可以分为以下两个步骤：</p>
+<p><strong>步骤 1</strong>：浏览器向服务器请求一个页面，<strong>服务器生成</strong>一个 CSRF Token，并将其<strong>嵌入</strong>在返回的页面中。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;https://time.geekbang.org/sendcoin&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;lcsrf-token&quot;</span> <span class="attr">value</span>=<span class="string">&quot;nc98P987bcpncYhoadjoiydc9ajDl&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;number&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>步骤 2</strong>：当浏览器需要向服务器发送其他请求时，必须携带页面中嵌入的 CSRF Token。服务器会验证该 CSRF Token 是否有效，从而决定是否响应该请求。</p>
+<blockquote>
+<p>如果请求是从第三方网站发出的，则无法获取到 CSRF Token，因此即使发出了跨站请求，服务器也会因为 CSRF Token 不正确而拒绝该请求。</p>
+</blockquote>
+<h1>三、XSS Vs. CSRF</h1>
+<h2 id="1-攻击目标">1. 攻击目标</h2>
+<ol>
+<li>XSS：攻击者注入<strong>恶意脚本</strong>到网页中 → <strong>窃取用户信息</strong>或<strong>劫持用户会话</strong>。</li>
+<li>CSRF：攻击者引诱用户<strong>在不知情的情况下向已认证的网站发送请求</strong> → <strong>利用用户的身份执行未授权操作</strong>。</li>
+</ol>
+<h2 id="2-攻击类型">2. 攻击类型</h2>
+<ol>
+<li>XSS：<strong>存储型</strong>、<strong>反射型</strong>、<strong>基于 DOM 型</strong></li>
+<li>CSRF：<strong>Get 类型</strong>、<strong>Post 类型</strong>、<strong>链接类型</strong></li>
+</ol>
+<h2 id="3-防护措施">3. 防护措施</h2>
+<ol>
+<li>XSS：内容安全策略 CSP、输入输出过滤或转义、<code>HttpOnly</code> 的 Cookie</li>
+<li>CSRF：<code>SameSite</code> 的 Cookie、<code>Referer</code> / <code>Origin</code> 验证、CSRF Token 验证</li>
+</ol>
+<blockquote>
+<p><strong>References</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6945277278347591688">XSS 和 CSRF 攻击详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://jacky-summer.github.io/2020/12/03/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8-XSS%E5%92%8CCSRF/">前端安全-XSS和CSRF</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP">内容安全策略（CSP） - HTTP | MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Set-Cookie#%E5%B1%9E%E6%80%A7">Set-Cookie - HTTP | MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referer">Referer - HTTP | MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Origin">Origin - HTTP | MDN</a></li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Nasir1423">yiTuChuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhengzehua.top/2024/09/25/XSS-%E5%92%8C-CSRF-%E6%94%BB%E5%87%BB/">https://zhengzehua.top/2024/09/25/XSS-%E5%92%8C-CSRF-%E6%94%BB%E5%87%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhengzehua.top" target="_blank">川一土的博客视界</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></div><div class="post-share"><div class="social-share" data-image="/images/butterfly_avatar_img.svg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/14/%E9%81%B5%E5%BE%AA%20PromiseA+%20%E8%A7%84%E8%8C%83%E7%9A%84%20Promise%20%E6%89%8B%E6%92%95/" title="📖遵循 Promise/A+ 规范的 Promise 手撕"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">📖遵循 Promise/A+ 规范的 Promise 手撕</div></div><div class="info-2"><div class="info-item-1">基于 Promise/A+ 规范从零实现一个完整的 Promise，包含详细的代码实现、注释说明和规范解读。通过类型定义、构造函数、实例方法(then/catch/finally)、静态方法(resolve/reject/all/race)等模块的实现，深入理解 Promise 的运行机制和设计思想。</div></div></div></a><a class="pagination-related" href="/2024/09/24/Hexo%20+%20Butterfly%20%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/" title="📝Hexo + Butterfly 建站记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">📝Hexo + Butterfly 建站记录</div></div><div class="info-2"><div class="info-item-1">详细记录基于 Hexo + Butterfly 构建个人博客的完整流程，包括环境搭建、项目部署、图床配置、主题美化、文章管理、网站优化等核心内容。通过 Step-by-Step 的指导和大量配置示例，帮助读者快速搭建一个功能完善的个人博客。</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">一、XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB"><span class="toc-text">2. 分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%AD%98%E5%82%A8%E5%9E%8B"><span class="toc-text">2.1 存储型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8F%8D%E5%B0%84%E5%9E%8B"><span class="toc-text">2.2 反射型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%9F%BA%E4%BA%8E-DOM"><span class="toc-text">2.3 基于 DOM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%98%B2%E5%BE%A1"><span class="toc-text">3. 防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%9A%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5-%E7%BC%96%E7%A0%81%E3%80%81%E8%A7%A3%E7%A0%81%E5%92%8C%E8%BF%87%E6%BB%A4"><span class="toc-text">3.1 服务端：用户输入 - 编码、解码和过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%89%8D%E7%AB%AF%EF%BC%9A%E5%86%85%E5%AE%B9%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%EF%BC%88CSP%EF%BC%89"><span class="toc-text">3.2 前端：内容安全策略（CSP）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%8C%87%E4%BB%A4"><span class="toc-text">策略指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B"><span class="toc-text">用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E7%94%A8%E6%B3%95"><span class="toc-text">更多用法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%9A-Cookie-%E8%AE%BE%E7%BD%AE-HttpOnly-%E6%A0%87%E5%BF%97"><span class="toc-text">3.3 服务端： Cookie 设置 HttpOnly 标志</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">二、CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0-2"><span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB-2"><span class="toc-text">2. 分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Get-%E7%B1%BB%E5%9E%8B"><span class="toc-text">2.1 Get 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Post-%E7%B1%BB%E5%9E%8B"><span class="toc-text">2.2 Post 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E9%93%BE%E6%8E%A5%E7%B1%BB%E5%9E%8B"><span class="toc-text">2.3 链接类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%98%B2%E5%BE%A1-2"><span class="toc-text">3. 防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%9ACookie-%E8%AE%BE%E7%BD%AE-SameSite-%E5%B1%9E%E6%80%A7"><span class="toc-text">3.1 服务端：Cookie 设置 SameSite 属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%9A%E9%AA%8C%E8%AF%81-Referer-%E6%88%96-Origin-%E8%AF%B7%E6%B1%82%E5%A4%B4"><span class="toc-text">3.2 服务端：验证 Referer 或 Origin 请求头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%89%8D%E7%AB%AF%EF%BC%9ACSRF-Token-%E9%AA%8C%E8%AF%81"><span class="toc-text">3.3 前端：CSRF Token 验证</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">三、XSS Vs. CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%94%BB%E5%87%BB%E7%9B%AE%E6%A0%87"><span class="toc-text">1. 攻击目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B"><span class="toc-text">2. 攻击类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%98%B2%E6%8A%A4%E6%8E%AA%E6%96%BD"><span class="toc-text">3. 防护措施</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2024 - 2025 By yiTuChuan</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.4.0-b2"></script><script src="/js/main.js?v=5.4.0-b2"></script><div class="js-pjax"><script>(() = {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      setTimeout(() => {
+        const sheets = document.querySelectorAll(".abc-music-sheet")
+        for (let i = 0; i < sheets.length; i++) {
+          const ele = sheets[i]
+          if (ele.children.length > 0) continue
+
+          // Parse parameters from data-params attribute
+          let params = {}
+          const dp = ele.getAttribute("data-params")
+          if (dp) {
+            try {
+              params = JSON.parse(dp)
+            } catch (e) {
+              console.error("Failed to parse data-params:", e)
+            }
+          }
+
+          // Merge parsed parameters with the responsive option
+          // Ensures params content appears before responsive
+          const options = { ...params, responsive: "resize" }
+
+          // Render the music score using ABCJS.renderAbc
+          ABCJS.renderAbc(ele, ele.innerHTML, options)
+        }
+      }, 100)
+    }
+
+    if (typeof ABCJS === "object") {
+      abcjsFn()
+    } else {
+      btf.getScript("https://cdn.jsdelivr.net/npm/abcjs@6.4.4/dist/abcjs-basic-min.min.js").then(abcjsFn)
+    }
+  }
+
+  if (window.pjax) {
+    abcjsInit()
+  } else {
+    window.addEventListener("load", abcjsInit)
+  }
+
+  btf.addGlobalFn("encrypt", abcjsInit, "abcjs")
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Nasir1423/blog-comment',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/dist/click-show-text.min.js" data-mobile="false" data-text="Prosperity,Democracy,Civility,Harmony,Freedom,Equality,Justice,Rule of Law,Patriotism,Dedication,Integrity,Friendliness" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
